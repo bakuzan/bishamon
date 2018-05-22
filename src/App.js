@@ -1,18 +1,20 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 
-class App extends Component {
+import RoutePaths from 'constants/routes';
+
+class App extends React.Component {
   render() {
+    const {match} = this.props;
+    const projectListUrl = `${match.path}${RoutePaths.projectList}`;
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="app">
+        <Switch>
+          <Redirect exact from={RoutePaths.base} to={projectListUrl} />
+          <Route exact path={projectListUrl} render={() => <div>project list placeholder</div>} />
+          <Route path={`${projectListUrl}/:projectId`} render={() => <div>project create placeholder</div>} />
+        </Switch>
       </div>
     );
   }

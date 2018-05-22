@@ -44,5 +44,8 @@
     "server": "node server --harmony",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "casual": "^1.5.19"
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 
 import RoutePaths from 'constants/routes';
 

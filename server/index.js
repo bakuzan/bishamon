@@ -3,13 +3,13 @@ const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
 const Constants = require("./constants");
 const typeDefs = require("./type-definitions");
 const resolvers = require("./resolvers");
 
+const dotenv = require('dotenv');
 dotenv.config();
+
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,

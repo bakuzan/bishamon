@@ -8,6 +8,9 @@ import { ApolloProvider } from "react-apollo";
 import App from './App';
 import RoutePaths from 'constants/routes';
 
+import 'meiko/dist/bundle.min.css';
+import './styles/index.css';
+
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_API
 });

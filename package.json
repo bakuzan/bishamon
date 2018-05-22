@@ -26,7 +26,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "sequelize": "^4.37.8",
-    "sqlite": "^2.9.2"
+    "sqlite": "^2.9.2",
+    "meiko": "file:../meiko"
   },
   "lint-staged": {
     "*.{js,jsx,json,scss}": [
@@ -44,8 +45,5 @@
     "server": "node server --harmony",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "devDependencies": {
-    "casual": "^1.5.19"
   }
 }

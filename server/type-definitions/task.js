@@ -1,12 +1,10 @@
 
 
 module.exports = `
-  type WorkItem {
+  type Task {
     id: Int,
     name: String,
     description: String
-    type: WorkType
     status: Status
-    tasks: [Task]
   }
 `;

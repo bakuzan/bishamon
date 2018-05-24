@@ -1,24 +1,30 @@
+const {
+  mapArrToGraphqlString,
+  ProjectType,
+  WorkType,
+  Status
+} = require('../constants/enums');
 
-module.exports = `
+const ProjectTypeGQL = `
   enum ProjectType {
-    Application
-    Training
-  }
-  enum WorkType {
-    Feature
-    Bug
-    Enhancement
-    Refactor
-    Upgrade
-    Investigate
-  }
-  enum Status {
-    Todo
-    InProgress
-    OnHold
-    DevComplete
-    Testing
-    Done
-    Removed
+    ${mapArrToGraphqlString(ProjectType)}
   }
 `;
+
+const WorkTypeGQL = `
+  enum WorkType {
+    ${mapArrToGraphqlString(WorkType)}
+  }
+`;
+
+const StatusGQL = `
+  enum Status {
+    ${mapArrToGraphqlString(Status)}
+  }
+`;
+
+module.exports = [
+  ProjectTypeGQL,
+  WorkTypeGQL,
+  StatusGQL
+]

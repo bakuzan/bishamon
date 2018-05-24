@@ -3,14 +3,10 @@ import { Mutation } from "react-apollo";
 
 import { Form, ClearableInput, ChipListInput, SelectBox, Utils } from 'meiko';
 import {PROJECT_LIST_URL} from 'constants/routes';
-import Fetch from 'queries/fetch';
+import ProjectTypes from 'constants/project-types';
 import Mutate from 'queries/mutate';
 import {enumsToSelectBoxOptions, projectColourModel} from 'utils/mappers';
 
-const ProjectTypes = Object.freeze({
-  application: 1,
-  training: 2
-});
 const PROJECT_TYPES = enumsToSelectBoxOptions(ProjectTypes);
 const projectCreateDefaults = Object.freeze({
   name: '',
@@ -47,19 +43,24 @@ class ProjectsCreate extends React.Component {
     );
   }
 
-  handleListUpdate(...test) {
-    console.log("update", test)
+  handleListUpdate(name, colours) {
+    this.setState(prev => ({
+          values: {
+            ...prev.values,
+            colours
+          }
+      })
+    );
   }
 
   handleListCreate(newColour) {
-    console.log("create list item", newColour, this.state)
-    this.setState(prev => {
-      console.log(prev)
+    this.setState(({ values }) => {
+      const { colours } = values;
       return {
         values: {
-          ...prev.values,
+          ...values,
           colours: [
-            ...prev.colours,
+            ...colours,
             newColour.code
           ]
         }
@@ -73,7 +74,6 @@ class ProjectsCreate extends React.Component {
 
   handleSubmit(projectCreate) {
     return (...test) => {
-      console.log("submit", this.state)
       projectCreate({
         variables: { ...this.state.values }
       });
@@ -81,8 +81,6 @@ class ProjectsCreate extends React.Component {
   }
 
   handleCompletion(...test) {
-    console.log("complete", test)
-    console.log("porps", this.props)
     this.props.history.push(PROJECT_LIST_URL);
   }
 
@@ -93,13 +91,6 @@ class ProjectsCreate extends React.Component {
     return (
       <Mutation
         mutation={Mutate.projectCreate}
-        update={(cache, { data: { projectCreate } }) => {
-          const { projects } = cache.readQuery({ query: Fetch.projectsAll });
-          cache.writeQuery({
-            query: Fetch.projectsAll,
-            data: { projects: projects.concat([projectCreate]) }
-          });
-        }}
         onCompleted={this.handleCompletion}
       >
       {(projectCreate, { data }) => {
@@ -131,9 +122,10 @@ class ProjectsCreate extends React.Component {
               attr="code"
               name="colours"
               chipsSelected={values.colours.map(projectColourModel)}
-              chipOptions={[{ id: '__placeholder', code: '___' }]}
+              chipOptions={[{ code: '____' }]}
               updateChipList={this.handleListUpdate}
               createNew={this.handleListCreate}
+              createNewMessage="Add Colour"
             />
           </Form>
         );

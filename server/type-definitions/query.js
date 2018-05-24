@@ -1,12 +1,18 @@
 
-
-module.exports = `
+const Query = `
   type Query {
-    projects: [Project],
+    projects: [Project]
     project(id: Int): Project
   }
+`;
 
+const Mutation = `
   type Mutation {
-    projectCreate(name: String!): Project
+    projectCreate(name: String!, type: ProjectType, colours: [String]): Project
   }
 `;
+
+module.exports = [
+  Query,
+  Mutation
+]

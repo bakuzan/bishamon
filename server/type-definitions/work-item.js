@@ -2,8 +2,8 @@
 
 module.exports = `
   type WorkItem {
-    id: Int,
-    name: String,
+    id: Int
+    name: String
     description: String
     type: WorkType
     status: Status

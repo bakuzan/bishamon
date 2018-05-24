@@ -1,9 +1,9 @@
-import {generateUniqueId, capitalise} from './common';
+import {generateUniqueId, capitaliseEachWord, fromCamelCase} from './common';
 
 export const projectColourModel = (code) => ({
   id: generateUniqueId(),
   code
 });
 
-export const enumsToSelectBoxOptions = obj =>
-  Object.keys(obj).map(k => ({ value: obj[k], text: capitalise(k) }));
+export const enumsToSelectBoxOptions = arr =>
+  arr.map(value => ({ value, text: capitaliseEachWord(fromCamelCase(value)) }));

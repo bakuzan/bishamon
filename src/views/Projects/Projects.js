@@ -2,17 +2,16 @@ import React from 'react';
 
 import {ButtonisedNavLink} from 'components/Buttons';
 
-
 class Projects extends React.Component {
 
   render() {
-    const { match } = this.props;
-    const projectsCreateUrl = `${match.path}/create`;
+    const {match} = this.props;
+    const projectCreateUrl = `${match.path}/create`;
 
     return (
       <div>
         <div>
-          <ButtonisedNavLink to={projectsCreateUrl}>
+          <ButtonisedNavLink to={projectCreateUrl}>
             Add
           </ButtonisedNavLink>
         </div>

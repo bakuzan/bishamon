@@ -3,13 +3,12 @@
 $theme-maps: (
   default:
     (
-      base-background: $white,
-      base-colour: $black,
-      header-background: $black,
-      header-colour: $white,
-      button--background: $black,
-      button--colour-hover: $black,
-      button--background-hover: $grey50,
+      base-background: $bishamon--hair,
+      base-colour: $bishamon--jacket,
+      header-background: $bishamon--jacket,
+      header-colour: $bishamon--hair,
+      button--background: $bishamon--jacket,
+      button--colour-hover: $bishamon--eyes
     )
 );
 @each $theme-name, $values in $theme-maps {
@@ -26,12 +25,15 @@ $theme-maps: (
     .header-bar {
       background-color: $header-background;
       color: $header-colour;
+      svg > text {
+        fill: $header-colour;
+      }
     }
     .bishamon-button.primary {
       background-color: map-get($values, button--background);
       &:hover {
         background-color: darken(
-          map-get($values, button--background-hover),
+          map-get($values, button--background),
           $button--darken-percentage
         );
         color: map-get($values, button--colour-hover);

@@ -30,7 +30,7 @@
     "meiko": "file:../meiko"
   },
   "lint-staged": {
-    "*.{js,jsx,json,scss}": [
+    "{src,server}/**/*.{js,jsx,json,scss}": [
       "prettier --single-quote --write",
       "git add"
     ]

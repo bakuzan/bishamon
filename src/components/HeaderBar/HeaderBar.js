@@ -1,12 +1,20 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 
-import {Header} from 'meiko';
+import {Header, SVGLogo} from 'meiko';
+import RoutePaths from 'constants/routes';
 
+import './HeaderBar.css';
 
 const HeaderBar = props => (
   <Header
     className="header-bar"
     title="Bishamon"
+    navLeft={
+      <NavLink className="logo svg-link" to={RoutePaths.base}>
+        <SVGLogo text="bishamon" />
+      </NavLink>
+    }
     navRight={
       <div>settings placeholder</div>
     }

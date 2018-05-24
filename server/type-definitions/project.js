@@ -4,6 +4,7 @@ module.exports = `
     id: Int,
     name: String,
     type: ProjectType
+    colours: [String]
     workItems: [WorkItem]
   }
 `;

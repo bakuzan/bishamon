@@ -18,7 +18,8 @@ class App extends React.Component {
           <Switch>
             <Redirect exact from={RoutePaths.base} to={projectListUrl} />
             <Route exact path={projectListUrl} component={Projects} />
-            <Route path={`${projectListUrl}/:projectId`} component={ProjectsCreate} />
+            <Route path={`${projectListUrl}/create`} component={ProjectsCreate} />
+            <Route path={`${projectListUrl}/:projectId`} render={() => <div>view a project</div>} />
           </Switch>
         </main>
       </div>

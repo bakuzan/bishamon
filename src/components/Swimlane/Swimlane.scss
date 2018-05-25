@@ -1,0 +1,13 @@
+@import '../../styles/_variables';
+
+.swimlane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  flex-basis: calc(100% / 7);
+  padding: $app--standard-padding;
+
+  &__header {
+    padding: $app--standard-padding 0;
+  }
+}

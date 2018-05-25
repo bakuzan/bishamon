@@ -17,17 +17,19 @@ const formDefaults = Object.freeze({
 
 class ProjectBoardCreate extends React.PureComponent {
   render() {
+    const { projectId, onCompleted, onCancel } = this.props;
     const mutationProps = {
       mutation: Mutate.workItemCreate,
-      onCompletion: this.props.onCompletion
+      onCompleted,
+      variables: { projectId }
     };
 
     return (
       <Form
         formName="work-item-create"
-        default={formDefaults}
+        defaults={formDefaults}
         mutationProps={mutationProps}
-        onCancel={this.props.onCancel}
+        onCancel={onCancel}
       >
         {({ values, actions }) => {
           return (
@@ -60,7 +62,8 @@ class ProjectBoardCreate extends React.PureComponent {
 }
 
 ProjectBoardCreate.propTypes = {
-  onCompletion: PropTypes.func.isRequired,
+  projectId: PropTypes.number.isRequired,
+  onCompleted: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 

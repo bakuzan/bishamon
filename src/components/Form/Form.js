@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 
 import { Form as MForm, Utils } from 'meiko';
 
-class Form extends React.Component {
+class Form extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,10 @@ class Form extends React.Component {
   handleSubmit(callApi) {
     return (...test) => {
       callApi({
-        variables: { ...this.state.values }
+        variables: {
+          ...this.props.mutationProps.variables,
+          ...this.state.values
+        }
       });
     };
   }
@@ -72,7 +75,7 @@ class Form extends React.Component {
       handleListCreate: this.handleListCreate,
       handleListUpdate: this.handleListUpdate
     };
-
+    console.log('FORM', values, mutationProps);
     return (
       <Mutation {...mutationProps}>
         {(callAPI, { data }) => {

@@ -2,9 +2,11 @@ import React from 'react';
 import { Query } from 'react-apollo';
 
 import { Button } from 'components/Buttons';
+import Swimlane from 'components/Swimlane/Swimlane';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import ProjectBoardCreate from './ProjectBoardCreate';
 import Fetch from 'queries/fetch';
+import Status from 'constants/status';
 
 class ProjectBoard extends React.Component {
   constructor(props) {
@@ -28,7 +30,7 @@ class ProjectBoard extends React.Component {
   render() {
     const { isAddingWork } = this.state;
     const { match } = this.props;
-    const projectId = match.params.projectId;
+    const projectId = Number(match.params.projectId);
 
     return (
       <Query query={Fetch.projectInformation} variables={{ id: projectId }}>
@@ -46,15 +48,21 @@ class ProjectBoard extends React.Component {
             >
               {isAddingWork && (
                 <ProjectBoardCreate
+                  projectId={projectId}
                   onCancel={this.handleResolvingAddWork}
-                  onCompletion={this.handleResolvingAddWork}
+                  onCompleted={this.handleResolvingAddWork}
                 />
               )}
               {!isAddingWork && (
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
-                  {({ loading, error, data: workItems }) => {
-                    console.log('Board > Detail RENDER', workItems);
-                    return <div />;
+                  {({ loading, error, data: workItemsData = {} }) => {
+                    return (
+                      <React.Fragment>
+                        {Status.map(x => (
+                          <Swimlane key={x} title={x} data={workItemsData[x]} />
+                        ))}
+                      </React.Fragment>
+                    );
                   }}
                 </Query>
               )}

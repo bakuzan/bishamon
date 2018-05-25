@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types';
-import React from 'react'
+import classNames from 'classnames';
+import React from 'react';
 
-const List = ({ items, itemTemplate }) => (
-  <ul className="list column">
-  {items && items.map(itemTemplate)}
+const COLUMN_CLASS = ['', 'one', 'two', 'three', 'four'];
+
+const List = ({ items, itemTemplate, columns }) => (
+  <ul
+    className={classNames('list column', {
+      [COLUMN_CLASS[columns]]: !!columns
+    })}
+  >
+    {items && items.map(itemTemplate)}
   </ul>
-)
+);
 
 List.propTypes = {
   items: PropTypes.arrayOf(PropTypes.object),
-  itemTemplate: PropTypes.func
-}
+  itemTemplate: PropTypes.func,
+  columns: PropTypes.number
+};
 
 export default List;

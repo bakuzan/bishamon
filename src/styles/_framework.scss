@@ -1,0 +1,7 @@
+@import './_variables';
+
+.padded {
+  &--standard {
+    padding: $app--standard-padding;
+  }
+}

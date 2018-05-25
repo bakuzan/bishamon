@@ -1,0 +1,13 @@
+@import './_variables';
+
+%project-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 1 33%;
+  padding: $app--standard-padding;
+}
+%project-text {
+  padding: $app--standard-padding;
+  border-left: 3px solid;
+}

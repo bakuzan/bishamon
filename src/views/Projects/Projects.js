@@ -12,10 +12,10 @@ class Projects extends React.Component {
     const projectCreateUrl = `${match.path}/create`;
 
     return (
-      <div>
+      <div className="padded padded--standard">
         <div className="button-group right-aligned">
           <ButtonisedNavButton btnStyle="primary" to={projectCreateUrl}>
-            Add
+            Add Project
           </ButtonisedNavButton>
         </div>
         <Query query={Fetch.projectsAll}>

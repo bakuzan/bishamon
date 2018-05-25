@@ -1,5 +1,3 @@
-
-
 module.exports = `
   type WorkItem {
     id: Int
@@ -8,5 +6,6 @@ module.exports = `
     type: WorkType
     status: Status
     tasks: [Task]
+    taskRatio: String
   }
 `;

@@ -1,0 +1,22 @@
+@import '../../styles/_extendables';
+
+.project-information {
+  @extend %project-container;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  &__header {
+    @extend %project-text;
+  }
+  &__children {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.project-header {
+  &__text {
+    padding: $app--standard-padding / 2;
+  }
+}

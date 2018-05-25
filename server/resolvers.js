@@ -1,5 +1,6 @@
-const { Project } = require('./connectors');
+const { Project, WorkItem } = require('./connectors');
 const Constants = require('./constants/index');
+const { DefaultStatus } = require('./constants/enums');
 
 module.exports = {
   Query: {
@@ -9,11 +10,17 @@ module.exports = {
     project(_, args) {
       const { id } = args;
       return Project.findById(id);
+    },
+    workItems(_, args) {
+      return WorkItem.findAll({ where: args });
     }
   },
   Mutation: {
     projectCreate(_, args) {
       return Project.create({ ...args });
+    },
+    workItemCreate(_, args) {
+      return WorkItem.create({ ...args, status: DefaultStatus });
     }
   },
   Project: {
@@ -29,5 +36,8 @@ module.exports = {
     workItems(project) {
       return project.getWorkItems();
     }
+  },
+  WorkItem: {
+    taskRatio(workItem) {}
   }
 };

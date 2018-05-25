@@ -1,10 +1,10 @@
-
 module.exports = `
   type Project {
     id: Int
     name: String
     type: ProjectType
-    colours: [String]
+    colours(limit: Int): [String]
+    primaryColour: String
     workItems: [WorkItem]
   }
 `;

@@ -1,25 +1,25 @@
 import React from 'react';
-import { Mutation } from "react-apollo";
+import { Mutation } from 'react-apollo';
 
 import { Form, ClearableInput, ChipListInput, SelectBox, Utils } from 'meiko';
-import {PROJECT_LIST_URL} from 'constants/routes';
+import { PROJECT_LIST_URL } from 'constants/routes';
 import ProjectTypes from 'constants/project-types';
 import Mutate from 'queries/mutate';
-import {enumsToSelectBoxOptions, projectColourModel} from 'utils/mappers';
+import { enumsToSelectBoxOptions, projectColourModel } from 'utils/mappers';
+import { enumDefault } from 'utils/derived-data';
 
 const PROJECT_TYPES = enumsToSelectBoxOptions(ProjectTypes);
 const projectCreateDefaults = Object.freeze({
   name: '',
-  type: ProjectTypes.application,
+  type: enumDefault(ProjectTypes),
   colours: []
 });
 
 class ProjectsCreate extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      values: {...projectCreateDefaults}
+      values: { ...projectCreateDefaults }
     };
 
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -31,26 +31,24 @@ class ProjectsCreate extends React.Component {
   }
 
   handleUserInput(e) {
-    const {name} = e.target;
+    const { name } = e.target;
     const value = Utils.Common.getEventValue(e.target);
-    console.log(name, value)
+    console.log(name, value);
     this.setState(prev => ({
-        values: {
-          ...prev.values,
-          [name]: value
-        }
-      })
-    );
+      values: {
+        ...prev.values,
+        [name]: value
+      }
+    }));
   }
 
   handleListUpdate(name, colours) {
     this.setState(prev => ({
-          values: {
-            ...prev.values,
-            colours
-          }
-      })
-    );
+      values: {
+        ...prev.values,
+        colours
+      }
+    }));
   }
 
   handleListCreate(newColour) {
@@ -59,10 +57,7 @@ class ProjectsCreate extends React.Component {
       return {
         values: {
           ...values,
-          colours: [
-            ...colours,
-            newColour.code
-          ]
+          colours: [...colours, newColour.code]
         }
       };
     });
@@ -86,52 +81,53 @@ class ProjectsCreate extends React.Component {
 
   render() {
     const { values } = this.state;
-    const cancelProps = { onCancel: this.handleCancel }
+    const cancelProps = { onCancel: this.handleCancel };
 
     return (
       <Mutation
         mutation={Mutate.projectCreate}
         onCompleted={this.handleCompletion}
       >
-      {(projectCreate, { data }) => {
-        const submitProps = { onSubmit: this.handleSubmit(projectCreate) };
-        console.log("RENDER MUT", this.state)
-        return (
-          <Form
-            name="project-create"
-            submitOptions={submitProps}
-            cancelOptions={cancelProps}
-          >
-            <ClearableInput
-              name="name"
-              label="name"
-              value={values.name}
-              onChange={this.handleUserInput}
-            />
-            <SelectBox
-              name="type"
-              text="type"
-              value={values.type}
-              onSelect={this.handleUserInput}
-              options={PROJECT_TYPES}
-            />
-            <ChipListInput
-              tagClassName="bishamon-tag"
-              menuClassName="bishamon-autocomplete-menu"
-              label="Colours"
-              attr="code"
-              name="colours"
-              chipsSelected={values.colours.map(projectColourModel)}
-              chipOptions={[{ code: '____' }]}
-              updateChipList={this.handleListUpdate}
-              createNew={this.handleListCreate}
-              createNewMessage="Add Colour"
-            />
-          </Form>
-        );
-      }}
+        {(projectCreate, { data }) => {
+          const submitProps = { onSubmit: this.handleSubmit(projectCreate) };
+          console.log('RENDER MUT', this.state);
+          return (
+            <Form
+              id="project-create"
+              name="project-create"
+              submitOptions={submitProps}
+              cancelOptions={cancelProps}
+            >
+              <ClearableInput
+                name="name"
+                label="name"
+                value={values.name}
+                onChange={this.handleUserInput}
+              />
+              <SelectBox
+                name="type"
+                text="type"
+                value={values.type}
+                onSelect={this.handleUserInput}
+                options={PROJECT_TYPES}
+              />
+              <ChipListInput
+                tagClassName="bishamon-tag"
+                menuClassName="bishamon-autocomplete-menu"
+                label="Colours"
+                attr="code"
+                name="colours"
+                chipsSelected={values.colours.map(projectColourModel)}
+                chipOptions={[{ code: '____' }]}
+                updateChipList={this.handleListUpdate}
+                createNew={this.handleListCreate}
+                createNewMessage="Add Colour"
+              />
+            </Form>
+          );
+        }}
       </Mutation>
-    )
+    );
   }
 }
 

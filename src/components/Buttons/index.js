@@ -8,12 +8,14 @@ import {
   Button as MButton
 } from 'meiko';
 
+const STANDARD_CLASS = 'bishamon-button ripple';
+
 const BishamonButton = ({ appClass, className, ...props }) => (
   <MButton {...props} className={classNames(appClass, className)} />
 );
 
 export const Button = props => (
-  <BishamonButton {...props} appClass="bishamon-button" />
+  <BishamonButton {...props} appClass={STANDARD_CLASS} />
 );
 
 export const ButtonisedNavLink = withCustomButtonWrapper(
@@ -23,5 +25,5 @@ export const ButtonisedNavLink = withCustomButtonWrapper(
 
 export const ButtonisedNavButton = withCustomButtonWrapper(
   withButtonisation(NavLink),
-  { className: 'bishamon-button' }
+  { className: STANDARD_CLASS }
 );

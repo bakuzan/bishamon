@@ -8,7 +8,8 @@ $theme-maps: (
       header-background: $bishamon--jacket,
       header-colour: $bishamon--hair,
       button--background: $bishamon--jacket,
-      button--colour-hover: $bishamon--eyes
+      button--colour: $bishamon--hair,
+      button-link--colour: $bishamon--jacket
     )
 );
 @each $theme-name, $values in $theme-maps {
@@ -16,7 +17,6 @@ $theme-maps: (
   $base-colour: map-get($values, base-colour);
   $header-background: map-get($values, header-background);
   $header-colour: map-get($values, header-colour);
-
   .app--theme_#{$theme-name} {
     &.app {
       background-color: $base-background;
@@ -31,14 +31,22 @@ $theme-maps: (
     }
     .bishamon-button.primary {
       background-color: map-get($values, button--background);
+      color: map-get($values, button--colour);
       &:hover {
         background-color: darken(
           map-get($values, button--background),
           $button--darken-percentage
         );
-        color: map-get($values, button--colour-hover);
       }
     }
-
+    .bishamon-button-link {
+      color: map-get($values, button-link--colour);
+      &:hover {
+        color: darken(
+          map-get($values, button-link--colour),
+          $button--darken-percentage
+        );
+      }
+    }
   }
 }

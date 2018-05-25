@@ -1,0 +1,12 @@
+.project-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 1 33%;
+  padding: 5px;
+  border-left: 3px solid;
+
+  &__content {
+    padding: 5px;
+  }
+}

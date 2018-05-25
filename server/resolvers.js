@@ -1,4 +1,5 @@
 const { Project } = require('./connectors');
+const Constants = require('./constants/index');
 
 module.exports = {
   Query: {
@@ -6,7 +7,7 @@ module.exports = {
       return Project.findAll({ where: args });
     },
     project(_, args) {
-      const {id} = args;
+      const { id } = args;
       return Project.findById(id);
     }
   },
@@ -16,6 +17,15 @@ module.exports = {
     }
   },
   Project: {
+    colours(project, args) {
+      const { colours } = project.dataValues;
+      const limit = args.limit || undefined;
+      return colours.split(',').slice(0, limit);
+    },
+    primaryColour(project) {
+      const { colours } = project.dataValues;
+      return colours.split(',')[0] || Constants.fallbackColour;
+    },
     workItems(project) {
       return project.getWorkItems();
     }

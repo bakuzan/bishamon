@@ -14,7 +14,9 @@ class Projects extends React.Component {
     return (
       <div>
         <div className="button-group right-aligned">
-          <ButtonisedNavButton to={projectCreateUrl}>Add</ButtonisedNavButton>
+          <ButtonisedNavButton btnStyle="primary" to={projectCreateUrl}>
+            Add
+          </ButtonisedNavButton>
         </div>
         <Query query={Fetch.projectsAll}>
           {({ loading, error, data }) => {

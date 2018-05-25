@@ -5,10 +5,12 @@ const projectsAll = gql`
     projects {
       id
       name
+      type
+      primaryColour
     }
   }
 `;
 
 export default {
   projectsAll
-}
+};

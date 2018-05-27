@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import List from 'components/List/List';
+import SwimlaneCard from './SwimlaneCard';
 import { capitaliseEachWord, fromCamelCase } from 'utils/common';
 
 import './Swimlane.css';
@@ -21,9 +22,7 @@ const Swimlane = ({ title, data }) => {
         columns={1}
         className="swimlane__list"
         items={data}
-        itemTemplate={item => {
-          return <div key={item.id}>{item.name}</div>;
-        }}
+        itemTemplate={item => <SwimlaneCard key={item.id} data={item} />}
       />
     </div>
   );

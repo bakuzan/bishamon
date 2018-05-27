@@ -29,6 +29,9 @@ $theme-maps: (
         fill: $header-colour;
       }
     }
+    .swimlane-card {
+      border-color: $base-colour;
+    }
     .bishamon-button.primary {
       background-color: map-get($values, button--background);
       color: map-get($values, button--colour);

@@ -23,18 +23,22 @@ const projectInformation = gql`
   }
 `;
 
+const workItemTemplate = status => `
+  workItems(projectId: $projectId, status: ${status}) {
+    id
+    name
+    description
+    type
+    status
+    taskRatio
+  }
+`;
+
 function createWorkItemListForEachStatus() {
   return Status.reduce((p, status) => {
     return `
       ${p}
-      ${status}: workItems(projectId: $projectId, status: ${status}) {
-        id
-        name
-        description
-        type
-        status
-        taskRatio
-      }
+      ${status}: ${workItemTemplate(status)}
     `;
   }, '');
 }
@@ -45,8 +49,15 @@ const projectWorkItems = gql`
   }
 `;
 
+const workItemsTodo = gql`
+  query workItems($projectId: Int) {
+    ${workItemTemplate('Todo')}
+  }
+`;
+
 export default {
   projectsAll,
   projectInformation,
-  projectWorkItems
+  projectWorkItems,
+  workItemsTodo
 };

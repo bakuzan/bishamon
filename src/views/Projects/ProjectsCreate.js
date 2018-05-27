@@ -4,6 +4,7 @@ import { Mutation } from 'react-apollo';
 import { Form, ClearableInput, ChipListInput, SelectBox, Utils } from 'meiko';
 import { PROJECT_LIST_URL } from 'constants/routes';
 import ProjectTypes from 'constants/project-types';
+import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { enumsToSelectBoxOptions, projectColourModel } from 'utils/mappers';
 import { enumDefault } from 'utils/derived-data';
@@ -87,6 +88,15 @@ class ProjectsCreate extends React.Component {
       <Mutation
         mutation={Mutate.projectCreate}
         onCompleted={this.handleCompletion}
+        update={(cache, { data: { projectCreate } }) => {
+          const { projects = [] } = cache.readQuery({
+            query: Fetch.projectsAll
+          });
+          cache.writeQuery({
+            query: Fetch.projectsAll,
+            data: { projects: projects.concat([projectCreate]) }
+          });
+        }}
       >
         {(projectCreate, { data }) => {
           const submitProps = { onSubmit: this.handleSubmit(projectCreate) };

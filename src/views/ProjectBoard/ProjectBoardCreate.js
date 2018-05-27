@@ -4,6 +4,7 @@ import React from 'react';
 import { ClearableInput, SelectBox } from 'meiko';
 import Form from 'components/Form/Form';
 import WorkTypes from 'constants/work-types';
+import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { enumsToSelectBoxOptions } from 'utils/mappers';
 import { enumDefault } from 'utils/derived-data';
@@ -21,7 +22,22 @@ class ProjectBoardCreate extends React.PureComponent {
     const mutationProps = {
       mutation: Mutate.workItemCreate,
       onCompleted,
-      variables: { projectId }
+      variables: { projectId },
+      update: (cache, { data: { workItemCreate } }) => {
+        const { workItems = [] } = cache.readQuery({
+          query: Fetch.workItemsTodo,
+          variables: { projectId }
+        });
+        cache.writeQuery({
+          query: Fetch.workItemsTodo,
+          variables: { projectId },
+          data: {
+            workItems: workItems.concat([
+              { ...workItemCreate, taskRatio: null }
+            ])
+          }
+        });
+      }
     };
 
     return (

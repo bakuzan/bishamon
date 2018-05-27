@@ -19,7 +19,7 @@ class Projects extends React.Component {
           </ButtonisedNavButton>
         </div>
         <Query query={Fetch.projectsAll}>
-          {({ loading, error, data }) => {
+          {({ loading, error, data = {} }) => {
             return (
               <List
                 items={data.projects}

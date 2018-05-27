@@ -1,0 +1,12 @@
+@import '../../styles/_variables';
+
+.swimlane-card {
+  display: flex;
+  width: 100%;
+  padding: $app--standard-padding;
+  border: 1px solid transparent;
+
+  &--can-move {
+    cursor: pointer;
+  }
+}

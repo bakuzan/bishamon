@@ -16,7 +16,7 @@ class ProjectInformation extends React.PureComponent {
           <div className="project-header__text">{project.type}</div>
         </header>
         {this.props.headerContent}
-        <div className="project-information__children">
+        <div className="project-information__children top-spacing">
           {this.props.children}
         </div>
       </section>

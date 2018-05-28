@@ -1,4 +1,4 @@
-const { Project, WorkItem } = require('./connectors');
+const { Project, WorkItem, Task } = require('./connectors');
 const Constants = require('./constants/index');
 const { DefaultStatus } = require('./constants/enums');
 
@@ -13,6 +13,13 @@ module.exports = {
     },
     workItems(_, args) {
       return WorkItem.findAll({ where: args });
+    },
+    workItem(_, args) {
+      const { id } = args;
+      return WorkItem.findById(id);
+    },
+    tasks(_, args) {
+      return Task.findAll({ where: args });
     }
   },
   Mutation: {
@@ -21,6 +28,9 @@ module.exports = {
     },
     workItemCreate(_, args) {
       return WorkItem.create({ ...args, status: DefaultStatus });
+    },
+    taskCreate(_, args) {
+      return Task.create({ ...args, status: DefaultStatus });
     }
   },
   Project: {
@@ -38,6 +48,9 @@ module.exports = {
     }
   },
   WorkItem: {
-    taskRatio(workItem) {}
+    taskRatio(workItem) {},
+    tasks(workItem) {
+      return workItem.getTasks();
+    }
   }
 };

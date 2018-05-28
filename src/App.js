@@ -6,11 +6,13 @@ import HeaderBar from 'components/HeaderBar/HeaderBar';
 import Projects from 'views/Projects/Projects';
 import ProjectsCreate from 'views/Projects/ProjectsCreate';
 import ProjectBoard from 'views/ProjectBoard/ProjectBoard';
+import WorkItemDetail from 'views/WorkItemDetail/WorkItemDetail';
 
 class App extends React.Component {
   render() {
     const { match } = this.props;
     const projectListUrl = `${match.path}${RoutePaths.projectList}`;
+    const projectBoardUrl = `${projectListUrl}/:projectId`;
 
     return (
       <div className="app app--theme_default">
@@ -23,10 +25,14 @@ class App extends React.Component {
               path={`${projectListUrl}/create`}
               component={ProjectsCreate}
             />
+
             <Route
-              path={`${projectListUrl}/:projectId`}
-              component={ProjectBoard}
+              path={`${projectBoardUrl}${
+                RoutePaths.workItemDetail
+              }/:workItemId`}
+              component={WorkItemDetail}
             />
+            <Route path={projectBoardUrl} component={ProjectBoard} />
           </Switch>
         </main>
       </div>

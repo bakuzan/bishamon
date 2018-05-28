@@ -1,41 +1,9 @@
-import gql from 'graphql-tag';
-
-const projectCreate = gql`
-  mutation projectCreate(
-    $name: String!
-    $type: ProjectType
-    $colours: [String]
-  ) {
-    projectCreate(name: $name, type: $type, colours: $colours) {
-      id
-      name
-    }
-  }
-`;
-
-const workItemCreate = gql`
-  mutation workItemCreate(
-    $projectId: Int!
-    $name: String!
-    $type: WorkType
-    $description: String
-  ) {
-    workItemCreate(
-      projectId: $projectId
-      name: $name
-      description: $description
-      type: $type
-    ) {
-      id
-      name
-      description
-      type
-      status
-    }
-  }
-`;
+import * as ProjectMutations from './project';
+import * as WorkItemMutations from './work-item';
+import * as TaskMutations from './task';
 
 export default {
-  projectCreate,
-  workItemCreate
+  ...ProjectMutations,
+  ...WorkItemMutations,
+  ...TaskMutations
 };

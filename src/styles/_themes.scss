@@ -29,6 +29,8 @@ $theme-maps: (
         fill: $header-colour;
       }
     }
+    .swimlane,
+    .swimlane__header,
     .swimlane-card {
       border-color: $base-colour;
     }

@@ -1,13 +1,24 @@
 @import '../../styles/_variables';
 
+$placeholder-border: 1px solid transparent;
+
 .swimlane {
   display: flex;
   flex-direction: column;
   flex: 1;
   flex-basis: calc(100% / 7);
-  padding: $app--standard-padding;
+  align-items: center;
+  padding: $app--standard-padding 0;
+  border-right: $placeholder-border;
+
+  &:first-child {
+    border-left: $placeholder-border;
+  }
 
   &__header {
+    width: calc(100% - 2px);
     padding: $app--standard-padding 0;
+    padding-left: $app--standard-padding;
+    border-bottom: $placeholder-border;
   }
 }

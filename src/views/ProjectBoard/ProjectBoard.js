@@ -7,6 +7,7 @@ import ProjectInformation from 'components/ProjectInformation/ProjectInformation
 import ProjectBoardCreate from './ProjectBoardCreate';
 import Fetch from 'queries/fetch';
 import Status from 'constants/status';
+import Routes from 'constants/routes';
 
 class ProjectBoard extends React.Component {
   constructor(props) {
@@ -31,10 +32,11 @@ class ProjectBoard extends React.Component {
     const { isAddingWork } = this.state;
     const { match } = this.props;
     const projectId = Number(match.params.projectId);
-
+    const workItemDetailUrl = `${match.url}${Routes.workItemDetail}`;
+    console.log(match, Routes);
     return (
       <Query query={Fetch.projectInformation} variables={{ id: projectId }}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data = {} }) => {
           return (
             <ProjectInformation
               data={data.project}
@@ -59,7 +61,12 @@ class ProjectBoard extends React.Component {
                     return (
                       <React.Fragment>
                         {Status.map(x => (
-                          <Swimlane key={x} title={x} data={workItemsData[x]} />
+                          <Swimlane
+                            key={x}
+                            title={x}
+                            data={workItemsData[x]}
+                            cardLinkPath={workItemDetailUrl}
+                          />
                         ))}
                       </React.Fragment>
                     );

@@ -1,11 +1,13 @@
 const Sequelize = require('sequelize');
 
-const Constants = require("../constants/index");
+const Constants = require('../constants/index');
 
 const db = new Sequelize(Constants.appName, null, null, {
   dialect: 'sqlite',
-  storage: `./${Constants.appName}.${process.env.NODE_ENV}.sqlite`,
-  operatorsAliases: false,
+  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${
+    process.env.NODE_ENV
+  }.sqlite`,
+  operatorsAliases: false
 });
 
 const ProjectModel = db.import('./project');

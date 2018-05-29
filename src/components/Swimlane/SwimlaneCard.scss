@@ -3,8 +3,8 @@
 .swimlane-card {
   display: flex;
   width: calc(100% - #{$app--standard-padding * 2});
+  min-height: 3em;
   padding: $app--standard-padding;
-  border: 1px solid transparent;
 
   &--can-move {
     cursor: pointer;

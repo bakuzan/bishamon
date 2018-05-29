@@ -1,10 +1,12 @@
 @import './_variables.scss';
+@import './_mixins';
 
 $theme-maps: (
   default:
     (
       base-background: $bishamon--hair,
       base-colour: $bishamon--jacket,
+      accent-colour: $bishamon--eyes,
       header-background: $bishamon--jacket,
       header-colour: $bishamon--hair,
       button--background: $bishamon--jacket,
@@ -15,6 +17,7 @@ $theme-maps: (
 @each $theme-name, $values in $theme-maps {
   $base-background: map-get($values, base-background);
   $base-colour: map-get($values, base-colour);
+  $accent-colour: map-get($values, accent-colour);
   $header-background: map-get($values, header-background);
   $header-colour: map-get($values, header-colour);
   .app--theme_#{$theme-name} {
@@ -30,9 +33,14 @@ $theme-maps: (
       }
     }
     .swimlane,
-    .swimlane__header,
-    .swimlane-card {
+    .swimlane__header {
       border-color: $base-colour;
+    }
+    .swimlane-card {
+      @include standard-shadow($base-colour);
+      &--selected {
+        @include standard-shadow($accent-colour);
+      }
     }
     .bishamon-button.primary {
       background-color: map-get($values, button--background);

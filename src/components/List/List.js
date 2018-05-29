@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
+import './List.css';
+
 const COLUMN_CLASS = ['', 'one', 'two', 'three', 'four'];
 
 const List = ({ items, itemTemplate, columns }) => (

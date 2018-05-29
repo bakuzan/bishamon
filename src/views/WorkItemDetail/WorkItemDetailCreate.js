@@ -20,14 +20,14 @@ class WorkItemDetailCreate extends React.PureComponent {
       variables: { workItemId },
       update: (cache, { data: { taskCreate } }) => {
         const { tasks = [] } = cache.readQuery({
-          query: Fetch.tasksTodo,
+          query: Fetch.workItemTasks,
           variables: { workItemId }
         });
         cache.writeQuery({
-          query: Fetch.tasksTodo,
+          query: Fetch.workItemTasks,
           variables: { workItemId },
           data: {
-            tasks: tasks.concat([taskCreate])
+            workItems: tasks.concat([{ ...taskCreate }])
           }
         });
       }

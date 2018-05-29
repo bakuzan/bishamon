@@ -14,3 +14,14 @@ export const taskCreate = gql`
     }
   }
 `;
+
+export const taskStatusUpdate = gql`
+  mutation taskStatusUpdate($id: Int!, $status: Status) {
+    taskUpdate(id: $id, status: $status) {
+      id
+      name
+      description
+      status
+    }
+  }
+`;

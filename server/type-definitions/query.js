@@ -14,6 +14,7 @@ const Mutation = `
     workItemCreate(projectId: Int!, name: String!, description: String, type: WorkType): WorkItem
     workItemUpdate(id: Int!, name: String, description: String, type: WorkType, status: Status): WorkItem
     taskCreate(workItemId: Int!, name: String!, description: String): Task
+    taskUpdate(id: Int!, name: String, description: String, status: Status): Task
   }
 `;
 

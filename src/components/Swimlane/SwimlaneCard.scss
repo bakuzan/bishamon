@@ -13,4 +13,8 @@
     opacity: 0.5;
     box-shadow: none !important;
   }
+
+  &__link {
+    white-space: pre-line !important; // force override library
+  }
 }

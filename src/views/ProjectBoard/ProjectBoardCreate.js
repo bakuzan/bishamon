@@ -25,11 +25,11 @@ class ProjectBoardCreate extends React.PureComponent {
       variables: { projectId },
       update: (cache, { data: { workItemCreate } }) => {
         const { workItems = [] } = cache.readQuery({
-          query: Fetch.workItemsTodo,
+          query: Fetch.projectWorkItems,
           variables: { projectId }
         });
         cache.writeQuery({
-          query: Fetch.workItemsTodo,
+          query: Fetch.projectWorkItems,
           variables: { projectId },
           data: {
             workItems: workItems.concat([

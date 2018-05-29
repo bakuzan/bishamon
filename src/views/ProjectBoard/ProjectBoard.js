@@ -79,10 +79,11 @@ class ProjectBoard extends React.Component {
               )}
               {!isAddingWork && (
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
-                  {({ loading, error, data }) => {
+                  {({ loading, error, data = {} }) => {
+                    console.log(data, data.workItems);
                     return (
                       <Board
-                        data={data}
+                        data={data.workItems}
                         swimlaneCardLinkPath={workItemDetailUrl}
                         mutationProps={mutationProps}
                       />

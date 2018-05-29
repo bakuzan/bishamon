@@ -6,7 +6,7 @@ $placeholder-border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   flex: 1;
-  flex-basis: calc(100% / $swimlane--status-count);
+  flex-basis: calc(100% / #{$swimlane--status-count});
   align-items: center;
   padding: $app--standard-padding 0;
   border-right: $placeholder-border;

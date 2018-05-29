@@ -7,6 +7,14 @@ const workItemStatus = gql`
   }
 `;
 
+const taskStatus = gql`
+  fragment taskStatus on Task {
+    status
+    __typename
+  }
+`;
+
 export default {
-  workItemStatus
+  workItemStatus,
+  taskStatus
 };

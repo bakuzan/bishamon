@@ -36,6 +36,11 @@ module.exports = {
     },
     taskCreate(_, args) {
       return Task.create({ ...args, status: DefaultStatus });
+    },
+    taskUpdate(_, { id, ...args }) {
+      return Task.update({ ...args }, { where: { id } }).then(count =>
+        Task.findById(id)
+      );
     }
   },
   Project: {

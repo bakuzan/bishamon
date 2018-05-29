@@ -2,11 +2,10 @@ import React from 'react';
 import { Query } from 'react-apollo';
 
 import { Button } from 'components/Buttons';
-import Swimlane from 'components/Swimlane/Swimlane';
+import Board from 'components/Board/Board';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import WorkItemDetailCreate from './WorkItemDetailCreate';
 import Fetch from 'queries/fetch';
-import Status from 'constants/status';
 
 class WorkItemDetail extends React.Component {
   constructor(props) {
@@ -55,14 +54,8 @@ class WorkItemDetail extends React.Component {
               )}
               {!isAdding && (
                 <Query query={Fetch.workItemTasks} variables={{ workItemId }}>
-                  {({ loading, error, data: tasksData = {} }) => {
-                    return (
-                      <React.Fragment>
-                        {Status.map(x => (
-                          <Swimlane key={x} title={x} data={tasksData[x]} />
-                        ))}
-                      </React.Fragment>
-                    );
+                  {({ loading, error, data }) => {
+                    return <Board data={data} />;
                   }}
                 </Query>
               )}

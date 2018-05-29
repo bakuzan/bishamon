@@ -44,3 +44,15 @@ export const workItemInformation = gql`
     }
   }
 `;
+
+export const workItemById = gql`
+  query workItemById($id: Int) {
+    workItem(id: $id) {
+      id
+      name
+      description
+      type
+      status
+    }
+  }
+`;

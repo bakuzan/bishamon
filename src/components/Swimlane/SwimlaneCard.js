@@ -2,20 +2,24 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
+import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
 import './SwimlaneCard.css';
 
 class SwimlaneCard extends React.PureComponent {
   render() {
-    const { linkPath, data = {}, onClick, isSelected } = this.props;
+    const { linkPath, data = {}, onClick, isSelected, isDragging } = this.props;
     const hasLink = !!linkPath;
+    console.log('swimlane card', this.props);
     return (
       <div
         className={classNames('swimlane-card', 'bottom-spacing', {
           'swimlane-card--can-move': true,
-          'swimlane-card--selected': isSelected
+          'swimlane-card--selected': isSelected,
+          'swimlane-card--dragging': isDragging
         })}
         onClick={onClick}
+        tabIndex="0"
       >
         <div className={classNames('swimlane-card__name')}>
           <ButtonisedNavLink
@@ -42,4 +46,4 @@ SwimlaneCard.propTypes = {
   isSelected: PropTypes.bool
 };
 
-export default SwimlaneCard;
+export default withDragSource(SwimlaneCard);

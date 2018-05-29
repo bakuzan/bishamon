@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
+import { withDropTarget } from 'components/DragAndDrop';
 import List from 'components/List/List';
 import SwimlaneCard from './SwimlaneCard';
 import { capitaliseEachWord, fromCamelCase } from 'utils/common';
@@ -23,13 +24,14 @@ class Swimlane extends React.Component {
   }
 
   render() {
-    const { title, data, cardLinkPath } = this.props;
+    const { title, data, cardLinkPath, selectedCardId, isOver } = this.props;
     const isCollapsed = false;
-    console.log('swimlane > ', title, data);
+
     return (
       <div
         className={classNames('swimlane', {
-          'swimlane--collapsed': isCollapsed
+          'swimlane--collapsed': isCollapsed,
+          'swimlane--is-over': isOver
         })}
       >
         <div className="swimlane__header">
@@ -44,6 +46,7 @@ class Swimlane extends React.Component {
               key={item.id}
               data={item}
               linkPath={cardLinkPath}
+              isSelected={selectedCardId === item.id}
               onClick={() => this.handleCardClick(item.id)}
             />
           )}
@@ -62,7 +65,12 @@ Swimlane.propTypes = {
   title: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object),
   cardLinkPath: PropTypes.string,
-  onCardSelect: PropTypes.func
+  selectedCardId: PropTypes.number,
+  onCardSelect: PropTypes.func,
+  dropActions: PropTypes.shape({
+    canDrop: PropTypes.func,
+    onDrop: PropTypes.func
+  })
 };
 
-export default Swimlane;
+export default withDropTarget(Swimlane);

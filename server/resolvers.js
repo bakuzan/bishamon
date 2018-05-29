@@ -29,6 +29,11 @@ module.exports = {
     workItemCreate(_, args) {
       return WorkItem.create({ ...args, status: DefaultStatus });
     },
+    workItemUpdate(_, { id, ...args }) {
+      return WorkItem.update({ ...args }, { where: { id } }).then(count =>
+        WorkItem.findById(id)
+      );
+    },
     taskCreate(_, args) {
       return Task.create({ ...args, status: DefaultStatus });
     }

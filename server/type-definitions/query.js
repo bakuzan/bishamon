@@ -12,6 +12,7 @@ const Mutation = `
   type Mutation {
     projectCreate(name: String!, type: ProjectType, colours: [String]): Project
     workItemCreate(projectId: Int!, name: String!, description: String, type: WorkType): WorkItem
+    workItemUpdate(id: Int!, name: String, description: String, type: WorkType, status: Status): WorkItem
     taskCreate(workItemId: Int!, name: String!, description: String): Task
   }
 `;

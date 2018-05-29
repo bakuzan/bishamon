@@ -1,4 +1,4 @@
-export default [
+const Status = [
   'Todo',
   'InProgress',
   'OnHold',
@@ -7,3 +7,7 @@ export default [
   'Done',
   'Removed'
 ];
+
+export default Status;
+
+export const SwimlaneStatus = [...Status.slice(0, -1)];

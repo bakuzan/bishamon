@@ -2,12 +2,14 @@ import React from 'react';
 import { Query } from 'react-apollo';
 
 import { Button } from 'components/Buttons';
-import Swimlane from 'components/Swimlane/Swimlane';
+import Board from 'components/Board/Board';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import ProjectBoardCreate from './ProjectBoardCreate';
 import Fetch from 'queries/fetch';
-import Status from 'constants/status';
+import Fragment from 'queries/fragment';
+import Mutate from 'queries/mutate';
 import Routes from 'constants/routes';
+import { dataIdForObject } from 'utils/common';
 
 class ProjectBoard extends React.Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class ProjectBoard extends React.Component {
 
     this.handleAddWork = this.handleAddWork.bind(this);
     this.handleResolvingAddWork = this.handleResolvingAddWork.bind(this);
+    this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
   handleAddWork() {
@@ -28,12 +31,31 @@ class ProjectBoard extends React.Component {
     this.setState({ isAddingWork: false });
   }
 
+  handleCacheUpdate(
+    cache,
+    {
+      data: { workItemUpdate }
+    }
+  ) {
+    const { status, __typename } = workItemUpdate;
+    console.log(workItemUpdate);
+    cache.writeFragment({
+      id: dataIdForObject(workItemUpdate),
+      fragment: Fragment.workItemStatus,
+      data: { status, __typename }
+    });
+  }
+
   render() {
     const { isAddingWork } = this.state;
     const { match } = this.props;
     const projectId = Number(match.params.projectId);
     const workItemDetailUrl = `${match.url}${Routes.workItemDetail}`;
-    console.log(match, Routes);
+    const mutationProps = {
+      mutation: Mutate.workItemStatusUpdate,
+      update: this.handleCacheUpdate
+    };
+    console.log(this.state);
     return (
       <Query query={Fetch.projectInformation} variables={{ id: projectId }}>
         {({ loading, error, data = {} }) => {
@@ -57,18 +79,13 @@ class ProjectBoard extends React.Component {
               )}
               {!isAddingWork && (
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
-                  {({ loading, error, data: workItemsData = {} }) => {
+                  {({ loading, error, data }) => {
                     return (
-                      <React.Fragment>
-                        {Status.map(x => (
-                          <Swimlane
-                            key={x}
-                            title={x}
-                            data={workItemsData[x]}
-                            cardLinkPath={workItemDetailUrl}
-                          />
-                        ))}
-                      </React.Fragment>
+                      <Board
+                        data={data}
+                        swimlaneCardLinkPath={workItemDetailUrl}
+                        mutationProps={mutationProps}
+                      />
                     );
                   }}
                 </Query>

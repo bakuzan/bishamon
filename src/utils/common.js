@@ -1,9 +1,6 @@
-import {Utils} from 'meiko';
+import { Utils } from 'meiko';
 
-export const {
-  generateUniqueId,
-  capitalise
-} = Utils.Common;
+export const { generateUniqueId, capitalise } = Utils.Common;
 
 export const capitaliseEachWord = str =>
   str
@@ -16,3 +13,5 @@ export const fromCamelCase = (str, separator = ' ') =>
     .replace(/([a-z\d])([A-Z])/g, '$1' + separator + '$2')
     .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2')
     .toLowerCase();
+
+export const dataIdForObject = o => `${o.__typename}_${o.id}`;

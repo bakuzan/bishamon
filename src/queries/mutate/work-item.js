@@ -21,3 +21,15 @@ export const workItemCreate = gql`
     }
   }
 `;
+
+export const workItemStatusUpdate = gql`
+  mutation workItemStatusUpdate($id: Int!, $status: Status) {
+    workItemUpdate(id: $id, status: $status) {
+      id
+      name
+      description
+      type
+      status
+    }
+  }
+`;

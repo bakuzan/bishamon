@@ -9,4 +9,8 @@
   &--can-move {
     cursor: pointer;
   }
+  &--dragging {
+    opacity: 0.5;
+    box-shadow: none !important;
+  }
 }

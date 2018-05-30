@@ -33,3 +33,27 @@ export const workItemStatusUpdate = gql`
     }
   }
 `;
+
+export const workItemUpdate = gql`
+  mutation workItemUpdate(
+    $id: Int!
+    $name: String
+    $description: String
+    $type: WorkType
+    $status: Status
+  ) {
+    workItemUpdate(
+      id: $id
+      name: $name
+      description: $description
+      type: $type
+      status: $status
+    ) {
+      id
+      name
+      description
+      type
+      status
+    }
+  }
+`;

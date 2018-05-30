@@ -2,8 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
+import { Portal } from 'meiko';
 import DragAndDropContext from 'components/DragAndDrop';
 import Swimlane from 'components/Swimlane/Swimlane';
+import Strings from 'constants/strings';
 import { SwimlaneStatus } from 'constants/status';
 
 const STATUS_MAP = SwimlaneStatus.reduce((p, c) => p.set(c, []), new Map());
@@ -64,7 +66,13 @@ class Board extends React.Component {
 
   render() {
     const { selectedId, dataStatusMap } = this.state;
-    const { data, swimlaneCardLinkPath, mutationProps } = this.props;
+    const {
+      data,
+      swimlaneCardLinkPath,
+      mutationProps,
+      renderSelectedCardView
+    } = this.props;
+    const hasCardView = !!renderSelectedCardView;
 
     return (
       <Mutation {...mutationProps}>
@@ -90,6 +98,16 @@ class Board extends React.Component {
                   />
                 );
               })}
+              {hasCardView &&
+                selectedId && (
+                  <Portal
+                    querySelector={`#${
+                      Strings.selectors.swimlaneCardPortal
+                    }${selectedId}`}
+                  >
+                    {renderSelectedCardView({ selectedId })}
+                  </Portal>
+                )}
             </React.Fragment>
           );
         }}
@@ -108,7 +126,8 @@ Board.propTypes = {
   mutationProps: PropTypes.shape({
     mutation: PropTypes.object.isRequired,
     update: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  renderSelectedCardView: PropTypes.func
 };
 
 export default DragAndDropContext(Board);

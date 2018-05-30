@@ -67,7 +67,7 @@ class Form extends React.PureComponent {
   }
 
   render() {
-    const { formName, mutationProps } = this.props;
+    const { className, formName, mutationProps } = this.props;
     const { values } = this.state;
     const cancelProps = { onCancel: this.handleCancel };
     const actions = {
@@ -84,6 +84,7 @@ class Form extends React.PureComponent {
           return (
             <MForm
               id={formName}
+              className={className}
               name={formName}
               submitOptions={submitProps}
               cancelOptions={cancelProps}

@@ -5,6 +5,7 @@ import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import ProjectBoardCreate from './ProjectBoardCreate';
+import WorkItemView from './WorkItemView';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
@@ -89,6 +90,9 @@ class ProjectBoard extends React.Component {
                         data={data.workItems}
                         swimlaneCardLinkPath={workItemDetailUrl}
                         mutationProps={mutationProps}
+                        renderSelectedCardView={({ selectedId }) => (
+                          <WorkItemView id={selectedId} />
+                        )}
                       />
                     );
                   }}

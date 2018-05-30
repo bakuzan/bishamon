@@ -17,5 +17,10 @@ main {
 
 .form-container {
   width: 50%;
-  padding: $app--standard-padding * 2;
+  padding: $form-padding;
+}
+
+.card-form {
+  width: calc(100% - #{$form-padding});
+  padding: $form-padding 0;
 }

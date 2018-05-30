@@ -4,6 +4,7 @@ import React from 'react';
 
 import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
+import Strings from 'constants/strings';
 import './SwimlaneCard.css';
 
 class SwimlaneCard extends React.PureComponent {
@@ -32,6 +33,9 @@ class SwimlaneCard extends React.PureComponent {
           </ButtonisedNavLink>
         </div>
         <div className="swimlane-card__ratio">{data.taskRatio}</div>
+        <div id={`${Strings.selectors.swimlaneCardPortal}${data.id}`}>
+          {/* Content placed here via portal. */}
+        </div>
       </div>
     );
   }

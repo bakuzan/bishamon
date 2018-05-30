@@ -1,14 +1,14 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { Button } from 'components/Buttons';
+import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import ProjectBoardCreate from './ProjectBoardCreate';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
-import Routes from 'constants/routes';
+import Routes, { PROJECT_LIST_URL } from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
 
 class ProjectBoard extends React.Component {
@@ -67,6 +67,9 @@ class ProjectBoard extends React.Component {
                   <Button btnStyle="primary" onClick={this.handleAddWork}>
                     Add Work
                   </Button>
+                  <ButtonisedNavLink to={PROJECT_LIST_URL}>
+                    Back
+                  </ButtonisedNavLink>
                 </div>
               }
             >

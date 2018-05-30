@@ -6,14 +6,21 @@ import './ProjectInformation.css';
 class ProjectInformation extends React.PureComponent {
   render() {
     const project = this.props.data;
+    const workItem = project.workItem;
+    const hasWorkItem = !!workItem;
+    const name = hasWorkItem
+      ? `${project.name} - ${workItem.name}`
+      : project.name;
+    const type = hasWorkItem ? workItem.type : project.type;
+
     return (
       <section className="project-information">
         <header
           className="project-information__header project-header"
           style={{ borderLeftColor: project.primaryColour }}
         >
-          <div className="project-header__text">{project.name}</div>
-          <div className="project-header__text">{project.type}</div>
+          <div className="project-header__text">{name}</div>
+          <div className="project-header__text">{type}</div>
         </header>
         {this.props.headerContent}
         <div className="project-information__children top-spacing">

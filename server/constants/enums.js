@@ -23,3 +23,5 @@ module.exports.Status = [
   'Removed'
 ];
 module.exports.DefaultStatus = module.exports.Status[0];
+
+module.exports.AuditType = ['WorkItem', 'Task'];

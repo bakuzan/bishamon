@@ -1,14 +1,18 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { Button } from 'components/Buttons';
+import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import WorkItemDetailCreate from './WorkItemDetailCreate';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
+import Routes from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
+
+const RE = `\\${Routes.workItemDetail}.*$`;
+const EXTRACT_BACK_URL = new RegExp(RE, 'g');
 
 class WorkItemDetail extends React.Component {
   constructor(props) {
@@ -47,6 +51,8 @@ class WorkItemDetail extends React.Component {
   render() {
     const { isAdding } = this.state;
     const { match } = this.props;
+    const backUrl = match.url.replace(EXTRACT_BACK_URL, '');
+    const projectId = Number(match.params.projectId);
     const workItemId = Number(match.params.workItemId);
     const mutationProps = {
       mutation: Mutate.taskStatusUpdate,
@@ -54,16 +60,20 @@ class WorkItemDetail extends React.Component {
     };
 
     return (
-      <Query query={Fetch.workItemInformation} variables={{ id: workItemId }}>
+      <Query
+        query={Fetch.projectWorkItemInformation}
+        variables={{ projectId, workItemId }}
+      >
         {({ loading, error, data = {} }) => {
           return (
             <ProjectInformation
-              data={data.workItem}
+              data={data.project}
               headerContent={
                 <div className="button-group right-aligned">
                   <Button btnStyle="primary" onClick={this.handleAdd}>
                     Add Task
                   </Button>
+                  <ButtonisedNavLink to={backUrl}>Back</ButtonisedNavLink>
                 </div>
               }
             >

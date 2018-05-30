@@ -53,8 +53,13 @@ module.exports = {
       const { colours } = project.dataValues;
       return colours.split(',')[0] || Constants.fallbackColour;
     },
-    workItems(project) {
+    workItems(project, args) {
       return project.getWorkItems();
+    },
+    workItem(project, args) {
+      return project
+        .getWorkItems({ where: { id: args.workItemId } })
+        .then(items => items[0]);
     }
   },
   WorkItem: {

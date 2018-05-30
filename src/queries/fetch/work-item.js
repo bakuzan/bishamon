@@ -13,13 +13,18 @@ export const projectWorkItems = gql`
   }
 `;
 
-export const workItemInformation = gql`
-  query workItemInformation($id: Int) {
-    workItem(id: $id) {
+export const projectWorkItemInformation = gql`
+  query projectWorkItemInformation($projectId: Int, $workItemId: Int!) {
+    project(id: $projectId) {
       id
       name
-      type
-      status
+      primaryColour
+      workItem(workItemId: $workItemId) {
+        id
+        name
+        type
+        status
+      }
     }
   }
 `;

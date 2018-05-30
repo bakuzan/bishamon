@@ -6,5 +6,6 @@ module.exports = `
     colours(limit: Int): [String]
     primaryColour: String
     workItems: [WorkItem]
+    workItem(workItemId: Int!): WorkItem
   }
 `;

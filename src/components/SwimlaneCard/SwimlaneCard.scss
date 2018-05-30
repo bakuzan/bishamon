@@ -2,6 +2,7 @@
 
 .swimlane-card {
   display: flex;
+  flex-direction: column;
   width: calc(100% - #{$app--standard-padding * 2});
   min-height: 3em;
   padding: $app--standard-padding;
@@ -14,7 +15,16 @@
     box-shadow: none !important;
   }
 
+  &__name {
+    display: flex;
+  }
   &__link {
     white-space: pre-line !important; // force override library
+  }
+  &__ratio {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
   }
 }

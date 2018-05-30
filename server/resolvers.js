@@ -1,6 +1,8 @@
+const Op = require('sequelize').Op;
+
 const { Project, WorkItem, Task } = require('./connectors');
 const Constants = require('./constants/index');
-const { DefaultStatus } = require('./constants/enums');
+const { DoneStatuses, DefaultStatus } = require('./constants/enums');
 
 module.exports = {
   Query: {
@@ -63,7 +65,17 @@ module.exports = {
     }
   },
   WorkItem: {
-    taskRatio(workItem) {},
+    taskRatio(workItem) {
+      return Task.findAll({ where: { workItemId: workItem.id } }).then(
+        tasks => {
+          const total = tasks.length;
+          const done = tasks.filter(t => DoneStatuses.includes(t.status))
+            .length;
+          if (!total) return 'N/A';
+          return `${done}/${total}`;
+        }
+      );
+    },
     tasks(workItem) {
       return workItem.getTasks();
     }

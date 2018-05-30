@@ -23,5 +23,6 @@ module.exports.Status = [
   'Removed'
 ];
 module.exports.DefaultStatus = module.exports.Status[0];
+module.exports.DoneStatuses = [...module.exports.Status.slice(3, 6)];
 
 module.exports.AuditType = ['WorkItem', 'Task'];

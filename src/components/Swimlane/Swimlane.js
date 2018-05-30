@@ -4,7 +4,7 @@ import React from 'react';
 
 import { withDropTarget } from 'components/DragAndDrop';
 import List from 'components/List/List';
-import SwimlaneCard from './SwimlaneCard';
+import SwimlaneCard from 'components/SwimlaneCard/SwimlaneCard';
 import { capitaliseEachWord, fromCamelCase } from 'utils/common';
 
 import './Swimlane.css';

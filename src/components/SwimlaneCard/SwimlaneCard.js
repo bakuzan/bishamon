@@ -19,6 +19,7 @@ class SwimlaneCard extends React.PureComponent {
           'swimlane-card--dragging': isDragging
         })}
         onClick={onClick}
+        role="button"
         tabIndex="0"
       >
         <div className={classNames('swimlane-card__name')}>
@@ -30,6 +31,7 @@ class SwimlaneCard extends React.PureComponent {
             {data.name}
           </ButtonisedNavLink>
         </div>
+        <div className="swimlane-card__ratio">{data.taskRatio}</div>
       </div>
     );
   }

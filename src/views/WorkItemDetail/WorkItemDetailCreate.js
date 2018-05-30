@@ -27,7 +27,7 @@ class WorkItemDetailCreate extends React.PureComponent {
           query: Fetch.workItemTasks,
           variables: { workItemId },
           data: {
-            workItems: tasks.concat([{ ...taskCreate }])
+            tasks: tasks.concat([{ ...taskCreate }])
           }
         });
       }

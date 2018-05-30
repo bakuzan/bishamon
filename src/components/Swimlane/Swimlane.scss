@@ -21,4 +21,7 @@ $placeholder-border: 1px solid transparent;
     padding-left: $app--standard-padding;
     border-bottom: $placeholder-border;
   }
+  &__list {
+    height: 100%;
+  }
 }

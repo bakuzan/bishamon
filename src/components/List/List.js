@@ -6,9 +6,9 @@ import './List.css';
 
 const COLUMN_CLASS = ['', 'one', 'two', 'three', 'four'];
 
-const List = ({ items, itemTemplate, columns }) => (
+const List = ({ className, items, itemTemplate, columns }) => (
   <ul
-    className={classNames('list column', {
+    className={classNames('list column', className, {
       [COLUMN_CLASS[columns]]: !!columns
     })}
   >

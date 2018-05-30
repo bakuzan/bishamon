@@ -24,14 +24,20 @@ class Swimlane extends React.Component {
   }
 
   render() {
-    const { title, data, cardLinkPath, selectedCardId, isOver } = this.props;
+    const {
+      title,
+      data,
+      cardLinkPath,
+      selectedCardId,
+      isOver,
+      canDrop
+    } = this.props;
     const isCollapsed = false;
-
+    console.log(this.props);
     return (
       <div
         className={classNames('swimlane', {
-          'swimlane--collapsed': isCollapsed,
-          'swimlane--is-over': isOver
+          'swimlane--collapsed': isCollapsed
         })}
       >
         <div className="swimlane__header">
@@ -39,7 +45,9 @@ class Swimlane extends React.Component {
         </div>
         <List
           columns={1}
-          className="swimlane__list"
+          className={classNames('swimlane__list', {
+            'swimlane__list--droppable': isOver && canDrop
+          })}
           items={data}
           itemTemplate={item => (
             <SwimlaneCard

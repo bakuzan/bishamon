@@ -55,6 +55,7 @@ class Board extends React.Component {
 
   handleDrop(mutateCall) {
     return (swimlane, item) => {
+      if (swimlane === item.status) return;
       mutateCall({
         variables: { id: item.id, status: swimlane }
       });

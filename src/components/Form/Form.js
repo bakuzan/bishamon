@@ -75,7 +75,7 @@ class Form extends React.PureComponent {
       handleListCreate: this.handleListCreate,
       handleListUpdate: this.handleListUpdate
     };
-    console.log('FORM', values, mutationProps);
+    // console.log('FORM', values, mutationProps);
     return (
       <Mutation {...mutationProps}>
         {(callAPI, { data }) => {

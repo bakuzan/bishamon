@@ -32,6 +32,9 @@ $theme-maps: (
         fill: $header-colour;
       }
     }
+    .meiko-bouncer > div {
+      background-color: $accent-colour;
+    }
     .swimlane,
     .swimlane__header {
       border-color: $base-colour;
@@ -40,6 +43,7 @@ $theme-maps: (
       background-color: $accent-colour;
       opacity: 0.25;
     }
+
     .swimlane-card {
       @include standard-shadow($base-colour);
       &--selected {

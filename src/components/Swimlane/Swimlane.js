@@ -33,7 +33,7 @@ class Swimlane extends React.Component {
       canDrop
     } = this.props;
     const isCollapsed = false;
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div
         className={classNames('swimlane', {

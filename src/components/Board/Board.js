@@ -24,7 +24,7 @@ class Board extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log('DERIVE', nextProps.data, prevState.data);
+    // console.log('DERIVE', nextProps.data, prevState.data);
     const dataStatusMap = nextProps.data.reduce(
       (p, c) => p.set(c.status, [...p.get(c.status), c]),
       new Map([...STATUS_MAP.entries()])
@@ -67,7 +67,6 @@ class Board extends React.Component {
   render() {
     const { selectedId, dataStatusMap } = this.state;
     const {
-      data,
       swimlaneCardLinkPath,
       mutationProps,
       renderSelectedCardView
@@ -81,11 +80,10 @@ class Board extends React.Component {
             canDrop: this.handleCanDrop,
             onDrop: this.handleDrop(callAPI)
           };
-          console.log('Board', data);
+
           return (
             <React.Fragment>
               {SwimlaneStatus.map(x => {
-                console.log(dataStatusMap.get(x));
                 return (
                   <Swimlane
                     key={x}
@@ -105,7 +103,10 @@ class Board extends React.Component {
                       Strings.selectors.swimlaneCardPortal
                     }${selectedId}`}
                   >
-                    {renderSelectedCardView({ selectedId })}
+                    {renderSelectedCardView({
+                      selectedId,
+                      closeView: this.handleSelectedCard
+                    })}
                   </Portal>
                 )}
             </React.Fragment>

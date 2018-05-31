@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { ClearableInput, SelectBox, Loaders } from 'meiko';
+import { ClearableInput, SelectBox } from 'meiko';
 import Form from 'components/Form/Form';
+import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Status from 'constants/status';
 import WorkTypes from 'constants/work-types';
 import Fetch from 'queries/fetch';
@@ -17,44 +18,61 @@ class WorkItemView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleCompleted = this.handleCompleted.bind(this);
+    this.handleCloseAfterAction = this.handleCloseAfterAction.bind(this);
+    this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
-  handleCancel() {
-    // TODO handle cancel by removing the portal
+  handleCloseAfterAction() {
+    this.props.closeView();
   }
 
-  handleCompleted() {}
+  handleCacheUpdate(
+    cache,
+    {
+      data: { workItemUpdate }
+    }
+  ) {
+    const { id, projectId } = this.props;
+    const { workItems = [] } = cache.readQuery({
+      query: Fetch.projectWorkItems,
+      variables: { projectId }
+    });
+
+    const index = workItems.findIndex(x => x.id === id);
+    const oldWorkItem = workItems[index];
+
+    cache.writeQuery({
+      query: Fetch.projectWorkItems,
+      variables: { projectId },
+      data: {
+        workItems: [
+          ...workItems.slice(0, index),
+          { ...oldWorkItem, ...workItemUpdate },
+          ...workItems.slice(index + 1)
+        ]
+      }
+    });
+  }
 
   render() {
     const { id } = this.props;
     const mutationProps = {
       mutation: Mutate.workItemUpdate,
-      onCompleted: this.handleCompleted,
-      variables: {},
-      update: (cache, { data: { workItemUpdate } }) => {
-        cache.writeQuery({
-          query: Fetch.workItemById,
-          variables: { id },
-          data: {
-            workItem: workItemUpdate
-          }
-        });
-      }
+      onCompleted: this.handleCloseAfterAction,
+      update: this.handleCacheUpdate
     };
 
     return (
       <Query query={Fetch.workItemById} variables={{ id }}>
         {({ loading, error, data = {} }) => {
-          if (!data.workItem) return <Loaders.LoadingBouncer />;
+          if (loading) return <DelayedLoader />;
           return (
             <Form
               className="card-form"
               formName="work-item-edit"
               defaults={data.workItem}
               mutationProps={mutationProps}
-              onCancel={this.handleCancel}
+              onCancel={this.handleCloseAfterAction}
             >
               {({ values, actions }) => {
                 return (
@@ -97,7 +115,8 @@ class WorkItemView extends React.Component {
 }
 
 WorkItemView.propTypes = {
-  id: PropTypes.number.isRequired
+  id: PropTypes.number.isRequired,
+  closeView: PropTypes.func.isRequired
 };
 
 export default WorkItemView;

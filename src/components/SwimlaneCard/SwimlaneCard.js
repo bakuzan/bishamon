@@ -5,13 +5,23 @@ import React from 'react';
 import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
 import Strings from 'constants/strings';
+import { objectsAreEqual } from 'utils/common';
 import './SwimlaneCard.css';
 
-class SwimlaneCard extends React.PureComponent {
+class SwimlaneCard extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const isSelectedChanged = nextProps.isSelected !== this.props.isSelected;
+    const isDraggingChanged = nextProps.isDragging !== this.props.isDragging;
+    const dataChanged = !objectsAreEqual(nextProps.data, this.props.data);
+
+    return isSelectedChanged || isDraggingChanged || dataChanged;
+  }
+
   render() {
     const { linkPath, data = {}, onClick, isSelected, isDragging } = this.props;
     const hasLink = !!linkPath;
-    console.log('swimlane card', this.props);
+    if (data && data.id === 3)
+      console.log('swimlane card', data, isSelected, isDragging);
     return (
       <div
         className={classNames('swimlane-card', 'bottom-spacing', {

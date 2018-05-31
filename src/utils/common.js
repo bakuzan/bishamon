@@ -1,6 +1,11 @@
 import { Utils } from 'meiko';
 
-export const { generateUniqueId, capitalise } = Utils.Common;
+export const {
+  generateUniqueId,
+  capitalise,
+  objectsAreEqual,
+  debounce
+} = Utils.Common;
 
 export const capitaliseEachWord = str =>
   str

@@ -39,7 +39,6 @@ class ProjectBoard extends React.Component {
     }
   ) {
     const { status, __typename } = workItemUpdate;
-    console.log(workItemUpdate);
     cache.writeFragment({
       id: dataIdForObject(workItemUpdate),
       fragment: Fragment.workItemStatus,
@@ -56,7 +55,7 @@ class ProjectBoard extends React.Component {
       mutation: Mutate.workItemStatusUpdate,
       update: this.handleCacheUpdate
     };
-    console.log(this.state);
+
     return (
       <Query query={Fetch.projectInformation} variables={{ id: projectId }}>
         {({ loading, error, data = {} }) => {
@@ -84,14 +83,17 @@ class ProjectBoard extends React.Component {
               {!isAddingWork && (
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
                   {({ loading, error, data = {} }) => {
-                    console.log(data, data.workItems);
                     return (
                       <Board
                         data={data.workItems}
                         swimlaneCardLinkPath={workItemDetailUrl}
                         mutationProps={mutationProps}
-                        renderSelectedCardView={({ selectedId }) => (
-                          <WorkItemView id={selectedId} />
+                        renderSelectedCardView={({ selectedId, closeView }) => (
+                          <WorkItemView
+                            projectId={projectId}
+                            id={selectedId}
+                            closeView={closeView}
+                          />
                         )}
                       />
                     );

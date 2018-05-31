@@ -11,6 +11,7 @@ import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
 import Routes, { PROJECT_LIST_URL } from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
+import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
 
 class ProjectBoard extends React.Component {
   constructor(props) {
@@ -53,7 +54,8 @@ class ProjectBoard extends React.Component {
     const workItemDetailUrl = `${match.url}${Routes.workItemDetail}`;
     const mutationProps = {
       mutation: Mutate.workItemStatusUpdate,
-      update: this.handleCacheUpdate
+      update: this.handleCacheUpdate,
+      buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
     };
 
     return (

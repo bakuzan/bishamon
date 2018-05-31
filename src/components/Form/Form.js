@@ -58,17 +58,28 @@ class Form extends React.Component {
 
   handleSubmit(callApi) {
     return (...test) => {
+      const { mutationProps } = this.props;
+      const passedVariables = mutationProps.variables || {};
+      const optimisticResponse = mutationProps.buildOptimisticResponse
+        ? mutationProps.buildOptimisticResponse(this.state.values)
+        : undefined;
+
       callApi({
         variables: {
-          ...this.props.mutationProps.variables,
+          ...passedVariables,
           ...this.state.values
-        }
+        },
+        optimisticResponse
       });
     };
   }
 
   render() {
-    const { className, formName, mutationProps } = this.props;
+    const {
+      className,
+      formName,
+      mutationProps: { buildOptimisticResponse, ...validMutationProps }
+    } = this.props;
     const { values } = this.state;
     const cancelProps = { onCancel: this.handleCancel };
     const actions = {
@@ -78,7 +89,7 @@ class Form extends React.Component {
     };
 
     return (
-      <Mutation {...mutationProps}>
+      <Mutation {...validMutationProps}>
         {(callAPI, { data }) => {
           const submitProps = { onSubmit: this.handleSubmit(callAPI) };
 
@@ -112,7 +123,8 @@ Form.propTypes = {
   children: PropTypes.func.isRequired,
   mutationProps: PropTypes.shape({
     mutation: PropTypes.object.isRequired,
-    onCompletion: PropTypes.func
+    onCompletion: PropTypes.func,
+    buildOptimisticResponse: PropTypes.func
   }).isRequired
 };
 

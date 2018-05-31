@@ -57,8 +57,13 @@ class Board extends React.Component {
   handleDrop(mutateCall) {
     return (swimlane, item) => {
       if (swimlane === item.status) return;
+      const { mutationProps } = this.props;
+      const optimisticResponse = mutationProps.buildOptimisticResponse
+        ? mutationProps.buildOptimisticResponse({ ...item, status: swimlane })
+        : undefined;
       mutateCall({
-        variables: { id: item.id, status: swimlane }
+        variables: { id: item.id, status: swimlane },
+        optimisticResponse
       });
     };
   }

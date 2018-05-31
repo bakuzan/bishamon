@@ -12,7 +12,14 @@ import RoutePaths from 'constants/routes';
 import 'meiko/dist/bundle.min.css';
 import './styles/index.css';
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      workItem: (_, args, { getCacheKey }) =>
+        getCacheKey({ __typename: 'WorkItem', id: args.id })
+    }
+  }
+});
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_API,
   cache

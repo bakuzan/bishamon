@@ -1,7 +1,8 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-import {Header, SVGLogo} from 'meiko';
+import { Header, SVGLogo } from 'meiko';
+import AppSettings from 'components/AppSettings/AppSettings';
 import RoutePaths from 'constants/routes';
 
 import './HeaderBar.css';
@@ -15,10 +16,8 @@ const HeaderBar = props => (
         <SVGLogo text="bishamon" />
       </NavLink>
     }
-    navRight={
-      <div>settings placeholder</div>
-    }
+    navRight={<AppSettings />}
   />
-)
+);
 
 export default HeaderBar;

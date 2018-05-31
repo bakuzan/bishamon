@@ -20,8 +20,7 @@ class SwimlaneCard extends React.Component {
   render() {
     const { linkPath, data = {}, onClick, isSelected, isDragging } = this.props;
     const hasLink = !!linkPath;
-    if (data && data.id === 3)
-      console.log('swimlane card', data, isSelected, isDragging);
+
     return (
       <div
         className={classNames('swimlane-card', 'bottom-spacing', {

@@ -7,39 +7,18 @@ import DragAndDropContext from 'components/DragAndDrop';
 import Swimlane from 'components/Swimlane/Swimlane';
 import Strings from 'constants/strings';
 import { SwimlaneStatus } from 'constants/status';
-
-const STATUS_MAP = SwimlaneStatus.reduce((p, c) => p.set(c, []), new Map());
+import { createStatusMapForBoard } from './BoardUtils';
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedId: null,
-      dataStatusMap: new Map([...STATUS_MAP.entries()])
+      selectedId: null
     };
 
     this.handleSelectedCard = this.handleSelectedCard.bind(this);
     this.handleCanDrop = this.handleCanDrop.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const dataStatusMap = nextProps.data.reduce((p, c) => {
-      const v = p.get(c.status) || [];
-      return p.set(c.status, [...v, c]);
-    }, new Map([...STATUS_MAP.entries()]));
-    const prevData = prevState.dataStatusMap;
-    const countsChanged = SwimlaneStatus.some(
-      x => dataStatusMap.get(x).length !== prevData.get(x).length
-    );
-
-    if (countsChanged) {
-      return {
-        dataStatusMap
-      };
-    }
-
-    return null;
   }
 
   handleSelectedCard(selectedId) {
@@ -69,13 +48,15 @@ class Board extends React.Component {
   }
 
   render() {
-    const { selectedId, dataStatusMap } = this.state;
+    const { selectedId } = this.state;
     const {
+      data,
       swimlaneCardLinkPath,
       mutationProps,
       renderSelectedCardView
     } = this.props;
     const hasCardView = !!renderSelectedCardView;
+    const dataStatusMap = createStatusMapForBoard(data);
 
     return (
       <Mutation {...mutationProps}>

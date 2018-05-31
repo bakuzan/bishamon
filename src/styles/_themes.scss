@@ -13,6 +13,7 @@ $theme-maps: (
       button--colour: $bishamon--hair,
       button-link--colour: $bishamon--jacket
     )
+    /* TODO add theme-two*/
 );
 @each $theme-name, $values in $theme-maps {
   $base-background: map-get($values, base-background);
@@ -24,6 +25,14 @@ $theme-maps: (
     &.app {
       background-color: $base-background;
       color: $base-colour;
+    }
+    #app-settings-menu {
+      background-color: $base-background;
+      @include standard-shadow($accent-colour);
+      > li:first-child {
+        border-bottom-color: $base-background;
+        filter: drop-shadow(0 -2px 2px $accent-colour);
+      }
     }
     .header-bar {
       background-color: $header-background;
@@ -43,7 +52,6 @@ $theme-maps: (
       background-color: $accent-colour;
       opacity: 0.25;
     }
-
     .swimlane-card {
       @include standard-shadow($base-colour);
       &--selected {

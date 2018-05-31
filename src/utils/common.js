@@ -1,4 +1,5 @@
 import { Utils } from 'meiko';
+import Strings from 'constants/strings';
 
 export const {
   generateUniqueId,
@@ -20,3 +21,10 @@ export const fromCamelCase = (str, separator = ' ') =>
     .toLowerCase();
 
 export const dataIdForObject = o => `${o.__typename}_${o.id}`;
+
+export const getAppSettings = () =>
+  Utils.Common.getObjectFromLocalStorageByProperty(Strings.appSettingsStorage);
+
+export const saveAppSettings = Utils.Common.persistObjectToLocalStorage(
+  Strings.appSettingsStorage
+);

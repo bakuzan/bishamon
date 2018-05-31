@@ -9,7 +9,10 @@ import Status from 'constants/status';
 import WorkTypes from 'constants/work-types';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import { enumsToSelectBoxOptions } from 'utils/mappers';
+import {
+  enumsToSelectBoxOptions,
+  mapWorkItemViewToOptimisticResponse
+} from 'utils/mappers';
 
 const WORK_TYPES = enumsToSelectBoxOptions(WorkTypes);
 const STATUSES = enumsToSelectBoxOptions(Status.slice(1)); // remove 'Todo'
@@ -59,7 +62,8 @@ class WorkItemView extends React.Component {
     const mutationProps = {
       mutation: Mutate.workItemUpdate,
       onCompleted: this.handleCloseAfterAction,
-      update: this.handleCacheUpdate
+      update: this.handleCacheUpdate,
+      buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
     };
 
     return (

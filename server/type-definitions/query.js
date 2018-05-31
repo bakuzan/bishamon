@@ -2,7 +2,7 @@ const Query = `
   type Query {
     projects: [Project]
     project(id: Int): Project
-    workItems(projectId: Int, status: Status): [WorkItem]
+    workItems(projectId: Int, status: Status, statusIn: [Status]): [WorkItem]
     workItem(id: Int): WorkItem
     tasks(workItemId: Int, status: Status): [Task]
   }

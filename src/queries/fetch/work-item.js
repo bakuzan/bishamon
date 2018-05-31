@@ -1,8 +1,14 @@
 import gql from 'graphql-tag';
 
+import { SwimlaneStatus } from 'constants/status';
+
+function mapStatuses() {
+  return SwimlaneStatus.join(',');
+}
+
 export const projectWorkItems = gql`
   query projectWorkItems($projectId: Int) {
-    workItems(projectId: $projectId) {
+    workItems(projectId: $projectId, statusIn: [${mapStatuses()}]) {
       id
       name
       description

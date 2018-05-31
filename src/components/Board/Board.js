@@ -24,11 +24,10 @@ class Board extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    // console.log('DERIVE', nextProps.data, prevState.data);
-    const dataStatusMap = nextProps.data.reduce(
-      (p, c) => p.set(c.status, [...p.get(c.status), c]),
-      new Map([...STATUS_MAP.entries()])
-    );
+    const dataStatusMap = nextProps.data.reduce((p, c) => {
+      const v = p.get(c.status) || [];
+      return p.set(c.status, [...v, c]);
+    }, new Map([...STATUS_MAP.entries()]));
     const prevData = prevState.dataStatusMap;
     const countsChanged = SwimlaneStatus.some(
       x => dataStatusMap.get(x).length !== prevData.get(x).length

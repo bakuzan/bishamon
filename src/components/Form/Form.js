@@ -4,7 +4,7 @@ import { Mutation } from 'react-apollo';
 
 import { Form as MForm, Utils } from 'meiko';
 
-class Form extends React.PureComponent {
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +21,7 @@ class Form extends React.PureComponent {
   handleUserInput(e) {
     const { name } = e.target;
     const value = Utils.Common.getEventValue(e.target);
+
     this.setState(prev => ({
       values: {
         ...prev.values,
@@ -75,7 +76,7 @@ class Form extends React.PureComponent {
       handleListCreate: this.handleListCreate,
       handleListUpdate: this.handleListUpdate
     };
-    // console.log('FORM', values, mutationProps);
+
     return (
       <Mutation {...mutationProps}>
         {(callAPI, { data }) => {

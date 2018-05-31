@@ -13,8 +13,15 @@ module.exports = {
       const { id } = args;
       return Project.findById(id);
     },
-    workItems(_, args) {
-      return WorkItem.findAll({ where: args });
+    workItems(_, { statusIn, ...args }) {
+      const optionalArgs = !statusIn ? {} : { status: { [Op.or]: statusIn } };
+
+      return WorkItem.findAll({
+        where: {
+          ...args,
+          ...optionalArgs
+        }
+      });
     },
     workItem(_, args) {
       const { id } = args;

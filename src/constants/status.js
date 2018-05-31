@@ -10,4 +10,4 @@ const Status = [
 
 export default Status;
 
-export const SwimlaneStatus = [...Status.slice(0, -1)];
+export const SwimlaneStatus = [...Status.slice(0, 2), ...Status.slice(3, -1)];

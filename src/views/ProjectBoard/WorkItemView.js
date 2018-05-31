@@ -99,7 +99,7 @@ class WorkItemView extends React.Component {
                     <SelectBox
                       name="status"
                       text="status"
-                      value={values.type}
+                      value={values.status}
                       onSelect={actions.handleUserInput}
                       options={STATUSES}
                     />

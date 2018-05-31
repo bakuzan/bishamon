@@ -1,6 +1,7 @@
 const Op = require('sequelize').Op;
 
 const { Project, WorkItem, Task } = require('./connectors');
+const { Audit } = require('./connectors/audit');
 const Constants = require('./constants/index');
 const { DoneStatuses, DefaultStatus } = require('./constants/enums');
 
@@ -29,6 +30,9 @@ module.exports = {
     },
     tasks(_, args) {
       return Task.findAll({ where: args });
+    },
+    audits(_, args) {
+      return Audit.findAll({ where: args });
     }
   },
   Mutation: {

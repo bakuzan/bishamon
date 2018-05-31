@@ -2,7 +2,8 @@ const {
   mapArrToGraphqlString,
   ProjectType,
   WorkType,
-  Status
+  Status,
+  AuditType
 } = require('../constants/enums');
 
 const ProjectTypeGQL = `
@@ -23,8 +24,10 @@ const StatusGQL = `
   }
 `;
 
-module.exports = [
-  ProjectTypeGQL,
-  WorkTypeGQL,
-  StatusGQL
-]
+const AuditTypeGQL = `
+  enum AuditType {
+    ${mapArrToGraphqlString(AuditType)}
+  }
+`;
+
+module.exports = [ProjectTypeGQL, WorkTypeGQL, StatusGQL, AuditTypeGQL];

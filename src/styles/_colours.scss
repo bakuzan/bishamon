@@ -1,8 +1,30 @@
-
 $bishamon--jacket: #63636b;
 $bishamon--eyes: #cc7eec;
 $bishamon--hair: #fff9b3;
 
+// Shades
 $black: #000;
-$grey50: #808080;
+$grey--50: #808080; // Grey
+$grey--light: #d3d3d3;
 $white: #fff;
+
+//Colours
+$blue--vivid: #3399ff;
+
+$cyan: #00ffff; // aqua
+
+$green--lime-strong: #33cc33;
+
+$magenta--soft: #da70d6; //Orchid
+$orange: #ff9900;
+
+$red: #f00;
+
+$work-types: (
+  feature: $blue--vivid,
+  bug: $red,
+  enhancement: $green--lime-strong,
+  refactor: $orange,
+  upgrade: $magenta--soft,
+  investigate: $cyan
+);

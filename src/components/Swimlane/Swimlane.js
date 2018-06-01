@@ -5,7 +5,7 @@ import React from 'react';
 import { withDropTarget } from 'components/DragAndDrop';
 import List from 'components/List/List';
 import SwimlaneCard from 'components/SwimlaneCard/SwimlaneCard';
-import { capitaliseEachWord, fromCamelCase } from 'utils/common';
+import { separateAndCapitaliseAll } from 'utils/common';
 
 import './Swimlane.css';
 
@@ -41,7 +41,7 @@ class Swimlane extends React.Component {
         })}
       >
         <div className="swimlane__header">
-          {capitaliseEachWord(fromCamelCase(title))}
+          {separateAndCapitaliseAll(title)}
         </div>
         <List
           columns={1}

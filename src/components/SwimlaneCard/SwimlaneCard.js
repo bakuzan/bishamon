@@ -20,15 +20,19 @@ class SwimlaneCard extends React.Component {
   render() {
     const { linkPath, data = {}, onClick, isSelected, isDragging } = this.props;
     const hasLink = !!linkPath;
+    const hasType = !!data.type;
+    const type = hasType ? data.type.toLowerCase() : '';
 
     return (
       <div
         className={classNames('swimlane-card', 'bottom-spacing', {
+          [`swimlane-card--type_${type}`]: hasType,
           'swimlane-card--can-move': true,
           'swimlane-card--selected': isSelected,
           'swimlane-card--dragging': isDragging
         })}
         onClick={onClick}
+        title={data.type}
         role="button"
         tabIndex="0"
       >

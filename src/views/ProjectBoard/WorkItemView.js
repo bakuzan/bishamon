@@ -9,13 +9,13 @@ import Status from 'constants/status';
 import WorkTypes from 'constants/work-types';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+import { enumDefault } from 'utils/derived-data';
 import {
   enumsToSelectBoxOptions,
   mapWorkItemViewToOptimisticResponse
 } from 'utils/mappers';
 
 const WORK_TYPES = enumsToSelectBoxOptions(WorkTypes);
-const STATUSES = enumsToSelectBoxOptions(Status.slice(1)); // remove 'Todo'
 
 class WorkItemView extends React.Component {
   constructor(props) {
@@ -79,6 +79,11 @@ class WorkItemView extends React.Component {
               onCancel={this.handleCloseAfterAction}
             >
               {({ values, actions }) => {
+                const usableStatuses =
+                  values.status === enumDefault(Status)
+                    ? Status
+                    : Status.slice(1); // remove 'Todo'
+                const STATUSES = enumsToSelectBoxOptions(usableStatuses);
                 return (
                   <React.Fragment>
                     <ClearableInput

@@ -43,9 +43,10 @@ module.exports = {
     workItemCreate(_, { projectId, ...args }) {
       return WorkItem.create({ ...args, status: DefaultStatus }).then(
         workItem =>
-          Project.findById(projectId).then(project =>
-            project.addWorkItem(workItem)
-          )
+          Project.findById(projectId).then(project => {
+            project.addWorkItem(workItem);
+            return workItem;
+          })
       );
     },
     workItemUpdate(_, { id, ...args }) {
@@ -56,7 +57,10 @@ module.exports = {
     },
     taskCreate(_, { workItemId, ...args }) {
       return Task.create({ ...args, status: DefaultStatus }).then(task =>
-        WorkItem.findById(workItemId).then(workItem => workItem.addTask(task))
+        WorkItem.findById(workItemId).then(workItem => {
+          workItem.addTask(task);
+          return task;
+        })
       );
     },
     taskUpdate(_, { id, ...args }) {

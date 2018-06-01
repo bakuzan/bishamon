@@ -5,7 +5,7 @@ function mapToAudit(fieldName, newData, oldData = {}) {
   return {
     itemId: newData.id,
     type: AuditWorkItem,
-    fieldName: fieldName,
+    fieldName,
     oldValue: oldData[fieldName] || '',
     newValue: newData[fieldName] || ''
   };
@@ -17,19 +17,27 @@ const afterCreate = (instance, options) => {
     mapToAudit('type', dataValues),
     mapToAudit('status', dataValues)
   ]);
+  return instance;
 };
 
 const afterUpdate = (instance, options) => {
   const { dataValues, _previousDataValues, _changed } = instance;
   const updateChanges = [];
   if (_changed.type) {
-    updateChanges.concat([mapToAudit('type', dataValues, _previousDataValues)]);
+    updateChanges.push(mapToAudit('type', dataValues, _previousDataValues));
   }
   if (_changed.status) {
-    updateChanges.concat([
-      mapToAudit('status', dataValues, _previousDataValues)
-    ]);
+    updateChanges.push(mapToAudit('status', dataValues, _previousDataValues));
   }
-  Audit.bulkCreate(updateChanges);
+  if (updateChanges.length) {
+    Audit.bulkCreate(updateChanges).then(audits =>
+      console.log(`Created ${updateChanges.length} new audit(s)`)
+    );
+  }
   return instance;
+};
+
+module.exports = {
+  afterCreate,
+  afterUpdate
 };

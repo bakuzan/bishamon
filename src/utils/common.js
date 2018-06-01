@@ -20,6 +20,11 @@ export const fromCamelCase = (str, separator = ' ') =>
     .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2')
     .toLowerCase();
 
+export const separateAndCapitaliseAll = Utils.Common.compose(
+  capitaliseEachWord,
+  fromCamelCase
+);
+
 export const dataIdForObject = o => `${o.__typename}_${o.id}`;
 
 export const getAppSettings = () =>

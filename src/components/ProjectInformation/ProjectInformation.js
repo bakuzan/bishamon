@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { separateAndCapitaliseAll } from 'utils/common';
 import './ProjectInformation.css';
 
 class ProjectInformation extends React.PureComponent {
@@ -12,7 +13,9 @@ class ProjectInformation extends React.PureComponent {
       ? `${project.name} - ${workItem.name}`
       : project.name;
     const type = hasWorkItem ? workItem.type : project.type;
-
+    const status = hasWorkItem
+      ? ` - ${separateAndCapitaliseAll(workItem.status)}`
+      : '';
     return (
       <section className="project-information">
         <header
@@ -20,7 +23,10 @@ class ProjectInformation extends React.PureComponent {
           style={{ borderLeftColor: project.primaryColour }}
         >
           <div className="project-header__text">{name}</div>
-          <div className="project-header__text">{type}</div>
+          <div className="project-header__text">
+            {type}
+            {status}
+          </div>
         </header>
         {this.props.headerContent}
         <div className="project-information__children top-spacing">

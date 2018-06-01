@@ -1,11 +1,23 @@
 @import '../../styles/_variables';
 
+$border-width: 3px;
+
 .swimlane-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: calc(100% - #{$app--standard-padding * 2});
+  width: calc(100% - #{$app--standard-padding * 2} - #{$border-width});
   min-height: 3em;
   padding: $app--standard-padding;
+  border-left: $border-width solid transparent;
+
+  &--type_ {
+    @each $wt, $value in $work-types {
+      &#{$wt} {
+        border-left-color: $value;
+      }
+    }
+  }
 
   &--can-move {
     cursor: pointer;

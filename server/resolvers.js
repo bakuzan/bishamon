@@ -4,6 +4,7 @@ const { Project, WorkItem, Task } = require('./connectors');
 const { Audit } = require('./connectors/audit');
 const Constants = require('./constants/index');
 const { DoneStatuses, DefaultStatus } = require('./constants/enums');
+const Utils = require('./utils');
 
 module.exports = {
   Query: {
@@ -39,21 +40,30 @@ module.exports = {
     projectCreate(_, args) {
       return Project.create({ ...args });
     },
-    workItemCreate(_, args) {
-      return WorkItem.create({ ...args, status: DefaultStatus });
+    workItemCreate(_, { projectId, ...args }) {
+      return WorkItem.create({ ...args, status: DefaultStatus }).then(
+        workItem =>
+          Project.findById(projectId).then(project =>
+            project.addWorkItem(workItem)
+          )
+      );
     },
     workItemUpdate(_, { id, ...args }) {
-      return WorkItem.update({ ...args }, { where: { id } }).then(count =>
-        WorkItem.findById(id)
-      );
+      return WorkItem.update(
+        { ...args },
+        { where: { id }, individualHooks: true }
+      ).then(count => WorkItem.findById(id));
     },
-    taskCreate(_, args) {
-      return Task.create({ ...args, status: DefaultStatus });
+    taskCreate(_, { workItemId, ...args }) {
+      return Task.create({ ...args, status: DefaultStatus }).then(task =>
+        WorkItem.findById(workItemId).then(workItem => workItem.addTask(task))
+      );
     },
     taskUpdate(_, { id, ...args }) {
-      return Task.update({ ...args }, { where: { id } }).then(count =>
-        Task.findById(id)
-      );
+      return Task.update(
+        { ...args },
+        { where: { id }, individualHooks: true }
+      ).then(count => Task.findById(id));
     }
   },
   Project: {
@@ -89,6 +99,11 @@ module.exports = {
     },
     tasks(workItem) {
       return workItem.getTasks();
+    }
+  },
+  Audit: {
+    updatedAt(audit) {
+      return Utils.formatDateISO(audit.updatedAt);
     }
   }
 };

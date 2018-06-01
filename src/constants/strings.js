@@ -9,5 +9,5 @@ export default Object.freeze({
   },
   appSettingsStorage: 'bishamonAppSettings',
   themes,
-  defaultTheme: themes.get('default')
+  defaultTheme: themes.get('default').value
 });

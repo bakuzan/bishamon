@@ -6,5 +6,6 @@ module.exports = `
     fieldName: String
     oldValue: String
     newValue: String
+    updatedAt: String
   }
 `;

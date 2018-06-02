@@ -12,8 +12,51 @@ $theme-maps: (
       button--background: $bishamon--jacket,
       button--colour: $bishamon--hair,
       button-link--colour: $bishamon--jacket
+    ),
+  theme-two:
+    (
+      base-background: $bishamon--suit--trim,
+      base-colour: $bishamon--suit--base,
+      accent-colour: $bishamon--suit--lining,
+      header-background: $bishamon--suit--base,
+      header-colour: $bishamon--suit--trim,
+      button--background: $bishamon--suit--base,
+      button--colour: $bishamon--suit--trim,
+      button-link--colour: $bishamon--suit--base
+    ),
+  theme-three:
+    (
+      base-background: $bishamon--knight--armour,
+      base-colour: $bishamon--knight--skirt,
+      accent-colour: $bishamon--knight--underskirt,
+      header-background: $bishamon--knight--skirt,
+      header-colour: $bishamon--knight--armour,
+      button--background: $bishamon--knight--skirt,
+      button--colour: $bishamon--knight--armour,
+      button-link--colour: $bishamon--knight--skirt
+    ),
+  theme-four:
+    (
+      base-background: $bishamon--warlord--base,
+      base-colour: $bishamon--warlord--trim,
+      accent-colour: $bishamon--warlord--pattern,
+      header-background: $bishamon--warlord--trim,
+      header-colour: $bishamon--warlord--base,
+      button--background: $bishamon--warlord--trim,
+      button--colour: $bishamon--warlord--base,
+      button-link--colour: $bishamon--warlord--trim
+    ),
+  theme-five:
+    (
+      base-background: $bishamon--kimono--base,
+      base-colour: $bishamon--kimono--obi,
+      accent-colour: $bishamon--kimono--pattern,
+      header-background: $bishamon--kimono--obi,
+      header-colour: $bishamon--kimono--base,
+      button--background: $bishamon--kimono--obi,
+      button--colour: $bishamon--kimono--base,
+      button-link--colour: $bishamon--kimono--obi
     )
-    /* TODO add theme-two*/
 );
 @each $theme-name, $values in $theme-maps {
   $base-background: map-get($values, base-background);

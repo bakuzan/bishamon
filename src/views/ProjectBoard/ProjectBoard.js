@@ -1,9 +1,12 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
+import Tabs from 'components/Tabs';
 import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
+import List from 'components/List/List';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
+import WorkItemCard from 'components/WorkItemCard/WorkItemCard';
 import ProjectBoardCreate from './ProjectBoardCreate';
 import WorkItemView from './WorkItemView';
 import Fetch from 'queries/fetch';
@@ -12,6 +15,7 @@ import Mutate from 'queries/mutate';
 import Routes, { PROJECT_LIST_URL } from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
 import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
+import * as PBU from './ProjectBoardUtils';
 
 class ProjectBoard extends React.Component {
   constructor(props) {
@@ -86,18 +90,33 @@ class ProjectBoard extends React.Component {
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
                   {({ loading, error, data = {} }) => {
                     return (
-                      <Board
-                        data={data.workItems}
-                        swimlaneCardLinkPath={workItemDetailUrl}
-                        mutationProps={mutationProps}
-                        renderSelectedCardView={({ selectedId, closeView }) => (
-                          <WorkItemView
-                            projectId={projectId}
-                            id={selectedId}
-                            closeView={closeView}
+                      <Tabs.TabContainer>
+                        <Tabs.TabView name="Board">
+                          <Board
+                            data={data.workItems}
+                            swimlaneCardLinkPath={workItemDetailUrl}
+                            mutationProps={mutationProps}
+                            renderSelectedCardView={({
+                              selectedId,
+                              closeView
+                            }) => (
+                              <WorkItemView
+                                projectId={projectId}
+                                id={selectedId}
+                                closeView={closeView}
+                              />
+                            )}
                           />
-                        )}
-                      />
+                        </Tabs.TabView>
+                        <Tabs.TabView name="On Hold">
+                          <List
+                            items={PBU.filterListForOnHoldTasks(data.workItems)}
+                            itemTemplate={item => (
+                              <WorkItemCard key={item.id} data={item} />
+                            )}
+                          />
+                        </Tabs.TabView>
+                      </Tabs.TabContainer>
                     );
                   }}
                 </Query>

@@ -17,7 +17,7 @@ $theme-maps: (
     (
       base-background: $bishamon--suit--trim,
       base-colour: $bishamon--suit--base,
-      accent-colour: $bishamon--suit--lining,
+      accent-colour: $bishamon--hair,
       header-background: $bishamon--suit--base,
       header-colour: $bishamon--suit--trim,
       button--background: $bishamon--suit--base,
@@ -64,6 +64,7 @@ $theme-maps: (
   $accent-colour: map-get($values, accent-colour);
   $header-background: map-get($values, header-background);
   $header-colour: map-get($values, header-colour);
+  $button-colour: map-get($values, button--colour);
   .app--theme_#{$theme-name} {
     &.app {
       background-color: $base-background;
@@ -101,9 +102,15 @@ $theme-maps: (
         @include standard-shadow($accent-colour);
       }
     }
+    .bishamon-button:not(.primary) {
+      background-color: $base-background;
+      &:hover {
+        background-color: darken($base-background, $button--darken-percentage);
+      }
+    }
     .bishamon-button.primary {
       background-color: map-get($values, button--background);
-      color: map-get($values, button--colour);
+      color: $button-colour;
       &:hover {
         background-color: darken(
           map-get($values, button--background),
@@ -119,6 +126,19 @@ $theme-maps: (
           $button--darken-percentage
         );
       }
+    }
+    .bishamon-tabs {
+      & > li {
+        border-color: $base-background;
+        border-bottom-color: $base-colour;
+        &.active {
+          border-color: $base-colour;
+          border-bottom-color: $base-background;
+        }
+      }
+    }
+    .bishamon-tab-panels {
+      border-top-color: $base-colour;
     }
   }
 }

@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { SwimlaneStatus } from 'constants/status';
+import { SwimlaneStatus, OnHold } from 'constants/status';
 
 function mapStatuses() {
-  return SwimlaneStatus.join(',');
+  return SwimlaneStatus.concat([OnHold]).join(',');
 }
 
 export const projectWorkItems = gql`

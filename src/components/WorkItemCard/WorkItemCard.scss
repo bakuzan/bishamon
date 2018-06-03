@@ -1,0 +1,10 @@
+@import '../../styles/_extendables';
+
+.work-item-card {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  min-height: 3em;
+  padding: $app--standard-padding;
+  @extend %work-item-type-colour;
+}

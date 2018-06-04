@@ -7,4 +7,8 @@
   min-height: 3em;
   padding: $app--standard-padding;
   @extend %work-item-type-colour;
+
+  &__name {
+    padding: $app--standard-padding 0;
+  }
 }

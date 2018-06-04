@@ -18,8 +18,8 @@ module.exports = (db, Types) => {
     },
     {
       hooks: {
-        afterCreate,
-        afterUpdate
+        afterCreate: afterCreate(AuditWorkItem),
+        afterUpdate: afterUpdate(AuditWorkItem)
       }
     }
   );

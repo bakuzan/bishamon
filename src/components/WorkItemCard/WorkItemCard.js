@@ -36,7 +36,7 @@ class WorkItemCard extends React.PureComponent {
               `work-item-card--type_${type}`
             ])}
           >
-            <div>{data.name}</div>
+            <div className="work-item-card__name">{data.name}</div>
             <div className="work-item-card__detail">
               <div>{data.description}</div>
               <div className="button-group align-right">

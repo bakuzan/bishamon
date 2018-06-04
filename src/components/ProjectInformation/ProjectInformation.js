@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import React from 'react';
 
 import { separateAndCapitaliseAll } from 'utils/common';
@@ -13,6 +14,7 @@ class ProjectInformation extends React.PureComponent {
       ? `${project.name} - ${workItem.name}`
       : project.name;
     const type = hasWorkItem ? workItem.type : project.type;
+    const typeLower = type ? type.toLowerCase() : '';
     const status = hasWorkItem
       ? ` - ${separateAndCapitaliseAll(workItem.status)}`
       : '';
@@ -23,7 +25,11 @@ class ProjectInformation extends React.PureComponent {
           style={{ borderLeftColor: project.primaryColour }}
         >
           <div className="project-header__text">{name}</div>
-          <div className="project-header__text">
+          <div
+            className={classNames('project-header__text', {
+              [`project-header__text--type_${typeLower}`]: hasWorkItem
+            })}
+          >
             {type}
             {status}
           </div>

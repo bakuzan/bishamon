@@ -1,4 +1,5 @@
 @import '../../styles/_extendables';
+@import '../../styles/_mixins';
 
 .project-information {
   @extend %project-container;
@@ -8,6 +9,7 @@
 
   &__header {
     @extend %project-text;
+    padding: 0 $app--standard-padding;
   }
   &__children {
     display: flex;
@@ -18,5 +20,6 @@
 .project-header {
   &__text {
     padding: $app--standard-padding / 2;
+    @include work-item-type-border;
   }
 }

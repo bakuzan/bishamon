@@ -20,7 +20,7 @@ module.exports = (db, Types) => {
         afterCreate: afterCreate(AuditTask),
         afterUpdate: (...params) => {
           afterUpdateAudit(...params);
-          afterUpdateTask(...params);
+          afterUpdateTask(db, ...params);
         }
       }
     }

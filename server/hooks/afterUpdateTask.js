@@ -1,22 +1,55 @@
-const { WorkItem } = require('../connectors');
-const { DoneStatuses, ItemStatus } = require('../constants/enums');
+const {
+  DefaultStatus,
+  NotDoneStatus,
+  DoneStatuses,
+  ItemStatus
+} = require('../constants/enums');
+const Utils = require('../utils');
 
-module.exports = (instance, options) => {
+function updateWorkItemStatus(db, workItem, status) {
+  db.models.workItem.update(
+    { status },
+    { where: { id: workItem.id }, individualHooks: true }
+  );
+}
+
+const updateWorkItemPostTaskChange = (db, workItemId) => (where, taskCheck) => {
+  db.models.workItem.findById(workItemId).then(workItem =>
+    workItem.getTasks({ where }).then(tasks => {
+      const newStatus = taskCheck(tasks);
+      if (newStatus && workItem.status !== newStatus) {
+        updateWorkItemStatus(db, workItem, newStatus);
+      }
+    })
+  );
+};
+
+module.exports = (db, instance, options) => {
   const { dataValues, _previousDataValues, _changed } = instance;
   console.log('task update', _changed);
   if (!_changed.status) return instance;
-  console.log('status change >', instance);
+  const checkWorkItemTasks = updateWorkItemPostTaskChange(
+    db,
+    dataValues.workItemId
+  );
+
   if (
     dataValues.status === ItemStatus.InProgress &&
     _previousDataValues.status === ItemStatus.Todo
   ) {
-    console.log('set work item to InProgress if is Todo');
-  } else if (DoneStatuses.includes(dataValues.status)) {
-    console.log(
-      'set work item to the least far along task of the done statuses'
+    checkWorkItemTasks(
+      { status: DefaultStatus },
+      tasks => (tasks.length === 0 ? ItemStatus.InProgress : undefined)
     );
-    // i.e. If the least complete task is at Testing, then set Testing.
-    //      If is at DevComplete, then DevComplete etc.
+  } else if (DoneStatuses.includes(dataValues.status)) {
+    checkWorkItemTasks({}, tasks => {
+      const taskStatuses = tasks.reduce((p, c) => {
+        const data = p.has(c.status) ? p.get(c.status) : [];
+        return p.set(c.status, [...data, c]);
+      }, new Map([]));
+      if (Utils.checkMapForKeys(taskStatuses, NotDoneStatus)) return undefined;
+      return Utils.firstAvailableKey(taskStatuses, DoneStatuses);
+    });
   }
 
   return instance;

@@ -36,7 +36,7 @@ const afterUpdate = auditType => (instance, options) => {
   }
   if (updateChanges.length) {
     Audit.bulkCreate(updateChanges).then(audits =>
-      console.log(`Created ${updateChanges.length} new audit(s)`)
+      console.log(`Created ${updateChanges.length} new audit(s)`, dataValues)
     );
   }
   return instance;

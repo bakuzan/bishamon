@@ -128,9 +128,8 @@ $theme-maps: (
       }
     }
     .bishamon-tabs {
-      & > li {
+      & li[role='tab'] {
         border-color: $base-background;
-        border-bottom-color: $base-colour;
         &.active {
           border-color: $base-colour;
           border-bottom-color: $base-background;

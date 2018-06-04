@@ -11,15 +11,3 @@
   padding: $app--standard-padding;
   border-left: 3px solid;
 }
-
-%work-item-type-colour {
-  border-left: $cards--coloured-border-width solid transparent;
-
-  &--type_ {
-    @each $wt, $value in $work-types {
-      &#{$wt} {
-        border-left-color: $value;
-      }
-    }
-  }
-}

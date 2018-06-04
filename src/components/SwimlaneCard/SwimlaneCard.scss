@@ -1,5 +1,5 @@
 @import '../../styles/_variables';
-@import '../../styles/_extendables';
+@import '../../styles/_mixins';
 
 .swimlane-card {
   position: relative;
@@ -10,8 +10,7 @@
   );
   min-height: 3em;
   padding: $app--standard-padding;
-  @extend %work-item-type-colour;
-
+  @include work-item-type-border;
   &--can-move {
     cursor: pointer;
   }
@@ -19,7 +18,6 @@
     opacity: 0.5;
     box-shadow: none !important;
   }
-
   &__name {
     display: flex;
   }

@@ -1,3 +1,15 @@
 @mixin standard-shadow($colour) {
   box-shadow: 2px 2px 10px $colour;
 }
+
+@mixin work-item-type-border {
+  border-left: $cards--coloured-border-width solid transparent;
+
+  &--type_ {
+    @each $wt, $value in $work-types {
+      &#{$wt} {
+        border-left-color: $value;
+      }
+    }
+  }
+}

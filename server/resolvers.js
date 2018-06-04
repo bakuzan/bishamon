@@ -91,15 +91,12 @@ module.exports = {
   },
   WorkItem: {
     taskRatio(workItem) {
-      return Task.findAll({ where: { workItemId: workItem.id } }).then(
-        tasks => {
-          const total = tasks.length;
-          const done = tasks.filter(t => DoneStatuses.includes(t.status))
-            .length;
-          if (!total) return 'N/A';
-          return `${done}/${total}`;
-        }
-      );
+      return workItem.getTasks().then(tasks => {
+        const total = tasks.length;
+        const done = tasks.filter(t => DoneStatuses.includes(t.status)).length;
+        if (!total) return 'N/A';
+        return `${done}/${total}`;
+      });
     },
     tasks(workItem) {
       return workItem.getTasks();

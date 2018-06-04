@@ -6,7 +6,7 @@ import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
 import List from 'components/List/List';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
-import WorkItemCard from 'components/WorkItemCard/WorkItemCard';
+import { WorkItemCard } from 'components/ItemCard';
 import ProjectBoardCreate from './ProjectBoardCreate';
 import WorkItemView from './WorkItemView';
 import Fetch from 'queries/fetch';
@@ -15,7 +15,7 @@ import Mutate from 'queries/mutate';
 import Routes, { PROJECT_LIST_URL } from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
 import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
-import * as PBU from './ProjectBoardUtils';
+import { filterListForOnHoldItems } from 'utils/filters';
 
 class ProjectBoard extends React.Component {
   constructor(props) {
@@ -110,7 +110,7 @@ class ProjectBoard extends React.Component {
                         </Tabs.TabView>
                         <Tabs.TabView name="On Hold">
                           <List
-                            items={PBU.filterListForOnHoldTasks(data.workItems)}
+                            items={filterListForOnHoldItems(data.workItems)}
                             itemTemplate={item => (
                               <WorkItemCard key={item.id} data={item} />
                             )}

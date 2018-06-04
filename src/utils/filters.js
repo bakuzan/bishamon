@@ -1,4 +1,4 @@
 import { OnHold } from 'constants/status';
 
-export const filterListForOnHoldTasks = (items = []) =>
+export const filterListForOnHoldItems = (items = []) =>
   items.filter(x => x.status === OnHold);

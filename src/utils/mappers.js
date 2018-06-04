@@ -22,3 +22,11 @@ export const mapWorkItemViewToOptimisticResponse = values => {
     }
   });
 };
+
+export const mapTaskViewToOptimisticResponse = values => {
+  return mapOptimisticResponse({
+    taskUpdate: {
+      ...values
+    }
+  });
+};

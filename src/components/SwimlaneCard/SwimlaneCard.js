@@ -19,7 +19,7 @@ class SwimlaneCard extends React.Component {
 
   render() {
     const { linkPath, data = {}, onClick, isSelected, isDragging } = this.props;
-    const hasLink = !!linkPath;
+    const buttonLink = !!linkPath ? `${linkPath}/${data.id}` : '#';
     const hasType = !!data.type;
     const type = hasType ? data.type.toLowerCase() : '';
 
@@ -39,8 +39,7 @@ class SwimlaneCard extends React.Component {
         <div className={classNames('swimlane-card__name')}>
           <ButtonisedNavLink
             className={classNames('swimlane-card__link')}
-            to={`${linkPath}/${data.id}`}
-            disabled={!hasLink}
+            to={buttonLink}
           >
             {data.name}
           </ButtonisedNavLink>

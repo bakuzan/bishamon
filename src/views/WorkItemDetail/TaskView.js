@@ -6,18 +6,15 @@ import { ClearableInput, SelectBox } from 'meiko';
 import Form from 'components/Form/Form';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Status from 'constants/status';
-import WorkTypes from 'constants/work-types';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { enumDefault } from 'utils/derived-data';
 import {
   enumsToSelectBoxOptions,
-  mapWorkItemViewToOptimisticResponse
+  mapTaskViewToOptimisticResponse
 } from 'utils/mappers';
 
-const WORK_TYPES = enumsToSelectBoxOptions(WorkTypes);
-
-class WorkItemView extends React.Component {
+class TaskView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,26 +29,26 @@ class WorkItemView extends React.Component {
   handleCacheUpdate(
     cache,
     {
-      data: { workItemUpdate }
+      data: { taskUpdate }
     }
   ) {
-    const { id, projectId } = this.props;
-    const { workItems = [] } = cache.readQuery({
-      query: Fetch.projectWorkItems,
-      variables: { projectId }
+    const { id, workItemId } = this.props;
+    const { tasks = [] } = cache.readQuery({
+      query: Fetch.workItemTasks,
+      variables: { workItemId }
     });
 
-    const index = workItems.findIndex(x => x.id === id);
-    const oldWorkItem = workItems[index];
+    const index = tasks.findIndex(x => x.id === id);
+    const oldTask = tasks[index];
 
     cache.writeQuery({
-      query: Fetch.projectWorkItems,
-      variables: { projectId },
+      query: Fetch.workItemTasks,
+      variables: { workItemId },
       data: {
-        workItems: [
-          ...workItems.slice(0, index),
-          { ...oldWorkItem, ...workItemUpdate },
-          ...workItems.slice(index + 1)
+        tasks: [
+          ...tasks.slice(0, index),
+          { ...oldTask, ...taskUpdate },
+          ...tasks.slice(index + 1)
         ]
       }
     });
@@ -60,21 +57,21 @@ class WorkItemView extends React.Component {
   render() {
     const { id } = this.props;
     const mutationProps = {
-      mutation: Mutate.workItemUpdate,
+      mutation: Mutate.taskUpdate,
       onCompleted: this.handleCloseAfterAction,
       update: this.handleCacheUpdate,
-      buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
+      buildOptimisticResponse: mapTaskViewToOptimisticResponse
     };
 
     return (
-      <Query query={Fetch.workItemById} variables={{ id }}>
+      <Query query={Fetch.taskById} variables={{ id }}>
         {({ loading, error, data = {} }) => {
           if (loading) return <DelayedLoader />;
           return (
             <Form
               className="card-form"
-              formName="work-item-edit"
-              defaults={data.workItem}
+              formName="task-edit"
+              defaults={data.task}
               mutationProps={mutationProps}
               onCancel={this.handleCloseAfterAction}
             >
@@ -99,13 +96,6 @@ class WorkItemView extends React.Component {
                       onChange={actions.handleUserInput}
                     />
                     <SelectBox
-                      name="type"
-                      text="type"
-                      value={values.type}
-                      onSelect={actions.handleUserInput}
-                      options={WORK_TYPES}
-                    />
-                    <SelectBox
                       name="status"
                       text="status"
                       value={values.status}
@@ -123,10 +113,10 @@ class WorkItemView extends React.Component {
   }
 }
 
-WorkItemView.propTypes = {
-  projectId: PropTypes.number.isRequired,
+TaskView.propTypes = {
+  workItemId: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   closeView: PropTypes.func.isRequired
 };
 
-export default WorkItemView;
+export default TaskView;

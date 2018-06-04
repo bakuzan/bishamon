@@ -25,3 +25,24 @@ export const taskStatusUpdate = gql`
     }
   }
 `;
+
+export const taskUpdate = gql`
+  mutation taskUpdate(
+    $id: Int!
+    $name: String
+    $description: String
+    $status: Status
+  ) {
+    taskUpdate(
+      id: $id
+      name: $name
+      description: $description
+      status: $status
+    ) {
+      id
+      name
+      description
+      status
+    }
+  }
+`;

@@ -10,3 +10,14 @@ export const workItemTasks = gql`
     }
   }
 `;
+
+export const taskById = gql`
+  query taskById($id: Int) {
+    task(id: $id) {
+      id
+      name
+      description
+      status
+    }
+  }
+`;

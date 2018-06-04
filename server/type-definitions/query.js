@@ -5,6 +5,7 @@ const Query = `
     workItems(projectId: Int, status: Status, statusIn: [Status]): [WorkItem]
     workItem(id: Int): WorkItem
     tasks(workItemId: Int, status: Status): [Task]
+    task(id: Int): Task
 
     audits(itemId: Int, type: AuditType): [Audit]
   }

@@ -32,6 +32,10 @@ module.exports = {
     tasks(_, args) {
       return Task.findAll({ where: args });
     },
+    task(_, args) {
+      const { id } = args;
+      return Task.findById(id);
+    },
     audits(_, args) {
       return Audit.findAll({ where: args });
     }

@@ -1,15 +1,21 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
+import Tabs from 'components/Tabs';
 import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
+import List from 'components/List/List';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
+import { TaskCard } from 'components/ItemCard';
 import WorkItemDetailCreate from './WorkItemDetailCreate';
+import TaskView from './TaskView';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
 import Routes from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
+import { mapTaskViewToOptimisticResponse } from 'utils/mappers';
+import { filterListForOnHoldItems } from 'utils/filters';
 
 const RE = `\\${Routes.workItemDetail}.*$`;
 const EXTRACT_BACK_URL = new RegExp(RE, 'g');
@@ -56,7 +62,8 @@ class WorkItemDetail extends React.Component {
     const workItemId = Number(match.params.workItemId);
     const mutationProps = {
       mutation: Mutate.taskStatusUpdate,
-      update: this.handleCacheUpdate
+      update: this.handleCacheUpdate,
+      buildOptimisticResponse: mapTaskViewToOptimisticResponse
     };
 
     return (
@@ -88,7 +95,32 @@ class WorkItemDetail extends React.Component {
                 <Query query={Fetch.workItemTasks} variables={{ workItemId }}>
                   {({ loading, error, data = {} }) => {
                     return (
-                      <Board data={data.tasks} mutationProps={mutationProps} />
+                      <Tabs.TabContainer>
+                        <Tabs.TabView name="Board">
+                          <Board
+                            data={data.tasks}
+                            mutationProps={mutationProps}
+                            renderSelectedCardView={({
+                              selectedId,
+                              closeView
+                            }) => (
+                              <TaskView
+                                workItemId={workItemId}
+                                id={selectedId}
+                                closeView={closeView}
+                              />
+                            )}
+                          />
+                        </Tabs.TabView>
+                        <Tabs.TabView name="On Hold">
+                          <List
+                            items={filterListForOnHoldItems(data.tasks)}
+                            itemTemplate={item => (
+                              <TaskCard key={item.id} data={item} />
+                            )}
+                          />
+                        </Tabs.TabView>
+                      </Tabs.TabContainer>
                     );
                   }}
                 </Query>

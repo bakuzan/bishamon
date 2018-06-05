@@ -7,6 +7,7 @@ const {
 const Utils = require('../utils');
 
 function updateWorkItemStatus(db, workItem, status) {
+  console.log('update workitem status to > ', status);
   db.models.workItem.update(
     { status },
     { where: { id: workItem.id }, individualHooks: true }
@@ -47,7 +48,8 @@ module.exports = (db, instance, options) => {
         const data = p.has(c.status) ? p.get(c.status) : [];
         return p.set(c.status, [...data, c]);
       }, new Map([]));
-      if (Utils.checkMapForKeys(taskStatuses, NotDoneStatus)) return undefined;
+      if (Utils.checkMapForKeys(taskStatuses, NotDoneStatuses))
+        return undefined;
       return Utils.firstAvailableKey(taskStatuses, DoneStatuses);
     });
   }

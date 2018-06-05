@@ -1,4 +1,4 @@
-import { generateUniqueId, capitaliseEachWord, fromCamelCase } from './common';
+import { generateUniqueId, separateAndCapitaliseAll } from './common';
 
 export const projectColourModel = code => ({
   id: generateUniqueId(),
@@ -6,7 +6,7 @@ export const projectColourModel = code => ({
 });
 
 export const enumsToSelectBoxOptions = arr =>
-  arr.map(value => ({ value, text: capitaliseEachWord(fromCamelCase(value)) }));
+  arr.map(value => ({ value, text: separateAndCapitaliseAll(value) }));
 
 const mapOptimisticResponse = obj => {
   return {

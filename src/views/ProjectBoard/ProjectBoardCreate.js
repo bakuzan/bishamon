@@ -33,7 +33,7 @@ class ProjectBoardCreate extends React.PureComponent {
           variables: { projectId },
           data: {
             workItems: workItems.concat([
-              { ...workItemCreate, taskRatio: null }
+              { ...workItemCreate, taskRatio: 'N/A' }
             ])
           }
         });

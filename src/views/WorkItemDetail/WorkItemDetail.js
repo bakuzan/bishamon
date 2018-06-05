@@ -12,10 +12,9 @@ import TaskView from './TaskView';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
+import Strings from 'constants/strings';
 import Routes from 'constants/routes';
-import { dataIdForObject } from 'utils/common';
-import { mapTaskViewToOptimisticResponse } from 'utils/mappers';
-import { filterListForOnHoldItems } from 'utils/filters';
+import { Common, Mappers, Filters, DerivedData } from 'utils';
 
 const RE = `\\${Routes.workItemDetail}.*$`;
 const EXTRACT_BACK_URL = new RegExp(RE, 'g');
@@ -29,6 +28,7 @@ class WorkItemDetail extends React.Component {
 
     this.handleAdd = this.handleAdd.bind(this);
     this.handleResolvingAdd = this.handleResolvingAdd.bind(this);
+    this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
   handleAdd() {
@@ -45,11 +45,38 @@ class WorkItemDetail extends React.Component {
       data: { taskUpdate }
     }
   ) {
+    const workItemId = Number(this.props.match.params.workItemId);
     const { status, __typename } = taskUpdate;
     cache.writeFragment({
-      id: dataIdForObject(taskUpdate),
+      id: Common.dataIdForObject(taskUpdate),
       fragment: Fragment.taskStatus,
       data: { status, __typename }
+    });
+
+    const { workItem } = cache.readQuery({
+      query: Fetch.workItemById,
+      variables: { id: workItemId }
+    });
+    const { tasks } = cache.readQuery({
+      query: Fetch.workItemTasks,
+      variables: { workItemId }
+    });
+    const taskRatio = DerivedData.calculateWorkItemTaskRatio(tasks);
+    const workItemStatus = DerivedData.resolveWorkItemStatusFromTasks(
+      workItem,
+      tasks
+    );
+    cache.writeFragment({
+      id: Common.dataIdForObject({
+        id: workItemId,
+        __typename: Strings.dataTypes.workItem
+      }),
+      fragment: Fragment.workItemUpdateBasedOnTasks,
+      data: {
+        status: workItemStatus,
+        taskRatio,
+        __typename: Strings.dataTypes.workItem
+      }
     });
   }
 
@@ -62,7 +89,7 @@ class WorkItemDetail extends React.Component {
     const mutationProps = {
       mutation: Mutate.taskStatusUpdate,
       update: this.handleCacheUpdate,
-      buildOptimisticResponse: mapTaskViewToOptimisticResponse
+      buildOptimisticResponse: Mappers.mapTaskViewToOptimisticResponse
     };
 
     return (
@@ -113,7 +140,7 @@ class WorkItemDetail extends React.Component {
                         </Tabs.TabView>
                         <Tabs.TabView name="On Hold">
                           <List
-                            items={filterListForOnHoldItems(data.tasks)}
+                            items={Filters.filterListForOnHoldItems(data.tasks)}
                             itemTemplate={item => (
                               <TaskCard key={item.id} data={item} />
                             )}

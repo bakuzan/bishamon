@@ -1,20 +1,7 @@
-import gql from 'graphql-tag';
-
-const workItemStatus = gql`
-  fragment workItemStatus on WorkItem {
-    status
-    __typename
-  }
-`;
-
-const taskStatus = gql`
-  fragment taskStatus on Task {
-    status
-    __typename
-  }
-`;
+import * as workItemFragments from './work-item';
+import * as taskFragments from './task';
 
 export default {
-  workItemStatus,
-  taskStatus
+  ...workItemFragments,
+  ...taskFragments
 };

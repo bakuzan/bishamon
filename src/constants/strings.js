@@ -12,5 +12,10 @@ export default Object.freeze({
   },
   appSettingsStorage: 'bishamonAppSettings',
   themes,
-  defaultTheme: themes.get('default').value
+  defaultTheme: themes.get('default').value,
+  dataTypes: {
+    project: 'Project',
+    workItem: 'WorkItem',
+    task: 'Task'
+  }
 });

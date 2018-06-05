@@ -13,7 +13,7 @@ class ProjectCard extends React.PureComponent {
     const { data } = this.props;
     return (
       <li
-        className="project-card"
+        className="project-card bottom-spacing"
         style={{ borderLeftColor: data.primaryColour }}
       >
         <ButtonisedNavLink

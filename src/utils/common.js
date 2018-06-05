@@ -25,7 +25,7 @@ export const separateAndCapitaliseAll = Utils.Common.compose(
   fromCamelCase
 );
 
-export const dataIdForObject = o => `${o.__typename}_${o.id}`;
+export const dataIdForObject = o => `${o.__typename}:${o.id}`;
 
 export const getAppSettings = () =>
   Utils.Common.getObjectFromLocalStorageByProperty(Strings.appSettingsStorage);
@@ -33,3 +33,10 @@ export const getAppSettings = () =>
 export const saveAppSettings = Utils.Common.persistObjectToLocalStorage(
   Strings.appSettingsStorage
 );
+
+export const createMapFromArray = (arr, prop = 'id') => {
+  return arr.reduce((p, c) => {
+    const list = p.has(c.status) ? p.get(c.status) : [];
+    return p.set(c.status, [...list, c]);
+  }, new Map([]));
+};

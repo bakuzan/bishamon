@@ -46,7 +46,6 @@ class WorkItemDetail extends React.Component {
     }
   ) {
     const { status, __typename } = taskUpdate;
-    console.log(taskUpdate);
     cache.writeFragment({
       id: dataIdForObject(taskUpdate),
       fragment: Fragment.taskStatus,

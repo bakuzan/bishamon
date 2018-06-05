@@ -8,13 +8,7 @@ function checkMapForKeys(m, keys) {
 }
 
 function firstAvailableKey(m, keys) {
-  let matchingKey;
-  for (let k in keys) {
-    if (m.has(k) && !matchingKey) {
-      matchingKey = k;
-    }
-  }
-  return matchingKey;
+  return keys.map(key => (m.has(key) ? key : undefined)).find(x => !!x);
 }
 
 module.exports = {

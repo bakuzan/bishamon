@@ -26,8 +26,8 @@ module.exports.DefaultStatus = module.exports.Status[0];
 module.exports.NotDoneStatuses = [...module.exports.Status.slice(0, 3)];
 module.exports.DoneStatuses = [...module.exports.Status.slice(3, 6)];
 
-module.exports.ItemStatus = module.exports.Status.reduce(
-  (p, c) => ({ ...p, c }),
+module.exports.ItemStatus = [...module.exports.Status.slice(0)].reduce(
+  (p, c) => ({ ...p, [c]: c }),
   {}
 );
 

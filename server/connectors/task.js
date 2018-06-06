@@ -1,7 +1,9 @@
 const { Status, AuditTask } = require('../constants/enums');
 const { afterCreate, afterUpdate } = require('../hooks');
+const afterCreateTask = require('../hooks/afterCreateTask');
 const afterUpdateTask = require('../hooks/afterUpdateTask');
 
+const afterCreateAudit = afterCreate(AuditTask);
 const afterUpdateAudit = afterUpdate(AuditTask);
 
 module.exports = (db, Types) => {
@@ -17,7 +19,10 @@ module.exports = (db, Types) => {
     },
     {
       hooks: {
-        afterCreate: afterCreate(AuditTask),
+        afterCreate: (...params) => {
+          afterCreateAudit(...params);
+          afterCreateTask(db, ...params);
+        },
         afterUpdate: (...params) => {
           afterUpdateAudit(...params);
           afterUpdateTask(db, ...params);

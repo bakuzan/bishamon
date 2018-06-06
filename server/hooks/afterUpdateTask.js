@@ -34,13 +34,12 @@ module.exports = (db, instance, options) => {
     dataValues.workItemId
   );
 
-  if (
-    dataValues.status === ItemStatus.InProgress &&
-    _previousDataValues.status === ItemStatus.Todo
-  ) {
+  if (dataValues.status === ItemStatus.InProgress) {
     checkWorkItemTasks(
       (tasks, workItem) =>
-        workItem.status === DefaultStatus ? ItemStatus.InProgress : undefined
+        workItem.status !== ItemStatus.InProgress
+          ? ItemStatus.InProgress
+          : undefined
     );
   } else if (DoneStatuses.includes(dataValues.status)) {
     checkWorkItemTasks(tasks => {

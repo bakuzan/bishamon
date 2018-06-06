@@ -1,0 +1,25 @@
+const { ItemStatus } = require('../constants/enums');
+
+const IgnoreStatuses = [
+  ItemStatus.Todo,
+  ItemStatus.InProgress,
+  ItemStatus.OnHold
+];
+
+module.exports = (db, instance, options) => {
+  const {
+    _modelOptions: { whereCollection }
+  } = instance;
+  const { workItemId } = whereCollection;
+
+  db.models.workItem.findById(workItemId).then(workItem => {
+    if (IgnoreStatuses.includes(workItem.status)) return;
+    console.log('update work item > ', workItem && workItem.dataValues);
+    db.models.workItem.update(
+      { status: ItemStatus.InProgress },
+      { where: { id: workItemId }, individualHooks: true }
+    );
+  });
+
+  return instance;
+};

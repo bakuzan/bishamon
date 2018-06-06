@@ -16,7 +16,7 @@ const formDefaults = Object.freeze({
   type: enumDefault(WorkTypes)
 });
 
-class ProjectBoardCreate extends React.PureComponent {
+class WorkItemBoardCreate extends React.PureComponent {
   render() {
     const { projectId, onCompleted, onCancel } = this.props;
     const mutationProps = {
@@ -77,10 +77,10 @@ class ProjectBoardCreate extends React.PureComponent {
   }
 }
 
-ProjectBoardCreate.propTypes = {
+WorkItemBoardCreate.propTypes = {
   projectId: PropTypes.number.isRequired,
   onCompleted: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
-export default ProjectBoardCreate;
+export default WorkItemBoardCreate;

@@ -6,110 +6,102 @@ import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
 import List from 'components/List/List';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
-import { TaskCard } from 'components/ItemCard';
-import WorkItemDetailCreate from './WorkItemDetailCreate';
-import TaskView from './TaskView';
+import { WorkItemCard } from 'components/ItemCard';
+import WorkItemBoardCreate from './WorkItemBoardCreate';
+import WorkItemView from './WorkItemView';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
-import Routes from 'constants/routes';
-import { Common, Mappers, Filters } from 'utils';
+import Routes, { PROJECT_LIST_URL } from 'constants/routes';
+import { dataIdForObject } from 'utils/common';
+import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
+import { filterListForOnHoldItems } from 'utils/filters';
 
-const RE = `\\${Routes.workItemDetail}.*$`;
-const EXTRACT_BACK_URL = new RegExp(RE, 'g');
-
-class WorkItemDetail extends React.Component {
+class WorkItemBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAdding: false
+      isAddingWork: false
     };
 
-    this.handleAdd = this.handleAdd.bind(this);
-    this.handleResolvingAdd = this.handleResolvingAdd.bind(this);
+    this.handleAddWork = this.handleAddWork.bind(this);
+    this.handleResolvingAddWork = this.handleResolvingAddWork.bind(this);
     this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
-  handleAdd() {
-    this.setState({ isAdding: true });
+  handleAddWork() {
+    this.setState({ isAddingWork: true });
   }
 
-  handleResolvingAdd() {
-    this.setState({ isAdding: false });
+  handleResolvingAddWork() {
+    this.setState({ isAddingWork: false });
   }
 
   handleCacheUpdate(
     cache,
     {
-      data: { taskUpdate }
+      data: { workItemUpdate }
     }
   ) {
-    const { status, __typename } = taskUpdate;
+    const { status, __typename } = workItemUpdate;
     cache.writeFragment({
-      id: Common.dataIdForObject(taskUpdate),
-      fragment: Fragment.taskStatus,
+      id: dataIdForObject(workItemUpdate),
+      fragment: Fragment.workItemStatus,
       data: { status, __typename }
     });
   }
 
   render() {
-    const { isAdding } = this.state;
+    const { isAddingWork } = this.state;
     const { match } = this.props;
-    const backUrl = match.url.replace(EXTRACT_BACK_URL, '');
     const projectId = Number(match.params.projectId);
-    const workItemId = Number(match.params.workItemId);
+    const taskBoardUrl = `${match.url}${Routes.taskBoard}`;
     const mutationProps = {
-      mutation: Mutate.taskStatusUpdate,
+      mutation: Mutate.workItemStatusUpdate,
       update: this.handleCacheUpdate,
-      refetchQueries: [
-        {
-          query: Fetch.workItemRefreshOnTaskMutation,
-          variables: { id: workItemId }
-        }
-      ],
-      buildOptimisticResponse: Mappers.mapTaskViewToOptimisticResponse
+      buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
     };
 
     return (
-      <Query
-        query={Fetch.projectWorkItemInformation}
-        variables={{ projectId, workItemId }}
-      >
+      <Query query={Fetch.projectInformation} variables={{ id: projectId }}>
         {({ loading, error, data = {} }) => {
           return (
             <ProjectInformation
               data={data.project}
               headerContent={
                 <div className="button-group right-aligned">
-                  <Button btnStyle="primary" onClick={this.handleAdd}>
-                    Add Task
+                  <Button btnStyle="primary" onClick={this.handleAddWork}>
+                    Add Work
                   </Button>
-                  <ButtonisedNavLink to={backUrl}>Back</ButtonisedNavLink>
+                  <ButtonisedNavLink to={PROJECT_LIST_URL}>
+                    Back
+                  </ButtonisedNavLink>
                 </div>
               }
             >
-              {isAdding && (
-                <WorkItemDetailCreate
-                  workItemId={workItemId}
-                  onCancel={this.handleResolvingAdd}
-                  onCompleted={this.handleResolvingAdd}
+              {isAddingWork && (
+                <WorkItemBoardCreate
+                  projectId={projectId}
+                  onCancel={this.handleResolvingAddWork}
+                  onCompleted={this.handleResolvingAddWork}
                 />
               )}
-              {!isAdding && (
-                <Query query={Fetch.workItemTasks} variables={{ workItemId }}>
+              {!isAddingWork && (
+                <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
                   {({ loading, error, data = {} }) => {
                     return (
                       <Tabs.TabContainer>
                         <Tabs.TabView name="Board">
                           <Board
-                            data={data.tasks}
+                            data={data.workItems}
+                            swimlaneCardLinkPath={taskBoardUrl}
                             mutationProps={mutationProps}
                             renderSelectedCardView={({
                               selectedId,
                               closeView
                             }) => (
-                              <TaskView
-                                workItemId={workItemId}
+                              <WorkItemView
+                                projectId={projectId}
                                 id={selectedId}
                                 closeView={closeView}
                               />
@@ -118,9 +110,9 @@ class WorkItemDetail extends React.Component {
                         </Tabs.TabView>
                         <Tabs.TabView name="On Hold">
                           <List
-                            items={Filters.filterListForOnHoldItems(data.tasks)}
+                            items={filterListForOnHoldItems(data.workItems)}
                             itemTemplate={item => (
-                              <TaskCard key={item.id} data={item} />
+                              <WorkItemCard key={item.id} data={item} />
                             )}
                           />
                         </Tabs.TabView>
@@ -137,4 +129,4 @@ class WorkItemDetail extends React.Component {
   }
 }
 
-export default WorkItemDetail;
+export default WorkItemBoard;

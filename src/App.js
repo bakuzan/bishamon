@@ -5,8 +5,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import HeaderBar from 'components/HeaderBar/HeaderBar';
 import Projects from 'views/Projects/Projects';
 import ProjectsCreate from 'views/Projects/ProjectsCreate';
-import ProjectBoard from 'views/ProjectBoard/ProjectBoard';
-import WorkItemDetail from 'views/WorkItemDetail/WorkItemDetail';
+import WorkItemBoard from 'views/WorkItemBoard/WorkItemBoard';
+import TaskBoard from 'views/TaskBoard/TaskBoard';
 import RoutePaths from 'constants/routes';
 import Strings from 'constants/strings';
 import { getAppSettings, saveAppSettings } from 'utils/common';
@@ -37,7 +37,7 @@ class App extends React.Component {
     const { theme } = this.state;
     const { match } = this.props;
     const projectListUrl = `${match.path}${RoutePaths.projectList}`;
-    const projectBoardUrl = `${projectListUrl}/:projectId`;
+    const workItemBoardUrl = `${projectListUrl}/:projectId`;
     const themeProps = {
       value: theme,
       onSelect: this.handleThemeChange
@@ -58,12 +58,10 @@ class App extends React.Component {
             />
 
             <Route
-              path={`${projectBoardUrl}${
-                RoutePaths.workItemDetail
-              }/:workItemId`}
-              component={WorkItemDetail}
+              path={`${workItemBoardUrl}${RoutePaths.taskBoard}/:workItemId`}
+              component={TaskBoard}
             />
-            <Route path={projectBoardUrl} component={ProjectBoard} />
+            <Route path={workItemBoardUrl} component={WorkItemBoard} />
           </Switch>
         </main>
       </div>

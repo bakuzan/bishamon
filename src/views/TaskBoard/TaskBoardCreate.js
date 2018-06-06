@@ -5,16 +5,13 @@ import { ClearableInput } from 'meiko';
 import Form from 'components/Form/Form';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-// import Fragment from 'queries/fragment';
-// import Strings from 'constants/strings';
-// import { Common, DerivedData } from 'utils';
 
 const formDefaults = Object.freeze({
   name: '',
   description: ''
 });
 
-class WorkItemDetailCreate extends React.PureComponent {
+class TaskBoardCreate extends React.PureComponent {
   render() {
     const { workItemId, onCompleted, onCancel } = this.props;
     const mutationProps = {
@@ -73,10 +70,10 @@ class WorkItemDetailCreate extends React.PureComponent {
   }
 }
 
-WorkItemDetailCreate.propTypes = {
+TaskBoardCreate.propTypes = {
   workItemId: PropTypes.number.isRequired,
   onCompleted: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
-export default WorkItemDetailCreate;
+export default TaskBoardCreate;

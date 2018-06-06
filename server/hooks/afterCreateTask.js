@@ -14,7 +14,7 @@ module.exports = (db, instance, options) => {
 
   db.models.workItem.findById(workItemId).then(workItem => {
     if (IgnoreStatuses.includes(workItem.status)) return;
-    console.log('update work item > ', workItem && workItem.dataValues);
+
     db.models.workItem.update(
       { status: ItemStatus.InProgress },
       { where: { id: workItemId }, individualHooks: true }

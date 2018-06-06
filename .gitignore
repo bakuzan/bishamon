@@ -9,7 +9,7 @@
 # production
 /build
 *.css
-*.sqlite
+*.sqlite*
 
 # misc
 .DS_Store

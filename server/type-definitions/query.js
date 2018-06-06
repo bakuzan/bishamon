@@ -14,8 +14,11 @@ const Query = `
 const Mutation = `
   type Mutation {
     projectCreate(name: String!, type: ProjectType, colours: [String]): Project
+    projectUpdate(id: Int!, name: String, type: ProjectType, colours: [String]): Project
+
     workItemCreate(projectId: Int!, name: String!, description: String, type: WorkType): WorkItem
     workItemUpdate(id: Int!, name: String, description: String, type: WorkType, status: Status): WorkItem
+
     taskCreate(workItemId: Int!, name: String!, description: String): Task
     taskUpdate(id: Int!, name: String, description: String, status: Status): Task
   }

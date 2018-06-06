@@ -4,6 +4,10 @@
   @extend %project-container;
   @extend %project-text;
 
+  &--can-click {
+    cursor: pointer;
+  }
+
   &__content {
     padding: $app--standard-padding;
   }

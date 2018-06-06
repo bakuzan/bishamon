@@ -12,3 +12,19 @@ export const projectCreate = gql`
     }
   }
 `;
+
+export const projectUpdate = gql`
+  mutation projectUpdate(
+    $id: Int!
+    $name: String
+    $type: ProjectType
+    $colours: [String]
+  ) {
+    projectUpdate(id: $id, name: $name, type: $type, colours: $colours) {
+      id
+      name
+      type
+      colours
+    }
+  }
+`;

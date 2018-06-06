@@ -15,6 +15,14 @@ const mapOptimisticResponse = obj => {
   };
 };
 
+export const mapProjectViewToOptimisticResponse = values => {
+  return mapOptimisticResponse({
+    projectUpdate: {
+      ...values
+    }
+  });
+};
+
 export const mapWorkItemViewToOptimisticResponse = values => {
   return mapOptimisticResponse({
     workItemUpdate: {

@@ -41,6 +41,7 @@ class Form extends React.Component {
 
   handleListCreate(newItem, name) {
     this.setState(({ values }) => {
+      console.log(values, name, newItem);
       return {
         values: {
           ...values,

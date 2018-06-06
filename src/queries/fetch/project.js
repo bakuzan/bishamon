@@ -21,3 +21,14 @@ export const projectInformation = gql`
     }
   }
 `;
+
+export const projectById = gql`
+  query projectById($id: Int) {
+    project(id: $id) {
+      id
+      name
+      type
+      colours
+    }
+  }
+`;

@@ -8,7 +8,8 @@ const themes = new Map([
 
 export default Object.freeze({
   selectors: {
-    swimlaneCardPortal: 'swimlane-card-view-anchor-'
+    swimlaneCardPortal: 'swimlane-card-view-anchor-',
+    projectCardPortal: 'project-card-view-anchor-'
   },
   appSettingsStorage: 'bishamonAppSettings',
   themes,

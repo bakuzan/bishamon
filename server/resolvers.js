@@ -44,6 +44,12 @@ module.exports = {
     projectCreate(_, args) {
       return Project.create({ ...args });
     },
+    projectUpdate(_, { id, ...args }) {
+      return Project.update(
+        { ...args },
+        { where: { id }, individualHooks: true }
+      ).then(count => Project.findById(id));
+    },
     workItemCreate(_, { projectId, ...args }) {
       return WorkItem.create({ ...args, status: DefaultStatus }).then(
         workItem =>

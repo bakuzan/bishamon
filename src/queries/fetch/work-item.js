@@ -46,3 +46,13 @@ export const workItemById = gql`
     }
   }
 `;
+
+export const workItemRefreshOnTaskMutation = gql`
+  query workItemRefreshOnTaskMutation($id: Int) {
+    workItem(id: $id) {
+      id
+      status
+      taskRatio
+    }
+  }
+`;

@@ -5,9 +5,9 @@ import { ClearableInput } from 'meiko';
 import Form from 'components/Form/Form';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import Fragment from 'queries/fragment';
-import Strings from 'constants/strings';
-import { Common, DerivedData } from 'utils';
+// import Fragment from 'queries/fragment';
+// import Strings from 'constants/strings';
+// import { Common, DerivedData } from 'utils';
 
 const formDefaults = Object.freeze({
   name: '',
@@ -34,19 +34,13 @@ class WorkItemDetailCreate extends React.PureComponent {
             tasks: updatedTasks
           }
         });
-        const taskRatio = DerivedData.calculateWorkItemTaskRatio(updatedTasks);
-        cache.writeFragment({
-          id: Common.dataIdForObject({
-            id: workItemId,
-            __typename: Strings.dataTypes.workItem
-          }),
-          fragment: Fragment.workItemTaskRatio,
-          data: {
-            taskRatio,
-            __typename: Strings.dataTypes.workItem
-          }
-        });
-      }
+      },
+      refetchQueries: [
+        {
+          query: Fetch.workItemRefreshOnTaskMutation,
+          variables: { id: workItemId }
+        }
+      ]
     };
 
     return (

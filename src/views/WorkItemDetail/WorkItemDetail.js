@@ -12,9 +12,8 @@ import TaskView from './TaskView';
 import Fetch from 'queries/fetch';
 import Fragment from 'queries/fragment';
 import Mutate from 'queries/mutate';
-import Strings from 'constants/strings';
 import Routes from 'constants/routes';
-import { Common, Mappers, Filters, DerivedData } from 'utils';
+import { Common, Mappers, Filters } from 'utils';
 
 const RE = `\\${Routes.workItemDetail}.*$`;
 const EXTRACT_BACK_URL = new RegExp(RE, 'g');
@@ -45,38 +44,11 @@ class WorkItemDetail extends React.Component {
       data: { taskUpdate }
     }
   ) {
-    const workItemId = Number(this.props.match.params.workItemId);
     const { status, __typename } = taskUpdate;
     cache.writeFragment({
       id: Common.dataIdForObject(taskUpdate),
       fragment: Fragment.taskStatus,
       data: { status, __typename }
-    });
-
-    const { workItem } = cache.readQuery({
-      query: Fetch.workItemById,
-      variables: { id: workItemId }
-    });
-    const { tasks } = cache.readQuery({
-      query: Fetch.workItemTasks,
-      variables: { workItemId }
-    });
-    const taskRatio = DerivedData.calculateWorkItemTaskRatio(tasks);
-    const workItemStatus = DerivedData.resolveWorkItemStatusFromTasks(
-      workItem,
-      tasks
-    );
-    cache.writeFragment({
-      id: Common.dataIdForObject({
-        id: workItemId,
-        __typename: Strings.dataTypes.workItem
-      }),
-      fragment: Fragment.workItemUpdateBasedOnTasks,
-      data: {
-        status: workItemStatus,
-        taskRatio,
-        __typename: Strings.dataTypes.workItem
-      }
     });
   }
 
@@ -89,6 +61,12 @@ class WorkItemDetail extends React.Component {
     const mutationProps = {
       mutation: Mutate.taskStatusUpdate,
       update: this.handleCacheUpdate,
+      refetchQueries: [
+        {
+          query: Fetch.workItemRefreshOnTaskMutation,
+          variables: { id: workItemId }
+        }
+      ],
       buildOptimisticResponse: Mappers.mapTaskViewToOptimisticResponse
     };
 

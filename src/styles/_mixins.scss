@@ -1,3 +1,25 @@
+@import './_variables';
+
+@mixin respond-to($media) {
+  @if $media == xs {
+    @media (max-width: $screen-xs-max) {
+      @content;
+    }
+  } @else if $media == sm {
+    @media (min-width: $screen-sm) and (max-width: $screen-sm-max) {
+      @content;
+    }
+  } @else if $media == md {
+    @media (min-width: $screen-md) and (max-width: $screen-md-max) {
+      @content;
+    }
+  } @else if $media == lg {
+    @media (min-width: $screen-lg) {
+      @content;
+    }
+  }
+}
+
 @mixin standard-shadow($colour) {
   box-shadow: 2px 2px 10px $colour;
 }

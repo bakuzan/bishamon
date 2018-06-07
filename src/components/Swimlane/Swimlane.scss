@@ -1,5 +1,7 @@
+@import '../../styles/_mixins';
 @import '../../styles/_variables';
 
+$swimlane--header-width: calc(100% - 2px);
 $placeholder-border: 1px solid transparent;
 
 .swimlane {
@@ -16,12 +18,25 @@ $placeholder-border: 1px solid transparent;
   }
 
   &__header {
-    width: calc(100% - 2px);
+    width: $swimlane--header-width;
     padding: $app--standard-padding 0;
     padding-left: $app--standard-padding;
     border-bottom: $placeholder-border;
   }
   &__list {
     height: 100%;
+  }
+
+  @include respond-to(xs) {
+    flex-direction: row;
+
+    &__header {
+      transform: rotate(-90deg) translateY(-68%);
+      // height: $swimlane--header-width;
+      // border: {
+      //   bottom: none;
+      //   right: $placeholder-border;
+      // };
+    }
   }
 }

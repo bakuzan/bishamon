@@ -34,14 +34,13 @@ class Form extends React.Component {
     this.setState(prev => ({
       values: {
         ...prev.values,
-        [name]: items
+        [name]: items || []
       }
     }));
   }
 
   handleListCreate(newItem, name) {
     this.setState(({ values }) => {
-      console.log(values, name, newItem);
       return {
         values: {
           ...values,

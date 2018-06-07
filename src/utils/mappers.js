@@ -1,3 +1,4 @@
+import Strings from 'constants/strings';
 import { generateUniqueId, separateAndCapitaliseAll } from './common';
 
 export const projectColourModel = code => ({
@@ -18,7 +19,8 @@ const mapOptimisticResponse = obj => {
 export const mapProjectViewToOptimisticResponse = values => {
   return mapOptimisticResponse({
     projectUpdate: {
-      ...values
+      ...values,
+      primaryColour: values.colours[0] || Strings.defaultColour
     }
   });
 };

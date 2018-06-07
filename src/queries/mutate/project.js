@@ -9,6 +9,8 @@ export const projectCreate = gql`
     projectCreate(name: $name, type: $type, colours: $colours) {
       id
       name
+      type
+      primaryColour
     }
   }
 `;
@@ -24,7 +26,7 @@ export const projectUpdate = gql`
       id
       name
       type
-      colours
+      primaryColour
     }
   }
 `;

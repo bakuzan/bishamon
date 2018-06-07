@@ -24,3 +24,8 @@ main {
   width: calc(100% - #{$form-padding});
   padding: $form-padding 0;
 }
+
+// Overrides
+.bishamon-tag > button {
+  background-color: inherit !important;
+}

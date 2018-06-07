@@ -99,10 +99,8 @@ class ProjectView extends React.Component {
                       name="colours"
                       chipsSelected={values.colours.map(projectColourModel)}
                       chipOptions={[{ code: '____' }]}
-                      updateChipList={v =>
-                        actions.handleListUpdate(v, 'colours')
-                      }
-                      createNew={v => actions.handleListCreate(v, 'colours')}
+                      updateChipList={actions.handleListUpdate}
+                      createNew={actions.handleListCreate}
                       createNewMessage="Add Colour"
                     />
                   </React.Fragment>

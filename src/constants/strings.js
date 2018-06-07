@@ -14,6 +14,7 @@ export default Object.freeze({
   appSettingsStorage: 'bishamonAppSettings',
   themes,
   defaultTheme: themes.get('default').value,
+  defaultColour: '#fff',
   dataTypes: {
     project: 'Project',
     workItem: 'WorkItem',

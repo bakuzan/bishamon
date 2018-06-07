@@ -55,11 +55,17 @@ class TaskView extends React.Component {
   }
 
   render() {
-    const { id } = this.props;
+    const { id, workItemId } = this.props;
     const mutationProps = {
       mutation: Mutate.taskUpdate,
       onCompleted: this.handleCloseAfterAction,
       update: this.handleCacheUpdate,
+      refetchQueries: [
+        {
+          query: Fetch.workItemRefreshOnTaskMutation,
+          variables: { id: workItemId }
+        }
+      ],
       buildOptimisticResponse: mapTaskViewToOptimisticResponse
     };
 

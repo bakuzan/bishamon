@@ -2,19 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { ClearableInput, SelectBox, ChipListInput } from 'meiko';
-import Form from 'components/Form/Form';
+import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
-import ProjectTypes from 'constants/project-types';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import {
-  projectColourModel,
-  enumsToSelectBoxOptions,
-  mapProjectViewToOptimisticResponse
-} from 'utils/mappers';
-
-const PROJECT_TYPES = enumsToSelectBoxOptions(ProjectTypes);
+import { mapProjectViewToOptimisticResponse } from 'utils/mappers';
 
 class ProjectView extends React.Component {
   constructor(props) {
@@ -67,47 +59,16 @@ class ProjectView extends React.Component {
       <Query query={Fetch.projectById} variables={{ id }}>
         {({ loading, error, data = {} }) => {
           if (loading) return <DelayedLoader />;
-          return (
-            <Form
-              className="card-form"
-              formName="project-edit"
-              defaults={data.project}
-              mutationProps={mutationProps}
-              onCancel={this.handleCloseAfterAction}
-            >
-              {({ values, actions }) => {
-                return (
-                  <React.Fragment>
-                    <ClearableInput
-                      name="name"
-                      label="name"
-                      value={values.name}
-                      onChange={actions.handleUserInput}
-                    />
-                    <SelectBox
-                      name="type"
-                      text="type"
-                      value={values.type}
-                      onSelect={actions.handleUserInput}
-                      options={PROJECT_TYPES}
-                    />
-                    <ChipListInput
-                      tagClassName="bishamon-tag"
-                      menuClassName="bishamon-autocomplete-menu"
-                      label="Colours"
-                      attr="code"
-                      name="colours"
-                      chipsSelected={values.colours.map(projectColourModel)}
-                      chipOptions={[{ code: '____' }]}
-                      updateChipList={actions.handleListUpdate}
-                      createNew={actions.handleListCreate}
-                      createNewMessage="Add Colour"
-                    />
-                  </React.Fragment>
-                );
-              }}
-            </Form>
-          );
+
+          const formProps = {
+            className: 'card-form',
+            formName: 'project-edit',
+            defaults: data.project,
+            mutationProps,
+            onCancel: this.handleCloseAfterAction
+          };
+
+          return <Forms.ProjectForm formProps={formProps} />;
         }}
       </Query>
     );

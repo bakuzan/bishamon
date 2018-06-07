@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ClearableInput } from 'meiko';
-import Form from 'components/Form/Form';
+import Forms from 'components/Forms';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 
@@ -40,33 +39,14 @@ class TaskBoardCreate extends React.PureComponent {
       ]
     };
 
-    return (
-      <Form
-        formName="task-create"
-        defaults={formDefaults}
-        mutationProps={mutationProps}
-        onCancel={onCancel}
-      >
-        {({ values, actions }) => {
-          return (
-            <React.Fragment>
-              <ClearableInput
-                name="name"
-                label="name"
-                value={values.name}
-                onChange={actions.handleUserInput}
-              />
-              <ClearableInput
-                name="description"
-                label="description"
-                value={values.description}
-                onChange={actions.handleUserInput}
-              />
-            </React.Fragment>
-          );
-        }}
-      </Form>
-    );
+    const formProps = {
+      formName: 'task-create',
+      defaults: formDefaults,
+      mutationProps,
+      onCancel
+    };
+
+    return <Forms.TaskForm formProps={formProps} isCreate />;
   }
 }
 

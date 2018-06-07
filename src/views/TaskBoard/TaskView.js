@@ -2,17 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { ClearableInput, SelectBox } from 'meiko';
-import Form from 'components/Form/Form';
+import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
-import Status from 'constants/status';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import { enumDefault } from 'utils/derived-data';
-import {
-  enumsToSelectBoxOptions,
-  mapTaskViewToOptimisticResponse
-} from 'utils/mappers';
+import { mapTaskViewToOptimisticResponse } from 'utils/mappers';
 
 class TaskView extends React.Component {
   constructor(props) {
@@ -73,46 +67,16 @@ class TaskView extends React.Component {
       <Query query={Fetch.taskById} variables={{ id }}>
         {({ loading, error, data = {} }) => {
           if (loading) return <DelayedLoader />;
-          return (
-            <Form
-              className="card-form"
-              formName="task-edit"
-              defaults={data.task}
-              mutationProps={mutationProps}
-              onCancel={this.handleCloseAfterAction}
-            >
-              {({ values, actions }) => {
-                const usableStatuses =
-                  values.status === enumDefault(Status)
-                    ? Status
-                    : Status.slice(1); // remove 'Todo'
-                const STATUSES = enumsToSelectBoxOptions(usableStatuses);
-                return (
-                  <React.Fragment>
-                    <ClearableInput
-                      name="name"
-                      label="name"
-                      value={values.name}
-                      onChange={actions.handleUserInput}
-                    />
-                    <ClearableInput
-                      name="description"
-                      label="description"
-                      value={values.description}
-                      onChange={actions.handleUserInput}
-                    />
-                    <SelectBox
-                      name="status"
-                      text="status"
-                      value={values.status}
-                      onSelect={actions.handleUserInput}
-                      options={STATUSES}
-                    />
-                  </React.Fragment>
-                );
-              }}
-            </Form>
-          );
+
+          const formProps = {
+            className: 'card-form',
+            formName: 'task-edit',
+            defaults: data.task,
+            mutationProps,
+            onCancel: this.handleCloseAfterAction
+          };
+
+          return <Forms.TaskForm formProps={formProps} />;
         }}
       </Query>
     );

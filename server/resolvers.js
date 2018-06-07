@@ -82,6 +82,7 @@ module.exports = {
     colours(project, args) {
       const { colours } = project.dataValues;
       const limit = args.limit || undefined;
+      if (!colours) return [];
       return colours.split(',').slice(0, limit);
     },
     primaryColour(project) {

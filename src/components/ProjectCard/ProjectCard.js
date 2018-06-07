@@ -33,7 +33,10 @@ class ProjectCard extends React.PureComponent {
           {data.name}
         </ButtonisedNavLink>
         <div className="project-card__content">{data.type}</div>
-        <div id={`${Strings.selectors.projectCardPortal}${data.id}`}>
+        <div
+          id={`${Strings.selectors.projectCardPortal}${data.id}`}
+          className="project-card__view"
+        >
           {/* Content placed here via portal. */}
         </div>
       </li>

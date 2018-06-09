@@ -2,7 +2,12 @@ module.exports.mapArrToGraphqlString = function(arr) {
   return arr.join(' ');
 };
 
-module.exports.ProjectType = ['Application', 'Training'];
+module.exports.ProjectType = [
+  'Application',
+  'Training',
+  'Library',
+  'SubModule'
+];
 
 module.exports.WorkType = [
   'Feature',

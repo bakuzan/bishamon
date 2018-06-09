@@ -1,3 +1,13 @@
+@import '../../styles/_mixins';
+
 .list {
   width: calc(100% - 10px);
+}
+
+.list.swimlane__list {
+  &.column {
+    @include respond-to(xs) {
+      flex-direction: row;
+    }
+  }
 }

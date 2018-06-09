@@ -11,6 +11,11 @@
   min-height: 3em;
   padding: $app--standard-padding;
   @include work-item-type-border;
+  @include respond-to(xs) {
+    flex: 1 1 auto;
+    max-width: 200px;
+    margin-right: 0.25em;
+  }
   &--can-move {
     cursor: pointer;
   }

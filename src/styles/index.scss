@@ -29,3 +29,9 @@ main {
 .bishamon-tag > button {
   background-color: inherit !important;
 }
+
+.bishamon-tab-panels > div:first-child {
+  @include respond-to(xs) {
+    flex-direction: column;
+  }
+}

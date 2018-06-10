@@ -37,6 +37,7 @@ $swimlane--header-width-xs: 90px;
     border: {
       left: $placeholder-border;
       bottom: $placeholder-border;
+      right: none;
     }
 
     &__header {

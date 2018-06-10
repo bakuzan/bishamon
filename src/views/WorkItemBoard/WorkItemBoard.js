@@ -69,7 +69,7 @@ class WorkItemBoard extends React.Component {
             <ProjectInformation
               data={data.project}
               headerContent={
-                <div className="button-group right-aligned">
+                <div className="page-actions button-group right-aligned">
                   <Button btnStyle="primary" onClick={this.handleAddWork}>
                     Add Work
                   </Button>

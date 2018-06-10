@@ -45,7 +45,10 @@ class SwimlaneCard extends React.Component {
           </ButtonisedNavLink>
         </div>
         <div className="swimlane-card__ratio">{data.taskRatio}</div>
-        <div id={`${Strings.selectors.swimlaneCardPortal}${data.id}`}>
+        <div
+          id={`${Strings.selectors.swimlaneCardPortal}${data.id}`}
+          className="swimlane-card__view"
+        >
           {/* Content placed here via portal. */}
         </div>
       </div>

@@ -2,6 +2,12 @@
 @import './_variables';
 @import './_themes';
 
+html {
+  @include respond-to(xs) {
+    width: max-content;
+  }
+}
+
 body {
   font-size: $app--font-size;
 }
@@ -10,6 +16,10 @@ main {
   min-height: calc(100vh - 5px - #{$header--height});
   padding: 5px {
     top: $header--height;
+  }
+
+  @include respond-to(xs) {
+    width: 100%;
   }
 }
 
@@ -23,6 +33,13 @@ main {
 .card-form {
   width: calc(100% - #{$form-padding});
   padding: $form-padding 0;
+}
+
+.page-actions {
+  @include respond-to(xs) {
+    position: absolute;
+    right: 0;
+  }
 }
 
 // Overrides

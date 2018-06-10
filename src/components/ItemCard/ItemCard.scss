@@ -12,4 +12,8 @@
   &__name {
     padding: $app--standard-padding 0;
   }
+
+  @include respond-to(xs) {
+    width: calc(50% - #{$app--standard-padding * 2});
+  }
 }

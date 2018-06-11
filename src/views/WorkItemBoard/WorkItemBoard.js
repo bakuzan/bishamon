@@ -98,7 +98,10 @@ class WorkItemBoard extends React.Component {
                     );
                     return (
                       <Tabs.TabContainer>
-                        <Tabs.TabView name={`Board (${boardItems.length})`}>
+                        <Tabs.TabView
+                          name="BOARD"
+                          displayName={`Board (${boardItems.length})`}
+                        >
                           <Board
                             data={boardItems}
                             swimlaneCardLinkPath={taskBoardUrl}
@@ -116,7 +119,8 @@ class WorkItemBoard extends React.Component {
                           />
                         </Tabs.TabView>
                         <Tabs.TabView
-                          name={`On Hold (${onHoldWorkItems.length})`}
+                          name="OH_HOLD"
+                          displayName={`On Hold (${onHoldWorkItems.length})`}
                         >
                           <List
                             items={onHoldWorkItems}

@@ -106,7 +106,10 @@ class TaskBoard extends React.Component {
                     );
                     return (
                       <Tabs.TabContainer>
-                        <Tabs.TabView name={`Board (${boardItems.length})`}>
+                        <Tabs.TabView
+                          name="BOARD"
+                          displayName={`Board (${boardItems.length})`}
+                        >
                           <Board
                             data={boardItems}
                             mutationProps={mutationProps}
@@ -122,7 +125,10 @@ class TaskBoard extends React.Component {
                             )}
                           />
                         </Tabs.TabView>
-                        <Tabs.TabView name={`On Hold (${onHoldItems.length})`}>
+                        <Tabs.TabView
+                          name="ON_HOLD"
+                          displayName={`On Hold (${onHoldItems.length})`}
+                        >
                           <List
                             items={onHoldItems}
                             itemTemplate={item => (

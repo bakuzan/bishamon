@@ -3,6 +3,8 @@ dotenv.config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const favicon = require('serve-favicon');
+const path = require('path');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const cors = require('cors');
@@ -28,12 +30,28 @@ const corsOptions = {
 };
 
 app.use(
+  `/${Constants.appName}/favicon.ico`,
+  favicon(path.join(__dirname, '..', 'build', 'favicon.ico'))
+);
+app.use(
+  `/${Constants.appName}/static`,
+  express.static(path.resolve(__dirname, '..', 'build/static'))
+);
+
+app.use(
   '/graphql',
   cors(corsOptions),
   bodyParser.json(),
   graphqlExpress({ schema })
 );
 app.use('/graphiql', cors(), graphiqlExpress({ endpointURL: '/graphql' }));
+
+// Always return the main index.html, so react-router render the route in the client
+if (process.env.NODE_ENV === Constants.environment.production) {
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+  });
+}
 
 // Start the server
 const PORT =

@@ -98,11 +98,20 @@ class TaskBoard extends React.Component {
               {!isAdding && (
                 <Query query={Fetch.workItemTasks} variables={{ workItemId }}>
                   {({ loading, error, data = {} }) => {
+                    const boardItems = Filters.filterListForBoardItems(
+                      data.tasks
+                    );
+                    const onHoldItems = Filters.filterListForOnHoldItems(
+                      data.tasks
+                    );
                     return (
                       <Tabs.TabContainer>
-                        <Tabs.TabView name="Board">
+                        <Tabs.TabView
+                          name="BOARD"
+                          displayName={`Board (${boardItems.length})`}
+                        >
                           <Board
-                            data={data.tasks}
+                            data={boardItems}
                             mutationProps={mutationProps}
                             renderSelectedCardView={({
                               selectedId,
@@ -116,9 +125,12 @@ class TaskBoard extends React.Component {
                             )}
                           />
                         </Tabs.TabView>
-                        <Tabs.TabView name="On Hold">
+                        <Tabs.TabView
+                          name="ON_HOLD"
+                          displayName={`On Hold (${onHoldItems.length})`}
+                        >
                           <List
-                            items={Filters.filterListForOnHoldItems(data.tasks)}
+                            items={onHoldItems}
                             itemTemplate={item => (
                               <TaskCard key={item.id} data={item} />
                             )}

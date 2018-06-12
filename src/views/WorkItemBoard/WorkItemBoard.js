@@ -15,7 +15,10 @@ import Mutate from 'queries/mutate';
 import Routes, { PROJECT_LIST_URL } from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
 import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
-import { filterListForOnHoldItems } from 'utils/filters';
+import {
+  filterListForOnHoldItems,
+  filterListForBoardItems
+} from 'utils/filters';
 
 class WorkItemBoard extends React.Component {
   constructor(props) {
@@ -89,11 +92,18 @@ class WorkItemBoard extends React.Component {
               {!isAddingWork && (
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
                   {({ loading, error, data = {} }) => {
+                    const boardItems = filterListForBoardItems(data.workItems);
+                    const onHoldWorkItems = filterListForOnHoldItems(
+                      data.workItems
+                    );
                     return (
                       <Tabs.TabContainer>
-                        <Tabs.TabView name="Board">
+                        <Tabs.TabView
+                          name="BOARD"
+                          displayName={`Board (${boardItems.length})`}
+                        >
                           <Board
-                            data={data.workItems}
+                            data={boardItems}
                             swimlaneCardLinkPath={taskBoardUrl}
                             mutationProps={mutationProps}
                             renderSelectedCardView={({
@@ -108,9 +118,12 @@ class WorkItemBoard extends React.Component {
                             )}
                           />
                         </Tabs.TabView>
-                        <Tabs.TabView name="On Hold">
+                        <Tabs.TabView
+                          name="OH_HOLD"
+                          displayName={`On Hold (${onHoldWorkItems.length})`}
+                        >
                           <List
-                            items={filterListForOnHoldItems(data.workItems)}
+                            items={onHoldWorkItems}
                             itemTemplate={item => (
                               <WorkItemCard key={item.id} data={item} />
                             )}

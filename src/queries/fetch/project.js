@@ -7,6 +7,7 @@ export const projectsAll = gql`
       name
       type
       primaryColour
+      workItemRatio
     }
   }
 `;
@@ -29,6 +30,15 @@ export const projectById = gql`
       name
       type
       colours
+    }
+  }
+`;
+
+export const projectRefreshOnWorkItemMutation = gql`
+  query projectRefreshOnWorkItemMutation($id: Int) {
+    project(id: $id) {
+      id
+      workItemRatio
     }
   }
 `;

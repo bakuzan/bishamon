@@ -89,6 +89,14 @@ module.exports = {
       const { colours } = project.dataValues;
       return colours.split(',')[0] || Constants.fallbackColour;
     },
+    workItemRatio(project) {
+      return project.getWorkItems().then(items => {
+        const total = items.length;
+        const done = items.filter(t => DoneStatuses.includes(t.status)).length;
+        if (!total) return 'N/A';
+        return `${done}/${total}`;
+      });
+    },
     workItems(project, args) {
       return project.getWorkItems();
     },

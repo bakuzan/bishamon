@@ -11,6 +11,9 @@
   }
 
   &__content {
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% - #{$app--standard-padding * 2});
     padding: $app--standard-padding;
   }
 

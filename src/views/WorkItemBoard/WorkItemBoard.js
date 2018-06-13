@@ -62,6 +62,12 @@ class WorkItemBoard extends React.Component {
     const mutationProps = {
       mutation: Mutate.workItemStatusUpdate,
       update: this.handleCacheUpdate,
+      refetchQueries: [
+        {
+          query: Fetch.projectRefreshOnWorkItemMutation,
+          variables: { id: projectId }
+        }
+      ],
       buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
     };
 

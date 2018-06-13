@@ -5,6 +5,7 @@ import React from 'react';
 import { ButtonisedNavLink } from 'components/Buttons';
 import Routes from 'constants/routes';
 import Strings from 'constants/strings';
+import { separateAndCapitaliseAll } from 'utils/common';
 
 import './ProjectCard.css';
 
@@ -32,7 +33,10 @@ class ProjectCard extends React.PureComponent {
         >
           {data.name}
         </ButtonisedNavLink>
-        <div className="project-card__content">{data.type}</div>
+        <div className="project-card__content">
+          <div>{separateAndCapitaliseAll(data.type)}</div>
+          <div>{data.workItemRatio}</div>
+        </div>
         <div
           id={`${Strings.selectors.projectCardPortal}${data.id}`}
           className="project-card__view"

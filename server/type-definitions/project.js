@@ -7,5 +7,6 @@ module.exports = `
     primaryColour: String
     workItems: [WorkItem]
     workItem(workItemId: Int!): WorkItem
+    workItemRatio: String
   }
 `;

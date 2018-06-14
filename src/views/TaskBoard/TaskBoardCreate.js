@@ -31,7 +31,7 @@ class TaskBoardCreate extends React.PureComponent {
           }
         });
       },
-      refetchQueries: [
+      refetchQueries: () => [
         {
           query: Fetch.workItemRefreshOnTaskMutation,
           variables: { id: workItemId }

@@ -49,11 +49,17 @@ class WorkItemView extends React.Component {
   }
 
   render() {
-    const { id } = this.props;
+    const { id, projectId } = this.props;
     const mutationProps = {
       mutation: Mutate.workItemUpdate,
       onCompleted: this.handleCloseAfterAction,
       update: this.handleCacheUpdate,
+      refetchQueries: () => [
+        {
+          query: Fetch.projectRefreshOnWorkItemMutation,
+          variables: { id: projectId }
+        }
+      ],
       buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
     };
 

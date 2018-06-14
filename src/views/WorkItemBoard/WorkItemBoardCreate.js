@@ -34,7 +34,13 @@ class WorkItemBoardCreate extends React.PureComponent {
             ])
           }
         });
-      }
+      },
+      refetchQueries: () => [
+        {
+          query: Fetch.projectRefreshOnWorkItemMutation,
+          variables: { id: projectId }
+        }
+      ]
     };
 
     const formProps = {

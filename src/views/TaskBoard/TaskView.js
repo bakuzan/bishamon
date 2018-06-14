@@ -54,7 +54,7 @@ class TaskView extends React.Component {
       mutation: Mutate.taskUpdate,
       onCompleted: this.handleCloseAfterAction,
       update: this.handleCacheUpdate,
-      refetchQueries: [
+      refetchQueries: () => [
         {
           query: Fetch.workItemRefreshOnTaskMutation,
           variables: { id: workItemId }

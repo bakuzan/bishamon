@@ -17,7 +17,6 @@ class Swimlane extends React.Component {
   }
 
   handleCardClick(cardId) {
-    console.log('card clicked', cardId);
     if (this.props.onCardSelect) {
       this.props.onCardSelect(cardId, this.props.title);
     }

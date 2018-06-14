@@ -61,7 +61,7 @@ class TaskBoard extends React.Component {
     const mutationProps = {
       mutation: Mutate.taskStatusUpdate,
       update: this.handleCacheUpdate,
-      refetchQueries: [
+      refetchQueries: () => [
         {
           query: Fetch.workItemRefreshOnTaskMutation,
           variables: { id: workItemId }

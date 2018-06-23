@@ -3,7 +3,11 @@ const Op = require('sequelize').Op;
 const { Project, WorkItem, Task } = require('./connectors');
 const { Audit } = require('./connectors/audit');
 const Constants = require('./constants/index');
-const { DoneStatuses, DefaultStatus } = require('./constants/enums');
+const {
+  DoneStatuses,
+  DefaultStatus,
+  RemovedStatus
+} = require('./constants/enums');
 const Utils = require('./utils');
 
 module.exports = {
@@ -17,11 +21,12 @@ module.exports = {
     },
     workItems(_, { statusIn, ...args }) {
       const optionalArgs = !statusIn ? {} : { status: { [Op.or]: statusIn } };
-
+      const oneWeekAgo = Common.getDateXDaysFromToday(-7);
       return WorkItem.findAll({
         where: {
           ...args,
-          ...optionalArgs
+          ...optionalArgs,
+          updatedAt: { [Op.gt]: oneWeekAgo }
         }
       });
     },
@@ -30,7 +35,13 @@ module.exports = {
       return WorkItem.findById(id);
     },
     tasks(_, args) {
-      return Task.findAll({ where: args });
+      const oneWeekAgo = Common.getDateXDaysFromToday(-7);
+      return Task.findAll({
+        where: {
+          ...args,
+          updatedAt: { [Op.gt]: oneWeekAgo }
+        }
+      });
     },
     task(_, args) {
       const { id } = args;
@@ -90,12 +101,15 @@ module.exports = {
       return colours.split(',')[0] || Constants.fallbackColour;
     },
     workItemRatio(project) {
-      return project.getWorkItems().then(items => {
-        const total = items.length;
-        const done = items.filter(t => DoneStatuses.includes(t.status)).length;
-        if (!total) return 'N/A';
-        return `${done}/${total}`;
-      });
+      return project
+        .getWorkItems({ where: { status: { [Op.ne]: RemovedStatus } } })
+        .then(items => {
+          const total = items.length;
+          const done = items.filter(t => DoneStatuses.includes(t.status))
+            .length;
+          if (!total) return 'N/A';
+          return `${done}/${total}`;
+        });
     },
     workItems(project, args) {
       return project.getWorkItems();
@@ -108,12 +122,15 @@ module.exports = {
   },
   WorkItem: {
     taskRatio(workItem) {
-      return workItem.getTasks().then(tasks => {
-        const total = tasks.length;
-        const done = tasks.filter(t => DoneStatuses.includes(t.status)).length;
-        if (!total) return 'N/A';
-        return `${done}/${total}`;
-      });
+      return workItem
+        .getTasks({ where: { status: { [Op.ne]: RemovedStatus } } })
+        .then(tasks => {
+          const total = tasks.length;
+          const done = tasks.filter(t => DoneStatuses.includes(t.status))
+            .length;
+          if (!total) return 'N/A';
+          return `${done}/${total}`;
+        });
     },
     tasks(workItem) {
       return workItem.getTasks();

@@ -28,6 +28,7 @@ module.exports.Status = [
   'Removed'
 ];
 module.exports.DefaultStatus = module.exports.Status[0];
+module.exports.RemovedStatus = module.exports.Status[6];
 module.exports.NotDoneStatuses = [...module.exports.Status.slice(0, 3)];
 module.exports.DoneStatuses = [...module.exports.Status.slice(3, 6)];
 

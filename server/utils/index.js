@@ -1,6 +1,18 @@
+const setTimeForDate = (h, m, s) => date => {
+  const d = new Date(date);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, s);
+};
+const startOfDay = setTimeForDate(0, 0, 0);
+
 function formatDateISO(date) {
   const d = new Date(date);
   return d.toISOString();
+}
+
+function getDateXDaysFromToday(offset) {
+  const d = startOfDay(new Date());
+  d.setDate(d.getDate() + offset);
+  return new Date(d);
 }
 
 function checkMapForKeys(m, keys) {
@@ -13,6 +25,9 @@ function firstAvailableKey(m, keys) {
 
 module.exports = {
   formatDateISO,
+  getDateXDaysFromToday,
+  setTimeForDate,
+  startOfDay,
   checkMapForKeys,
   firstAvailableKey
 };

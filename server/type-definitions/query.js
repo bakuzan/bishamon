@@ -3,8 +3,10 @@ const Query = `
     projects: [Project]
     project(id: Int): Project
     workItems(projectId: Int, status: Status, statusIn: [Status]): [WorkItem]
+    workItemsHistoric(projectId: Int): [WorkItem]
     workItem(id: Int): WorkItem
     tasks(workItemId: Int, status: Status): [Task]
+    tasksHistoric(workItemId: Int): [Task]
     task(id: Int): Task
 
     audits(itemId: Int, type: AuditType): [Audit]

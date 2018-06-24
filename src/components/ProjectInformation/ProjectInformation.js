@@ -13,11 +13,14 @@ class ProjectInformation extends React.PureComponent {
     const name = hasWorkItem
       ? `${project.name} - ${workItem.name}`
       : project.name;
-    const type = hasWorkItem ? workItem.type : project.type;
+    const type = hasWorkItem
+      ? workItem.type
+      : separateAndCapitaliseAll(project.type || '');
     const typeLower = type ? type.toLowerCase() : '';
     const status = hasWorkItem
       ? ` - ${separateAndCapitaliseAll(workItem.status)}`
       : '';
+
     return (
       <section className="project-information">
         <header

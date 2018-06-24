@@ -104,6 +104,8 @@ class TaskBoard extends React.Component {
                     const onHoldItems = Filters.filterListForOnHoldItems(
                       data.tasks
                     );
+                    const historicItems = data.tasksHistoric || [];
+
                     return (
                       <Tabs.TabContainer>
                         <Tabs.TabView
@@ -133,6 +135,17 @@ class TaskBoard extends React.Component {
                             items={onHoldItems}
                             itemTemplate={item => (
                               <TaskCard key={item.id} data={item} />
+                            )}
+                          />
+                        </Tabs.TabView>
+                        <Tabs.TabView
+                          name="HISTORIC"
+                          displayName={`Historic (${historicItems.length})`}
+                        >
+                          <List
+                            items={historicItems}
+                            itemTemplate={item => (
+                              <TaskCard key={item.id} data={item} readOnly />
                             )}
                           />
                         </Tabs.TabView>

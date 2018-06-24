@@ -27,6 +27,16 @@ module.exports = {
       }
     });
   },
+  workItemsHistoric(_, args) {
+    const oneWeekAgo = Utils.getDateXDaysFromToday(-7);
+    return WorkItem.findAll({
+      where: {
+        ...args,
+        status: FinishedStatus,
+        updatedAt: { [Op.lt]: oneWeekAgo }
+      }
+    });
+  },
   workItem(_, args) {
     const { id } = args;
     return WorkItem.findById(id);
@@ -40,6 +50,16 @@ module.exports = {
           { status: { [Op.ne]: FinishedStatus } },
           { updatedAt: { [Op.gt]: oneWeekAgo } }
         ]
+      }
+    });
+  },
+  tasksHistoric(_, args) {
+    const oneWeekAgo = Utils.getDateXDaysFromToday(-7);
+    return Task.findAll({
+      where: {
+        ...args,
+        status: FinishedStatus,
+        updatedAt: { [Op.lt]: oneWeekAgo }
       }
     });
   },

@@ -8,6 +8,12 @@ export const workItemTasks = gql`
       description
       status
     }
+    tasksHistoric(workItemId: $workItemId) {
+      id
+      name
+      description
+      status
+    }
   }
 `;
 

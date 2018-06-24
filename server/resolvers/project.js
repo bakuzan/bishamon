@@ -2,6 +2,7 @@ const Op = require('sequelize').Op;
 
 const Constants = require('../constants/index');
 const { ItemStatus, DoneStatuses } = require('../constants/enums');
+const Utils = require('../utils');
 
 module.exports = {
   colours(project, args) {
@@ -32,5 +33,8 @@ module.exports = {
     return project
       .getWorkItems({ where: { id: args.workItemId } })
       .then(items => items[0]);
+  },
+  updatedAt(project) {
+    return Utils.formatDateISO(project.updatedAt);
   }
 };

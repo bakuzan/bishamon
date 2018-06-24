@@ -9,7 +9,7 @@ import './ItemCard.css';
 
 class ItemCard extends React.PureComponent {
   render() {
-    const { data, mutationProps } = this.props;
+    const { data, readOnly, mutationProps } = this.props;
     const type = data.type ? data.type.toLowerCase() : '';
 
     return (
@@ -20,7 +20,9 @@ class ItemCard extends React.PureComponent {
             <div className="item-card__detail">
               <div>{data.description}</div>
               <div className="button-group align-right">
-                <Button onClick={updateFunc}>Continue Work</Button>
+                {readOnly && (
+                  <Button onClick={updateFunc}>Continue Work</Button>
+                )}
               </div>
             </div>
           </li>
@@ -36,6 +38,7 @@ ItemCard.defaultProps = {
 
 ItemCard.propTypes = {
   data: PropTypes.object,
+  readOnly: PropTypes.bool,
   mutationProps: PropTypes.shape({
     mutation: PropTypes.object,
     variables: PropTypes.object,

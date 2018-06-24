@@ -16,6 +16,14 @@ export const projectWorkItems = gql`
       status
       taskRatio
     }
+    workItemsHistoric(projectId: $projectId) {
+      id
+      name
+      description
+      type
+      status
+      taskRatio
+    }
   }
 `;
 

@@ -102,6 +102,8 @@ class WorkItemBoard extends React.Component {
                     const onHoldWorkItems = filterListForOnHoldItems(
                       data.workItems
                     );
+                    const historicItems = data.workItemsHistoric || [];
+
                     return (
                       <Tabs.TabContainer>
                         <Tabs.TabView
@@ -132,6 +134,21 @@ class WorkItemBoard extends React.Component {
                             items={onHoldWorkItems}
                             itemTemplate={item => (
                               <WorkItemCard key={item.id} data={item} />
+                            )}
+                          />
+                        </Tabs.TabView>
+                        <Tabs.TabView
+                          name="HISTORIC"
+                          displayName={`Historic (${historicItems.length})`}
+                        >
+                          <List
+                            items={historicItems}
+                            itemTemplate={item => (
+                              <WorkItemCard
+                                key={item.id}
+                                data={item}
+                                readOnly
+                              />
                             )}
                           />
                         </Tabs.TabView>

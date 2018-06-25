@@ -20,7 +20,7 @@ class ItemCard extends React.PureComponent {
             <div className="item-card__detail">
               <div>{data.description}</div>
               <div className="button-group align-right">
-                {readOnly && (
+                {!readOnly && (
                   <Button onClick={updateFunc}>Continue Work</Button>
                 )}
               </div>

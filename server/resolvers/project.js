@@ -16,8 +16,22 @@ module.exports = {
     return colours.split(',')[0] || Constants.fallbackColour;
   },
   workItemRatio(project) {
+    const oneWeekAgo = Utils.getDateXDaysFromToday(-7);
+
     return project
-      .getWorkItems({ where: { status: { [Op.ne]: ItemStatus.Removed } } })
+      .getWorkItems({
+        where: {
+          [Op.and]: [
+            { status: { [Op.ne]: ItemStatus.Removed } },
+            {
+              [Op.or]: [
+                { status: { [Op.ne]: ItemStatus.Done } },
+                { updatedAt: { [Op.gt]: oneWeekAgo } }
+              ]
+            }
+          ]
+        }
+      })
       .then(items => {
         const total = items.length;
         const onHold = items.filter(t => t.status === ItemStatus.OnHold).length;

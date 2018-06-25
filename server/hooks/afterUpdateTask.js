@@ -6,20 +6,24 @@ const {
 } = require('../constants/enums');
 const Utils = require('../utils');
 
-function updateWorkItemStatus(db, workItem, status) {
+function updateWorkItemStatus(db, workItem, status, options) {
   db.models.workItem.update(
     { status },
-    { where: { id: workItem.id }, individualHooks: true }
+    {
+      where: { id: workItem.id },
+      individualHooks: true,
+      transaction: options.transaction
+    }
   );
 }
 
-const updateWorkItemPostTaskChange = (db, workItemId) => taskCheck => {
+const updateWorkItemPostTaskChange = (db, workItemId, options) => taskCheck => {
   db.models.workItem.findById(workItemId).then(workItem =>
     workItem.getTasks().then(tasks => {
       const workItemData = workItem.dataValues;
       const newStatus = taskCheck(tasks, workItemData);
       if (newStatus && workItemData.status !== newStatus) {
-        updateWorkItemStatus(db, workItemData, newStatus);
+        updateWorkItemStatus(db, workItemData, newStatus, options);
       }
     })
   );
@@ -31,7 +35,8 @@ module.exports = (db, instance, options) => {
   if (!_changed.status) return instance;
   const checkWorkItemTasks = updateWorkItemPostTaskChange(
     db,
-    dataValues.workItemId
+    dataValues.workItemId,
+    options
   );
 
   if (dataValues.status === ItemStatus.InProgress) {

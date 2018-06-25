@@ -17,7 +17,11 @@ module.exports = (db, instance, options) => {
 
     db.models.workItem.update(
       { status: ItemStatus.InProgress },
-      { where: { id: workItemId }, individualHooks: true }
+      {
+        where: { id: workItemId },
+        individualHooks: true,
+        transaction: options.transaction
+      }
     );
   });
 

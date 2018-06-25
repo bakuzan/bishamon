@@ -28,4 +28,4 @@ const Project = db.models.project;
 const WorkItem = db.models.workItem;
 const Task = db.models.task;
 
-module.exports = { Project, WorkItem, Task };
+module.exports = { db, Project, WorkItem, Task };

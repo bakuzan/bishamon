@@ -14,7 +14,11 @@ const resolvers = require('./resolvers');
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
+  formatError: error => {
+    console.log(error);
+    return error;
+  }
 });
 const app = express();
 

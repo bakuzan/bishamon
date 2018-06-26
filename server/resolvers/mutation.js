@@ -25,14 +25,13 @@ module.exports = {
     ).then(count => WorkItem.findById(id));
   },
   taskCreate(_, { workItemId, ...args }) {
-    return Context.transaction(transaction => {
-      return Task.create({ ...args, status: DefaultStatus, transaction }).then(
-        task =>
-          WorkItem.findById(workItemId)
-            .then(workItem => workItem.addTask(task))
-            .then(() => task)
-      );
-    });
+    return Context.transaction(transaction =>
+      Task.create({ ...args, status: DefaultStatus, transaction })
+    ).then(task =>
+      WorkItem.findById(workItemId)
+        .then(workItem => workItem.addTask(task))
+        .then(() => task)
+    );
   },
   taskUpdate(_, { id, ...args }) {
     return Context.transaction(transaction => {
@@ -43,7 +42,7 @@ module.exports = {
           individualHooks: true,
           transaction
         }
-      ).then(count => Task.findById(id));
-    });
+      );
+    }).then(() => Task.findById(id));
   }
 };

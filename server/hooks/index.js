@@ -17,7 +17,7 @@ const afterCreate = auditType => (instance, options) => {
   if (auditType === AuditWorkItem) {
     createChanges.push(mapToAudit(auditType, 'type', dataValues));
   }
-  Audit.bulkCreate(createChanges);
+  Audit.bulkCreate(createChanges, { transaction: null });
   return instance;
 };
 
@@ -35,7 +35,7 @@ const afterUpdate = auditType => (instance, options) => {
     );
   }
   if (updateChanges.length) {
-    Audit.bulkCreate(updateChanges).then(audits =>
+    Audit.bulkCreate(updateChanges, { transaction: null }).then(audits =>
       console.log(`Created ${updateChanges.length} new audit(s)`, dataValues)
     );
   }

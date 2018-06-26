@@ -7,7 +7,7 @@ const Utils = require('../utils');
 
 module.exports = {
   projects(_, args) {
-    return Project.findAll({ where: args });
+    return Project.findAll({ where: args, order: [['name', 'ASC']] });
   },
   project(_, args) {
     const { id } = args;

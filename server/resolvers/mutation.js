@@ -1,5 +1,10 @@
 const { db: Context, Project, WorkItem, Task } = require('../connectors');
-const { DefaultStatus } = require('../constants/enums');
+const {
+  DefaultStatus,
+  ItemStatus,
+  IgnoreStatuses
+} = require('../constants/enums');
+const getWorkItemDerivedStatusCheck = require('../utils/dervied-updates');
 
 module.exports = {
   projectCreate(_, args) {
@@ -25,13 +30,28 @@ module.exports = {
     ).then(count => WorkItem.findById(id));
   },
   taskCreate(_, { workItemId, ...args }) {
-    return Context.transaction(transaction =>
-      Task.create({ ...args, status: DefaultStatus, transaction })
-    ).then(task =>
-      WorkItem.findById(workItemId)
-        .then(workItem => workItem.addTask(task))
-        .then(() => task)
-    );
+    return Context.transaction(transaction => {
+      return Task.create(
+        { ...args, status: DefaultStatus },
+        { transaction }
+      ).then(task => {
+        return WorkItem.findById(workItemId, { transaction })
+          .then(workItem => {
+            workItem.addTask(task, { transaction });
+            if (IgnoreStatuses.includes(workItem.status)) return;
+
+            return WorkItem.update(
+              { status: ItemStatus.InProgress },
+              {
+                where: { id: workItemId },
+                individualHooks: true,
+                transaction
+              }
+            );
+          })
+          .then(() => task);
+      });
+    });
   },
   taskUpdate(_, { id, ...args }) {
     return Context.transaction(transaction => {
@@ -42,7 +62,33 @@ module.exports = {
           individualHooks: true,
           transaction
         }
-      );
-    }).then(() => Task.findById(id));
+      ).then(() => {
+        return workItem.findById(workItemId, { transaction }).then(workItem => {
+          return workItem
+            .getTasks({}, { transaction })
+            .then(tasks => {
+              const workItemData = workItem.dataValues;
+              const taskStatusCheck = getWorkItemDerivedStatusCheck(
+                args.status
+              );
+              const newStatus = taskStatusCheck(tasks, workItemData);
+
+              if (newStatus && workItemData.status !== newStatus) {
+                workItem.update(
+                  { status },
+                  {
+                    where: { id: workItem.id },
+                    individualHooks: true,
+                    transaction
+                  }
+                );
+              }
+
+              return tasks.find(x => x.id === id);
+            })
+            .then(task => task);
+        });
+      });
+    });
   }
 };

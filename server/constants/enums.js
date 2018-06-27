@@ -37,6 +37,11 @@ module.exports.ItemStatus = [...module.exports.Status.slice(0)].reduce(
   (p, c) => ({ ...p, [c]: c }),
   {}
 );
+module.exports.IgnoreStatuses = [
+  module.exports.ItemStatus.Todo,
+  module.exports.ItemStatus.InProgress,
+  module.exports.ItemStatus.OnHold
+];
 
 module.exports.AuditType = ['WorkItem', 'Task'];
 module.exports.AuditWorkItem = module.exports.AuditType[0];

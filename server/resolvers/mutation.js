@@ -30,31 +30,42 @@ module.exports = {
     ).then(count => WorkItem.findById(id));
   },
   taskCreate(_, { workItemId, ...args }) {
-    return Context.transaction(transaction => {
-      return Task.create(
-        { ...args, status: DefaultStatus },
-        { transaction }
-      ).then(task => {
-        return WorkItem.findById(workItemId, { transaction })
-          .then(workItem => {
-            workItem.addTask(task, { transaction });
-            if (IgnoreStatuses.includes(workItem.status)) return;
+    return Context.transaction({ autocommit: false }).then(transaction => {
+      let createdTask;
+      return Task.create({ ...args, status: DefaultStatus }, { transaction })
+        .then(task => {
+          createdTask = task;
+          return WorkItem.findById(workItemId, { transaction });
+        })
+        .then(workItem => {
+          workItem.addTask(createdTask, { transaction });
+          return workItem;
+        })
+        .then(workItem => {
+          if (IgnoreStatuses.includes(workItem.status)) return;
 
-            return WorkItem.update(
-              { status: ItemStatus.InProgress },
-              {
-                where: { id: workItemId },
-                individualHooks: true,
-                transaction
-              }
-            );
-          })
-          .then(() => task);
-      });
+          return WorkItem.update(
+            { status: ItemStatus.InProgress },
+            {
+              where: { id: workItemId },
+              individualHooks: true,
+              transaction
+            }
+          );
+        })
+        .then(() => {
+          transaction.commit();
+          return createdTask;
+        })
+        .catch(error => {
+          transaction.rollback();
+          return error;
+        });
     });
   },
   taskUpdate(_, { id, ...args }) {
-    return Context.transaction(transaction => {
+    return Context.transaction({ autocommit: false }).then(transaction => {
+      let updatedTask;
       return Task.update(
         { ...args },
         {
@@ -62,33 +73,38 @@ module.exports = {
           individualHooks: true,
           transaction
         }
-      ).then(() => {
-        return workItem.findById(workItemId, { transaction }).then(workItem => {
-          return workItem
-            .getTasks({}, { transaction })
-            .then(tasks => {
-              const workItemData = workItem.dataValues;
-              const taskStatusCheck = getWorkItemDerivedStatusCheck(
-                args.status
-              );
-              const newStatus = taskStatusCheck(tasks, workItemData);
+      )
+        .then(task => {
+          updatedTask = task;
+          return workItem.findById(workItemId, { transaction });
+        })
+        .then(workItem => workItem.getTasks({}, { transaction }))
+        .then(tasks => {
+          const workItemData = workItem.dataValues;
+          const taskStatusCheck = getWorkItemDerivedStatusCheck(args.status);
+          const newStatus = taskStatusCheck(tasks, workItemData);
 
-              if (newStatus && workItemData.status !== newStatus) {
-                workItem.update(
-                  { status },
-                  {
-                    where: { id: workItem.id },
-                    individualHooks: true,
-                    transaction
-                  }
-                );
+          if (newStatus && workItemData.status !== newStatus) {
+            return workItem.update(
+              { status },
+              {
+                where: { id: workItem.id },
+                individualHooks: true,
+                transaction
               }
+            );
+          }
 
-              return tasks.find(x => x.id === id);
-            })
-            .then(task => task);
+          return Promise.resolve({});
+        })
+        .then(() => {
+          transaction.commit();
+          return updatedTask;
+        })
+        .catch(error => {
+          transaction.rollback();
+          return error;
         });
-      });
     });
   }
 };

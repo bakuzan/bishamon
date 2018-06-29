@@ -1,5 +1,9 @@
 @import './_variables';
 
+.flex {
+  display: flex;
+}
+
 .padded {
   &--standard {
     padding: $app--standard-padding;

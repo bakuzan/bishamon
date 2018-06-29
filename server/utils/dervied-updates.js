@@ -5,7 +5,7 @@ const {
 } = require('../constants/enums');
 const Utils = require('../utils');
 
-module.exports = taskStatus => {
+module.exports = (taskStatus) => {
   let taskStatusCheck = null;
   if (taskStatus === ItemStatus.InProgress) {
     taskStatusCheck = (tasks, workItem) =>
@@ -13,9 +13,9 @@ module.exports = taskStatus => {
         ? ItemStatus.InProgress
         : undefined;
   } else if (DoneStatuses.includes(taskStatus)) {
-    taskStatusCheck = tasks => {
+    taskStatusCheck = (tasks) => {
       const taskStatuses = tasks
-        .map(x => x.dataValues)
+        .map((x) => x.dataValues)
         .reduce(
           (p, c) =>
             p.has(c.status)

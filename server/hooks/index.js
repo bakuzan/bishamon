@@ -11,17 +11,17 @@ function mapToAudit(type, fieldName, newData, oldData = {}) {
   };
 }
 
-const afterCreate = auditType => (instance, options) => {
+const afterCreate = (auditType) => (instance, options) => {
   const { dataValues } = instance;
   const createChanges = [mapToAudit(auditType, 'status', dataValues)];
   if (auditType === AuditWorkItem) {
     createChanges.push(mapToAudit(auditType, 'type', dataValues));
   }
-  Audit.bulkCreate(createChanges, { transaction: null });
+  Audit.bulkCreate(createChanges);
   return instance;
 };
 
-const afterUpdate = auditType => (instance, options) => {
+const afterUpdate = (auditType) => (instance, options) => {
   const { dataValues, _previousDataValues, _changed } = instance;
   const updateChanges = [];
   if (_changed.type) {
@@ -35,7 +35,7 @@ const afterUpdate = auditType => (instance, options) => {
     );
   }
   if (updateChanges.length) {
-    Audit.bulkCreate(updateChanges, { transaction: null }).then(audits =>
+    Audit.bulkCreate(updateChanges).then((audits) =>
       console.log(`Created ${updateChanges.length} new audit(s)`, dataValues)
     );
   }

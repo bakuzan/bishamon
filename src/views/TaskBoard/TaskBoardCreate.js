@@ -18,7 +18,7 @@ class TaskBoardCreate extends React.PureComponent {
       onCompleted,
       variables: { workItemId },
       update: (cache, { data: { taskCreate } }) => {
-        const { tasks = [] } = cache.readQuery({
+        const { tasks = [], tasksHistoric } = cache.readQuery({
           query: Fetch.workItemTasks,
           variables: { workItemId }
         });
@@ -27,7 +27,8 @@ class TaskBoardCreate extends React.PureComponent {
           query: Fetch.workItemTasks,
           variables: { workItemId },
           data: {
-            tasks: updatedTasks
+            tasks: updatedTasks,
+            tasksHistoric
           }
         });
       },

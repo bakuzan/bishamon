@@ -8,6 +8,7 @@ const Query = `
     tasks(workItemId: Int, status: Status): [Task]
     tasksHistoric(workItemId: Int): [Task]
     task(id: Int): Task
+    technologies(sort: TechnologySortType)
 
     audits(itemId: Int, type: AuditType): [Audit]
   }
@@ -23,6 +24,9 @@ const Mutation = `
 
     taskCreate(workItemId: Int!, name: String!, description: String): Task
     taskUpdate(id: Int!, name: String, description: String, status: Status): Task
+
+    technologyCreate(name: String!): Technology
+    technologyRemove(id: Int): object
   }
 `;
 

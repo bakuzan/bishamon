@@ -1,4 +1,10 @@
-const { db: Context, Project, WorkItem, Task } = require('../connectors');
+const {
+  db: Context,
+  Project,
+  WorkItem,
+  Task,
+  Technology
+} = require('../connectors');
 const {
   DefaultStatus,
   ItemStatus,
@@ -94,5 +100,15 @@ module.exports = {
       })
       .then(() => updatedTask)
       .catch((error) => error);
+  },
+  technologyCreate(_, args) {
+    return Technology.create({ ...args });
+  },
+  technologyRemove(_, { id }) {
+    return Technology.destroy({
+      where: { id }
+    })
+      .then(() => ({ success: true }))
+      .catch(() => ({ success: false }));
   }
 };

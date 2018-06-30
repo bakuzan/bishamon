@@ -24,10 +24,23 @@ const StatusGQL = `
   }
 `;
 
+const TechnologySortType = `
+  enum TechnologySortType {
+    NAME_ASC
+    NAME_DESC
+  }
+`;
+
 const AuditTypeGQL = `
   enum AuditType {
     ${mapArrToGraphqlString(AuditType)}
   }
 `;
 
-module.exports = [ProjectTypeGQL, WorkTypeGQL, StatusGQL, AuditTypeGQL];
+module.exports = [
+  ProjectTypeGQL,
+  WorkTypeGQL,
+  StatusGQL,
+  TechnologySortType,
+  AuditTypeGQL
+];

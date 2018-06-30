@@ -8,6 +8,7 @@ module.exports = `
     workItems: [WorkItem]
     workItem(workItemId: Int!): WorkItem
     workItemRatio: String
+    technologies: [Technology]
     updatedAt: String
   }
 `;

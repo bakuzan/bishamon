@@ -1,6 +1,6 @@
 const Op = require('sequelize').Op;
 
-const { Project, WorkItem, Task } = require('../connectors');
+const { Project, WorkItem, Task, Technology } = require('../connectors');
 const { Audit } = require('../connectors/audit');
 const { FinishedStatus } = require('../constants/enums');
 const Utils = require('../utils');
@@ -67,6 +67,14 @@ module.exports = {
     const { id } = args;
     return Task.findById(id);
   },
+  technologies(_, { sort, ...args }) {
+    const order = !sort
+      ? ['name', 'ASC']
+      : sort.split('_').map((s, i) => (i === 0 ? s.toLowerCase() : s));
+
+    return Technology.findAll({ where: { ...args }, order: [order] });
+  },
+  // Audit db
   audits(_, args) {
     return Audit.findAll({ where: args });
   }

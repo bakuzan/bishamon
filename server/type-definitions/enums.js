@@ -24,7 +24,7 @@ const StatusGQL = `
   }
 `;
 
-const TechnologySortType = `
+const TechnologySortTypeGQL = `
   enum TechnologySortType {
     NAME_ASC
     NAME_DESC
@@ -41,6 +41,6 @@ module.exports = [
   ProjectTypeGQL,
   WorkTypeGQL,
   StatusGQL,
-  TechnologySortType,
+  TechnologySortTypeGQL,
   AuditTypeGQL
 ];

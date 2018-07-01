@@ -25,7 +25,7 @@ function createMigrationContext(sequelize) {
           );
         }
       ],
-      path: '../migrations',
+      path: path.join(__dirname, '..', 'migrations'),
       pattern: /\.js$/
     },
 

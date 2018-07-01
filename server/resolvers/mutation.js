@@ -108,7 +108,11 @@ module.exports = {
     return Technology.destroy({
       where: { id }
     })
-      .then(() => ({ success: true }))
-      .catch(() => ({ success: false }));
+      .then(() => ({ success: true, errorMessage: '' }))
+      .catch((error) => {
+        const errorMessage =
+          (error && error.message) || 'Failed to remove technology.';
+        return { success: false, errorMessage };
+      });
   }
 };

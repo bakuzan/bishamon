@@ -1,14 +1,56 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Mutation } from 'react-apollo';
 
 import { ClearableInput, ChipListInput, SelectBox } from 'meiko';
 import Form from './Form';
+import { TechnologyContext } from 'context';
+import Fetch from 'queries/fetch';
+import Mutate from 'queries/mutate';
 import ProjectTypes from 'constants/project-types';
-import { enumsToSelectBoxOptions, projectColourModel } from 'utils/mappers';
+import {
+  enumsToSelectBoxOptions,
+  projectColourModel,
+  mapTechnologyToOptimisticResponse
+} from 'utils/mappers';
 
 const PROJECT_TYPES = enumsToSelectBoxOptions(ProjectTypes);
 
 class ProjectForm extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.handleAddTechnology = this.handleAddTechnology.bind(this);
+    this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
+  }
+
+  handleAddTechnology(callApi) {
+    return (techTag) => {
+      const optimisticResponse = mapTechnologyToOptimisticResponse(techTag);
+      callApi({
+        variables: {
+          ...techTag
+        },
+        optimisticResponse
+      });
+    };
+  }
+
+  handleCacheUpdate(
+    cache,
+    {
+      data: { technologyCreate }
+    }
+  ) {
+    const { technologies = [] } = cache.readQuery({
+      query: Fetch.technologiesAll
+    });
+    cache.writeQuery({
+      query: Fetch.technologiesAll,
+      data: { technologies: technologies.concat([technologyCreate]) }
+    });
+  }
+
   render() {
     const { formProps } = this.props;
 
@@ -42,6 +84,31 @@ class ProjectForm extends React.PureComponent {
                 createNew={actions.handleListCreate}
                 createNewMessage="Add Colour"
               />
+              <Mutation
+                mutation={Mutate.technologyCreate}
+                update={this.handleCacheUpdate}
+              >
+                {(createTechTag, { data = {} }) => {
+                  return (
+                    <TechnologyContext.Consumer>
+                      {(allTechnologies) => (
+                        <ChipListInput
+                          tagClassName="bishamon-tag"
+                          menuClassName="bishamon-autocomplete-menu"
+                          label="Technologies"
+                          attr="name"
+                          name="technologies"
+                          chipsSelected={values.technologies}
+                          chipOptions={allTechnologies}
+                          updateChipList={actions.handleListUpdate}
+                          createNew={this.handleAddTechnology(createTechTag)}
+                          createNewMessage="Add Technology"
+                        />
+                      )}
+                    </TechnologyContext.Consumer>
+                  );
+                }}
+              </Mutation>
             </React.Fragment>
           );
         }}

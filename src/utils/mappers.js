@@ -1,22 +1,22 @@
 import Strings from 'constants/strings';
 import { generateUniqueId, separateAndCapitaliseAll } from './common';
 
-export const projectColourModel = code => ({
+export const projectColourModel = (code) => ({
   id: generateUniqueId(),
   code
 });
 
-export const enumsToSelectBoxOptions = arr =>
-  arr.map(value => ({ value, text: separateAndCapitaliseAll(value) }));
+export const enumsToSelectBoxOptions = (arr) =>
+  arr.map((value) => ({ value, text: separateAndCapitaliseAll(value) }));
 
-const mapOptimisticResponse = obj => {
+const mapOptimisticResponse = (obj) => {
   return {
     __typename: 'Mutation',
     ...obj
   };
 };
 
-export const mapProjectViewToOptimisticResponse = values => {
+export const mapProjectViewToOptimisticResponse = (values) => {
   return mapOptimisticResponse({
     projectUpdate: {
       ...values,
@@ -25,7 +25,7 @@ export const mapProjectViewToOptimisticResponse = values => {
   });
 };
 
-export const mapWorkItemViewToOptimisticResponse = values => {
+export const mapWorkItemViewToOptimisticResponse = (values) => {
   return mapOptimisticResponse({
     workItemUpdate: {
       ...values
@@ -33,9 +33,17 @@ export const mapWorkItemViewToOptimisticResponse = values => {
   });
 };
 
-export const mapTaskViewToOptimisticResponse = values => {
+export const mapTaskViewToOptimisticResponse = (values) => {
   return mapOptimisticResponse({
     taskUpdate: {
+      ...values
+    }
+  });
+};
+
+export const mapTechnologyToOptimisticResponse = (values) => {
+  return mapOptimisticResponse({
+    technologyCreate: {
       ...values
     }
   });

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 
 const Constants = require('../constants/index');
+const migrate = require('../config');
 
 const db = new Sequelize(Constants.appName, null, null, {
   dialect: 'sqlite',
@@ -20,14 +21,19 @@ const TechModel = db.import('./technology');
 ProjectModel.hasMany(WorkItemModel);
 WorkItemModel.belongsTo(ProjectModel);
 
-ProjectModel.hasMany(TechModel);
-TechModel.belongsToMany(ProjectModel);
+ProjectModel.belongsToMany(TechModel, {
+  through: 'ProjectTechnology'
+});
+TechModel.belongsToMany(ProjectModel, {
+  through: 'ProjectTechnology'
+});
 
 WorkItemModel.hasMany(TaskModel);
 TaskModel.belongsTo(WorkItemModel);
 
-// Creates things that don't exist yet.
-db.sync();
+// Sync to create db if not exist
+// then run migration scripts
+db.sync().then(() => migrate(db));
 
 const Project = db.models.project;
 const WorkItem = db.models.workItem;

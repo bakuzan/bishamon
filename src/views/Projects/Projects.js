@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Query } from 'react-apollo';
 
@@ -7,10 +8,11 @@ import { ButtonisedNavButton } from 'components/Buttons';
 import List from 'components/List/List';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
 import ProjectView from './ProjectView';
+import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 import Strings from 'constants/strings';
 import ProjectTypes from 'constants/project-types';
-import { enumsToSelectBoxOptions } from 'utils/mappers';
+import { enumsToSelectBoxOptions, dataToSelectBoxOptions } from 'utils/mappers';
 import { filterProjects } from 'utils/filters';
 
 const DefaultProjectTypeFilters = new Set(ProjectTypes.slice(0));
@@ -23,13 +25,14 @@ class Projects extends React.Component {
       selectedId: null,
       filters: {
         search: '',
-        types: DefaultProjectTypeFilters
+        types: DefaultProjectTypeFilters,
+        technologies: new Set([])
       }
     };
 
     this.handleSelectedCard = this.handleSelectedCard.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleTypes = this.handleTypes.bind(this);
+    this.handleMultiSelect = this.handleMultiSelect.bind(this);
   }
 
   handleSelectedCard(selectedId) {
@@ -52,7 +55,7 @@ class Projects extends React.Component {
     this.handleUserInput(name, value);
   }
 
-  handleTypes(value, name) {
+  handleMultiSelect(value, name) {
     this.handleUserInput(name, new Set(value));
   }
 
@@ -68,7 +71,7 @@ class Projects extends React.Component {
 
           return (
             <div className="padded padded--standard">
-              <div className="flex">
+              <div className={classNames('flex', 'project-filters')}>
                 <ClearableInput
                   name="search"
                   value={filters.search}
@@ -81,8 +84,29 @@ class Projects extends React.Component {
                   label="Types"
                   values={[...filters.types.values()]}
                   options={PROJECT_TYPE_OPTIONS}
-                  onUpdate={this.handleTypes}
+                  onUpdate={this.handleMultiSelect}
                 />
+                <TechnologyContext.Consumer>
+                  {(technologies) => {
+                    // TODO
+                    // replace this with a tag cloud feature
+                    // change the filter to inclusive, rather than exclusive
+                    const TECHNOLOGY_TAGS = dataToSelectBoxOptions(
+                      technologies
+                    );
+                    return (
+                      <MultiSelect
+                        id="technologies"
+                        name="technologies"
+                        placeholder="Select technology(s)"
+                        label="Technologies"
+                        values={[...filters.technologies.values()]}
+                        options={TECHNOLOGY_TAGS}
+                        onUpdate={this.handleMultiSelect}
+                      />
+                    );
+                  }}
+                </TechnologyContext.Consumer>
                 <div className="button-group right-aligned">
                   <ButtonisedNavButton btnStyle="primary" to={projectCreateUrl}>
                     Add Project

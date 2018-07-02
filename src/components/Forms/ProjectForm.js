@@ -10,6 +10,7 @@ import Mutate from 'queries/mutate';
 import ProjectTypes from 'constants/project-types';
 import {
   enumsToSelectBoxOptions,
+  removeTypename,
   projectColourModel,
   projectTechnologyModel,
   mapTechnologyToOptimisticResponse
@@ -55,9 +56,19 @@ class ProjectForm extends React.PureComponent {
 
   render() {
     const { formProps } = this.props;
-
+    const projectFormProps = {
+      ...formProps,
+      mutationProps: {
+        ...formProps.mutationProps,
+        curateValues: (values, other) => ({
+          ...other,
+          ...values,
+          technologies: values.technologies.map(removeTypename)
+        })
+      }
+    };
     return (
-      <Form {...formProps}>
+      <Form {...projectFormProps}>
         {({ values, actions }) => {
           return (
             <React.Fragment>
@@ -96,22 +107,29 @@ class ProjectForm extends React.PureComponent {
 
                   return (
                     <TechnologyContext.Consumer>
-                      {(allTechnologies = []) => (
-                        <ChipListInput
-                          tagClassName="bishamon-tag"
-                          menuClassName="bishamon-autocomplete-menu"
-                          label="Technologies"
-                          attr="name"
-                          name="technologies"
-                          chipsSelected={values.technologies.map(
-                            projectTechnologyModel
-                          )}
-                          chipOptions={allTechnologies}
-                          updateChipList={actions.handleListUpdate}
-                          createNew={onCreateNewTechnology}
-                          createNewMessage="Create New Technology"
-                        />
-                      )}
+                      {(allTechnologies = []) => {
+                        const hasOptions = allTechnologies.length !== 0;
+                        const technologyOptions = hasOptions
+                          ? allTechnologies
+                          : [{ id: -1, name: '____' }];
+
+                        return (
+                          <ChipListInput
+                            tagClassName="bishamon-tag"
+                            menuClassName="bishamon-autocomplete-menu"
+                            label="Technologies"
+                            attr="name"
+                            name="technologies"
+                            chipsSelected={values.technologies.map(
+                              projectTechnologyModel
+                            )}
+                            chipOptions={technologyOptions}
+                            updateChipList={actions.handleListUpdate}
+                            createNew={onCreateNewTechnology}
+                            createNewMessage="Create New Technology"
+                          />
+                        );
+                      }}
                     </TechnologyContext.Consumer>
                   );
                 }}

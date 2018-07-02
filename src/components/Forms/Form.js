@@ -62,20 +62,17 @@ class Form extends React.Component {
     return (...test) => {
       const { mutationProps } = this.props;
       const passedVariables = mutationProps.variables || {};
+
       const optimisticResponse = mutationProps.buildOptimisticResponse
         ? mutationProps.buildOptimisticResponse(this.state.values)
         : undefined;
-      console.log(
-        callApi,
-        optimisticResponse,
-        passedVariables,
-        this.state.values
-      );
+
+      const craftedValues = !mutationProps.curateValues
+        ? { ...passedVariables, ...this.state.values }
+        : mutationProps.curateValues(this.state.values, passedVariables);
+
       callApi({
-        variables: {
-          ...passedVariables,
-          ...this.state.values
-        },
+        variables: { ...craftedValues },
         optimisticResponse
       });
     };
@@ -131,7 +128,8 @@ Form.propTypes = {
   mutationProps: PropTypes.shape({
     mutation: PropTypes.object.isRequired,
     onCompletion: PropTypes.func,
-    buildOptimisticResponse: PropTypes.func
+    buildOptimisticResponse: PropTypes.func,
+    curateValues: PropTypes.func
   }).isRequired
 };
 

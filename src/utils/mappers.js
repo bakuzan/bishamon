@@ -4,6 +4,11 @@ import { generateUniqueId, separateAndCapitaliseAll } from './common';
 export const enumsToSelectBoxOptions = (arr) =>
   arr.map((value) => ({ value, text: separateAndCapitaliseAll(value) }));
 
+export const dataToSelectBoxOptions = (arr = []) =>
+  arr.map((obj) => ({ value: obj.id, text: obj.name }));
+
+export const removeTypename = ({ __typename, ...o }) => ({ ...o });
+
 export const projectColourModel = (code) => ({
   id: generateUniqueId(),
   code

@@ -1,1 +1,6 @@
-export default ['Application', 'Training', 'Library', 'SubModule'];
+export default Object.freeze([
+  'Application',
+  'Training',
+  'Library',
+  'SubModule'
+]);

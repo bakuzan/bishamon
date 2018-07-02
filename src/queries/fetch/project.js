@@ -8,6 +8,10 @@ export const projectsAll = gql`
       type
       primaryColour
       workItemRatio
+      technologies {
+        id
+        name
+      }
     }
   }
 `;
@@ -30,6 +34,10 @@ export const projectById = gql`
       name
       type
       colours
+      technologies {
+        id
+        name
+      }
     }
   }
 `;

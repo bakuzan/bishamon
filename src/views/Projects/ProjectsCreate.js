@@ -10,7 +10,8 @@ import { enumDefault } from 'utils/derived-data';
 const projectCreateDefaults = Object.freeze({
   name: '',
   type: enumDefault(ProjectTypes),
-  colours: []
+  colours: [],
+  technologies: []
 });
 
 class ProjectsCreate extends React.Component {

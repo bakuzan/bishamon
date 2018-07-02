@@ -32,10 +32,12 @@ module.exports = {
           ]
         }
       })
-      .then(items => {
+      .then((items) => {
         const total = items.length;
-        const onHold = items.filter(t => t.status === ItemStatus.OnHold).length;
-        const done = items.filter(t => DoneStatuses.includes(t.status)).length;
+        const onHold = items.filter((t) => t.status === ItemStatus.OnHold)
+          .length;
+        const done = items.filter((t) => DoneStatuses.includes(t.status))
+          .length;
         if (!total) return 'N/A';
         return `${done}/${total}(${onHold})`;
       });
@@ -46,7 +48,10 @@ module.exports = {
   workItem(project, args) {
     return project
       .getWorkItems({ where: { id: args.workItemId } })
-      .then(items => items[0]);
+      .then((items) => items[0]);
+  },
+  technologies(project) {
+    return project.getTechnologies();
   },
   updatedAt(project) {
     return Utils.formatDateISO(project.updatedAt);

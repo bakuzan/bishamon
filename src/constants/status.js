@@ -1,4 +1,4 @@
-const Status = [
+const Status = Object.freeze([
   'Todo',
   'InProgress',
   'OnHold',
@@ -6,7 +6,7 @@ const Status = [
   'Testing',
   'Done',
   'Removed'
-];
+]);
 
 export default Status;
 

@@ -14,6 +14,6 @@ module.exports = [
   project,
   workItem,
   task,
-  technology,
+  ...technology,
   audit
 ];

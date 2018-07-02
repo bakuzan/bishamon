@@ -7,7 +7,6 @@ import { ButtonisedNavButton } from 'components/Buttons';
 import List from 'components/List/List';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
 import ProjectView from './ProjectView';
-import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 import Strings from 'constants/strings';
 import ProjectTypes from 'constants/project-types';
@@ -66,7 +65,7 @@ class Projects extends React.Component {
       <Query query={Fetch.projectsAll}>
         {({ loading, error, data = {} }) => {
           const filteredProjects = filterProjects(filters, data.projects);
-          const allTechnologies = data.technologies || [];
+
           return (
             <div className="padded padded--standard">
               <div className="flex">
@@ -107,12 +106,10 @@ class Projects extends React.Component {
                     Strings.selectors.projectCardPortal
                   }${selectedId}`}
                 >
-                  <TechnologyContext.Provider value={allTechnologies}>
-                    <ProjectView
-                      id={selectedId}
-                      closeView={this.handleSelectedCard}
-                    />
-                  </TechnologyContext.Provider>
+                  <ProjectView
+                    id={selectedId}
+                    closeView={this.handleSelectedCard}
+                  />
                 </Portal>
               )}
             </div>

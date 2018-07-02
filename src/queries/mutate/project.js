@@ -5,12 +5,19 @@ export const projectCreate = gql`
     $name: String!
     $type: ProjectType
     $colours: [String]
+    $technologies: [Technology]
   ) {
-    projectCreate(name: $name, type: $type, colours: $colours) {
+    projectCreate(
+      name: $name
+      type: $type
+      colours: $colours
+      technologies: $technologies
+    ) {
       id
       name
       type
       primaryColour
+      technologies
     }
   }
 `;
@@ -21,12 +28,23 @@ export const projectUpdate = gql`
     $name: String
     $type: ProjectType
     $colours: [String]
+    $technologies: [TechnologyInput]
   ) {
-    projectUpdate(id: $id, name: $name, type: $type, colours: $colours) {
+    projectUpdate(
+      id: $id
+      name: $name
+      type: $type
+      colours: $colours
+      technologies: $technologies
+    ) {
       id
       name
       type
       primaryColour
+      technologies {
+        id
+        name
+      }
     }
   }
 `;

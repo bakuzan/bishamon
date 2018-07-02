@@ -13,14 +13,24 @@ const {
 const getWorkItemDerivedStatusCheck = require('../utils/dervied-updates');
 
 module.exports = {
-  projectCreate(_, args) {
-    return Project.create({ ...args });
+  projectCreate(_, { technologies, ...args }) {
+    return Project.create({ ...args }).then((project) =>
+      project
+        .setTechnologies(technologies)
+        .then(() => project.reload({ includes: [{ model: Technology }] }))
+    );
   },
-  projectUpdate(_, { id, ...args }) {
+  projectUpdate(_, { id, technologies, ...args }) {
     return Project.update(
       { ...args },
       { where: { id }, individualHooks: true }
-    ).then((count) => Project.findById(id));
+    ).then(() =>
+      Project.findById(id).then((project) =>
+        project
+          .setTechnologies(technologies)
+          .then(() => project.reload({ includes: [{ model: Technology }] }))
+      )
+    );
   },
   workItemCreate(_, { projectId, ...args }) {
     return WorkItem.create({ ...args, status: DefaultStatus }).then(

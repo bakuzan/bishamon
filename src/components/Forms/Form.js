@@ -3,6 +3,7 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import { Form as MForm, Utils } from 'meiko';
+import { removeTypename } from 'utils/mappers';
 
 class Form extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Form extends React.Component {
     const { name } = e.target;
     const value = Utils.Common.getEventValue(e.target);
 
-    this.setState(prev => ({
+    this.setState((prev) => ({
       values: {
         ...prev.values,
         [name]: value
@@ -31,10 +32,12 @@ class Form extends React.Component {
   }
 
   handleListUpdate(name, items) {
-    this.setState(prev => ({
+    const updatedList = (items || []).map(removeTypename);
+
+    this.setState((prev) => ({
       values: {
         ...prev.values,
-        [name]: items || []
+        [name]: updatedList
       }
     }));
   }
@@ -63,7 +66,12 @@ class Form extends React.Component {
       const optimisticResponse = mutationProps.buildOptimisticResponse
         ? mutationProps.buildOptimisticResponse(this.state.values)
         : undefined;
-
+      console.log(
+        callApi,
+        optimisticResponse,
+        passedVariables,
+        this.state.values
+      );
       callApi({
         variables: {
           ...passedVariables,

@@ -10,7 +10,9 @@ import Mutate from 'queries/mutate';
 import ProjectTypes from 'constants/project-types';
 import {
   enumsToSelectBoxOptions,
+  removeTypename,
   projectColourModel,
+  projectTechnologyModel,
   mapTechnologyToOptimisticResponse
 } from 'utils/mappers';
 
@@ -24,38 +26,46 @@ class ProjectForm extends React.PureComponent {
     this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
-  handleAddTechnology(callApi) {
+  handleAddTechnology({ callApi, localUpdate, currentTechnologies }) {
     return (techTag) => {
       const optimisticResponse = mapTechnologyToOptimisticResponse(techTag);
       callApi({
         variables: {
           ...techTag
         },
-        optimisticResponse
+        optimisticResponse,
+        update: this.handleCacheUpdate({ localUpdate, currentTechnologies })
       });
     };
   }
 
-  handleCacheUpdate(
-    cache,
-    {
-      data: { technologyCreate }
-    }
-  ) {
-    const { technologies = [] } = cache.readQuery({
-      query: Fetch.technologiesAll
-    });
-    cache.writeQuery({
-      query: Fetch.technologiesAll,
-      data: { technologies: technologies.concat([technologyCreate]) }
-    });
+  handleCacheUpdate({ localUpdate, currentTechnologies }) {
+    return (cache, { data: { technologyCreate } }) => {
+      const { technologies = [] } = cache.readQuery({
+        query: Fetch.technologiesAll
+      });
+      cache.writeQuery({
+        query: Fetch.technologiesAll,
+        data: { technologies: technologies.concat([technologyCreate]) }
+      });
+
+      const newTechnologies = currentTechnologies.concat([technologyCreate]);
+      localUpdate(newTechnologies);
+    };
   }
 
   render() {
     const { formProps } = this.props;
+    const projectFormProps = {
+      ...formProps,
+      defaults: {
+        ...formProps.defaults,
+        technologies: formProps.defaults.technologies.map(removeTypename)
+      }
+    };
 
     return (
-      <Form {...formProps}>
+      <Form {...projectFormProps}>
         {({ values, actions }) => {
           return (
             <React.Fragment>
@@ -84,25 +94,30 @@ class ProjectForm extends React.PureComponent {
                 createNew={actions.handleListCreate}
                 createNewMessage="Add Colour"
               />
-              <Mutation
-                mutation={Mutate.technologyCreate}
-                update={this.handleCacheUpdate}
-              >
+              <Mutation mutation={Mutate.technologyCreate}>
                 {(createTechTag, { data = {} }) => {
+                  const onCreateNewTechnology = this.handleAddTechnology({
+                    callApi: createTechTag,
+                    localUpdate: actions.handleListUpdate,
+                    currentTechnologies: values.technologies
+                  });
+
                   return (
                     <TechnologyContext.Consumer>
-                      {(allTechnologies) => (
+                      {(allTechnologies = []) => (
                         <ChipListInput
                           tagClassName="bishamon-tag"
                           menuClassName="bishamon-autocomplete-menu"
                           label="Technologies"
                           attr="name"
                           name="technologies"
-                          chipsSelected={values.technologies}
+                          chipsSelected={values.technologies.map(
+                            projectTechnologyModel
+                          )}
                           chipOptions={allTechnologies}
                           updateChipList={actions.handleListUpdate}
-                          createNew={this.handleAddTechnology(createTechTag)}
-                          createNewMessage="Add Technology"
+                          createNew={onCreateNewTechnology}
+                          createNewMessage="Create New Technology"
                         />
                       )}
                     </TechnologyContext.Consumer>

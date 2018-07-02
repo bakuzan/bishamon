@@ -7,11 +7,14 @@ const Utils = require('../utils');
 
 module.exports = {
   projects(_, args) {
-    return Project.findAll({ where: args, order: [['name', 'ASC']] });
+    return Project.findAll(
+      { where: args, order: [['name', 'ASC']] },
+      { include: [{ model: Technology }] }
+    );
   },
   project(_, args) {
     const { id } = args;
-    return Project.findById(id);
+    return Project.findById(id, { include: [{ model: Technology }] });
   },
   workItems(_, { statusIn, ...args }) {
     const optionalArgs = !statusIn ? {} : { status: { [Op.or]: statusIn } };

@@ -10,7 +10,6 @@ import Mutate from 'queries/mutate';
 import ProjectTypes from 'constants/project-types';
 import {
   enumsToSelectBoxOptions,
-  removeTypename,
   projectColourModel,
   projectTechnologyModel,
   mapTechnologyToOptimisticResponse
@@ -50,22 +49,15 @@ class ProjectForm extends React.PureComponent {
       });
 
       const newTechnologies = currentTechnologies.concat([technologyCreate]);
-      localUpdate(newTechnologies);
+      localUpdate('technologies', newTechnologies);
     };
   }
 
   render() {
     const { formProps } = this.props;
-    const projectFormProps = {
-      ...formProps,
-      defaults: {
-        ...formProps.defaults,
-        technologies: formProps.defaults.technologies.map(removeTypename)
-      }
-    };
 
     return (
-      <Form {...projectFormProps}>
+      <Form {...formProps}>
         {({ values, actions }) => {
           return (
             <React.Fragment>

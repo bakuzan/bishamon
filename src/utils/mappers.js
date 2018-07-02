@@ -4,8 +4,6 @@ import { generateUniqueId, separateAndCapitaliseAll } from './common';
 export const enumsToSelectBoxOptions = (arr) =>
   arr.map((value) => ({ value, text: separateAndCapitaliseAll(value) }));
 
-export const removeTypename = ({ __typename, ...o }) => o;
-
 export const projectColourModel = (code) => ({
   id: generateUniqueId(),
   code
@@ -15,49 +13,35 @@ export const projectTechnologyModel = ({ __typename, ...tech }) => ({
   ...tech
 });
 
-const mapOptimisticResponse = (obj) => {
+const mapOptimisticResponse = (key, __typename) => (obj) => {
   return {
     __typename: 'Mutation',
-    ...obj
+    [key]: {
+      __typename,
+      id: generateUniqueId(),
+      ...obj
+    }
   };
 };
 
-export const mapProjectViewToOptimisticResponse = ({
-  technologies, // dont update these in the store manually
-  ...values
-}) => {
-  return mapOptimisticResponse({
-    projectUpdate: {
-      __typename: 'Project',
-      ...values,
-      primaryColour: values.colours[0] || Strings.defaultColour
-    }
+export const mapProjectViewToOptimisticResponse = (values) => {
+  return mapOptimisticResponse('projectUpdate', 'Project')({
+    ...values,
+    primaryColour: values.colours[0] || Strings.defaultColour
   });
 };
 
-export const mapWorkItemViewToOptimisticResponse = (values) => {
-  return mapOptimisticResponse({
-    workItemUpdate: {
-      __typename: 'WorkItem',
-      ...values
-    }
-  });
-};
+export const mapWorkItemViewToOptimisticResponse = mapOptimisticResponse(
+  'workItemUpdate',
+  'WorkItem'
+);
 
-export const mapTaskViewToOptimisticResponse = (values) => {
-  return mapOptimisticResponse({
-    taskUpdate: {
-      __typename: 'Task',
-      ...values
-    }
-  });
-};
+export const mapTaskViewToOptimisticResponse = mapOptimisticResponse(
+  'taskUpdate',
+  'Task'
+);
 
-export const mapTechnologyToOptimisticResponse = (values) => {
-  return mapOptimisticResponse({
-    technologyCreate: {
-      __typename: 'Technology',
-      ...values
-    }
-  });
-};
+export const mapTechnologyToOptimisticResponse = mapOptimisticResponse(
+  'technologyCreate',
+  'Technology'
+);

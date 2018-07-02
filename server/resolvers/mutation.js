@@ -11,12 +11,13 @@ const {
   IgnoreStatuses
 } = require('../constants/enums');
 const getWorkItemDerivedStatusCheck = require('../utils/dervied-updates');
+const Utils = require('../utils');
 
 module.exports = {
   projectCreate(_, { technologies, ...args }) {
     return Project.create({ ...args }).then((project) =>
       project
-        .setTechnologies(technologies)
+        .setTechnologies(Utils.mapObjectListToIdList(technologies))
         .then(() => project.reload({ includes: [{ model: Technology }] }))
     );
   },
@@ -27,7 +28,7 @@ module.exports = {
     ).then(() =>
       Project.findById(id).then((project) =>
         project
-          .setTechnologies(technologies)
+          .setTechnologies(Utils.mapObjectListToIdList(technologies))
           .then(() => project.reload({ includes: [{ model: Technology }] }))
       )
     );

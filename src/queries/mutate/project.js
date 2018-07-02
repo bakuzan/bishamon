@@ -5,7 +5,7 @@ export const projectCreate = gql`
     $name: String!
     $type: ProjectType
     $colours: [String]
-    $technologies: [Technology]
+    $technologies: [TechnologyInput]
   ) {
     projectCreate(
       name: $name
@@ -17,7 +17,10 @@ export const projectCreate = gql`
       name
       type
       primaryColour
-      technologies
+      technologies {
+        id
+        name
+      }
     }
   }
 `;

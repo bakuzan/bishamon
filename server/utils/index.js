@@ -1,4 +1,4 @@
-const setTimeForDate = (h, m, s) => date => {
+const setTimeForDate = (h, m, s) => (date) => {
   const d = new Date(date);
   return new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, s);
 };
@@ -16,12 +16,14 @@ function getDateXDaysFromToday(offset) {
 }
 
 function checkMapForKeys(m, keys) {
-  return keys.some(x => m.has(x));
+  return keys.some((x) => m.has(x));
 }
 
 function firstAvailableKey(m, keys) {
-  return keys.map(key => (m.has(key) ? key : undefined)).find(x => !!x);
+  return keys.map((key) => (m.has(key) ? key : undefined)).find((x) => !!x);
 }
+
+const mapObjectListToIdList = (arr) => arr.map((o) => o.id);
 
 module.exports = {
   formatDateISO,
@@ -29,5 +31,6 @@ module.exports = {
   setTimeForDate,
   startOfDay,
   checkMapForKeys,
-  firstAvailableKey
+  firstAvailableKey,
+  mapObjectListToIdList
 };

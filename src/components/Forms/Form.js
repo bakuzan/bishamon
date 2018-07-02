@@ -3,7 +3,6 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 
 import { Form as MForm, Utils } from 'meiko';
-import { removeTypename } from 'utils/mappers';
 
 class Form extends React.Component {
   constructor(props) {
@@ -32,7 +31,7 @@ class Form extends React.Component {
   }
 
   handleListUpdate(name, items) {
-    const updatedList = (items || []).map(removeTypename);
+    const updatedList = items || [];
 
     this.setState((prev) => ({
       values: {

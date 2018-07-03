@@ -1,19 +1,13 @@
 @import './_variables';
 
-.flex {
-  display: flex;
-}
-
 .padded {
   &--standard {
     padding: $app--standard-padding;
   }
 }
 
-.top-spacing {
-  margin-top: 0.25em;
-}
-
-.bottom-spacing {
-  margin-bottom: 0.25em;
+@each $direction in $directions {
+  .#{$direction}-spacing {
+    margin-#{$direction}: 0.25em;
+  }
 }

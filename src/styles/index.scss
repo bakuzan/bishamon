@@ -49,6 +49,15 @@ main {
 }
 
 // Overrides
+.bishmon-tag-cloud {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+
+  > .right {
+    margin-left: 0.25em;
+  }
+}
+
 .bishamon-tag > button {
   background-color: inherit !important;
 }

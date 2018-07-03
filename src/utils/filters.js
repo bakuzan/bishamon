@@ -9,12 +9,11 @@ export const filterListForBoardItems = (items = []) =>
 export const filterProjects = (filters, items = []) => {
   const { search, types, technologies } = filters;
   const searchLower = search.toLowerCase();
-  // TODO
-  // technology needs to be inclusive, not exclusive
+
   return items.filter(
     (x) =>
       x.name.toLowerCase().includes(searchLower) &&
       types.has(x.type) &&
-      x.technologies.every((y) => !technologies.has(y.id))
+      (!technologies.size || x.technologies.some((y) => technologies.has(y.id)))
   );
 };

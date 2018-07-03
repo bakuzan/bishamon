@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { Portal, ClearableInput } from 'meiko';
+import { Portal, ClearableInput, TagCloudSelector } from 'meiko';
 import MultiSelect from 'components/MultiSelect';
 import { ButtonisedNavButton } from 'components/Buttons';
 import List from 'components/List/List';
@@ -12,7 +12,7 @@ import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 import Strings from 'constants/strings';
 import ProjectTypes from 'constants/project-types';
-import { enumsToSelectBoxOptions, dataToSelectBoxOptions } from 'utils/mappers';
+import { enumsToSelectBoxOptions, dataToTagCloudOptions } from 'utils/mappers';
 import { filterProjects } from 'utils/filters';
 
 const DefaultProjectTypeFilters = new Set(ProjectTypes.slice(0));
@@ -71,47 +71,46 @@ class Projects extends React.Component {
 
           return (
             <div className="padded padded--standard">
-              <div className={classNames('flex', 'project-filters')}>
-                <ClearableInput
-                  name="search"
-                  value={filters.search}
-                  onChange={this.handleSearch}
-                />
-                <MultiSelect
-                  id="types"
-                  name="types"
-                  placeholder="Select type(s)"
-                  label="Types"
-                  values={[...filters.types.values()]}
-                  options={PROJECT_TYPE_OPTIONS}
-                  onUpdate={this.handleMultiSelect}
-                />
+              <div className={classNames('flex-column')}>
+                <div className={classNames('flex-row', 'project-filters')}>
+                  <ClearableInput
+                    name="search"
+                    value={filters.search}
+                    onChange={this.handleSearch}
+                  />
+                  <MultiSelect
+                    id="types"
+                    name="types"
+                    placeholder="Select type(s)"
+                    label="Types"
+                    values={[...filters.types.values()]}
+                    options={PROJECT_TYPE_OPTIONS}
+                    onUpdate={this.handleMultiSelect}
+                  />
+                  <div className="button-group right-aligned">
+                    <ButtonisedNavButton
+                      btnStyle="primary"
+                      to={projectCreateUrl}
+                    >
+                      Add Project
+                    </ButtonisedNavButton>
+                  </div>
+                </div>
                 <TechnologyContext.Consumer>
                   {(technologies) => {
-                    // TODO
-                    // replace this with a tag cloud feature
-                    // change the filter to inclusive, rather than exclusive
-                    const TECHNOLOGY_TAGS = dataToSelectBoxOptions(
-                      technologies
-                    );
+                    const TECHNOLOGY_TAGS = dataToTagCloudOptions(technologies);
                     return (
-                      <MultiSelect
-                        id="technologies"
+                      <TagCloudSelector
+                        className="bishmon-tag-cloud"
+                        tagClass="bishamon-tag"
                         name="technologies"
-                        placeholder="Select technology(s)"
-                        label="Technologies"
-                        values={[...filters.technologies.values()]}
-                        options={TECHNOLOGY_TAGS}
-                        onUpdate={this.handleMultiSelect}
+                        selectedTags={[...filters.technologies.values()]}
+                        tagOptions={TECHNOLOGY_TAGS}
+                        onSelect={this.handleMultiSelect}
                       />
                     );
                   }}
                 </TechnologyContext.Consumer>
-                <div className="button-group right-aligned">
-                  <ButtonisedNavButton btnStyle="primary" to={projectCreateUrl}>
-                    Add Project
-                  </ButtonisedNavButton>
-                </div>
               </div>
               <List
                 items={filteredProjects}

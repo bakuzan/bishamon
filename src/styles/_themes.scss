@@ -145,5 +145,9 @@ $theme-maps: (
     .bishamon-multiselect-list {
       background-color: $base-background;
     }
+    .bishamon-tag.active {
+      background-color: $accent-colour;
+      color: $base-colour;
+    }
   }
 }

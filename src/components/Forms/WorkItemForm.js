@@ -4,7 +4,7 @@ import React from 'react';
 import { ClearableInput, SelectBox } from 'meiko';
 import Form from './Form';
 import Status from 'constants/status';
-import WorkTypes from 'constants/work-types';
+import WorkTypes, { WorkType } from 'constants/work-types';
 import { enumDefault } from 'utils/derived-data';
 import { enumsToSelectBoxOptions } from 'utils/mappers';
 
@@ -19,6 +19,8 @@ class WorkItemForm extends React.PureComponent {
           const usableStatuses =
             values.status === enumDefault(Status) ? Status : Status.slice(1); // remove 'Todo'
           const STATUSES = enumsToSelectBoxOptions(usableStatuses);
+          const isBug = values.type === WorkType.Bug;
+
           return (
             <React.Fragment>
               <ClearableInput
@@ -49,6 +51,15 @@ class WorkItemForm extends React.PureComponent {
                   options={STATUSES}
                 />
               )}
+              {!isCreate &&
+                isBug && (
+                  <ClearableInput
+                    name="cause"
+                    label="cause"
+                    value={values.cause}
+                    onChange={actions.handleUserInput}
+                  />
+                )}
             </React.Fragment>
           );
         }}

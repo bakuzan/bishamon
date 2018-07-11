@@ -14,6 +14,11 @@ module.exports = (db, Types) => {
       status: {
         type: Types.ENUM,
         values: [...Status]
+      },
+      cause: {
+        type: Types.STRING,
+        allowNull: false,
+        defaultValue: ''
       }
     },
     {

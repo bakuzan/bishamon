@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
-import { SwimlaneStatus, OnHold } from 'constants/status';
+import { SwimlaneStatus, ItemStatus } from 'constants/status';
 
 function mapStatuses() {
-  return SwimlaneStatus.concat([OnHold]).join(',');
+  return SwimlaneStatus.concat([ItemStatus.OnHold]).join(',');
 }
 
 export const projectWorkItems = gql`
@@ -51,6 +51,7 @@ export const workItemById = gql`
       description
       type
       status
+      cause
     }
   }
 `;

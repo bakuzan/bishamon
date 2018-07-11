@@ -2,7 +2,7 @@ const Op = require('sequelize').Op;
 
 const { Project, WorkItem, Task, Technology } = require('../connectors');
 const { Audit } = require('../connectors/audit');
-const { FinishedStatus } = require('../constants/enums');
+const { ItemStatus } = require('../constants/enums');
 const Utils = require('../utils');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
         ...args,
         ...optionalArgs,
         [Op.or]: [
-          { status: { [Op.ne]: FinishedStatus } },
+          { status: { [Op.ne]: ItemStatus.DevComplete } },
           { updatedAt: { [Op.gt]: oneWeekAgo } }
         ]
       }
@@ -35,7 +35,7 @@ module.exports = {
     return WorkItem.findAll({
       where: {
         ...args,
-        status: FinishedStatus,
+        status: ItemStatus.DevComplete,
         updatedAt: { [Op.lt]: oneWeekAgo }
       }
     });
@@ -50,7 +50,7 @@ module.exports = {
       where: {
         ...args,
         [Op.or]: [
-          { status: { [Op.ne]: FinishedStatus } },
+          { status: { [Op.ne]: ItemStatus.DevComplete } },
           { updatedAt: { [Op.gt]: oneWeekAgo } }
         ]
       }
@@ -61,7 +61,7 @@ module.exports = {
     return Task.findAll({
       where: {
         ...args,
-        status: FinishedStatus,
+        status: ItemStatus.DevComplete,
         updatedAt: { [Op.lt]: oneWeekAgo }
       }
     });

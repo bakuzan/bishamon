@@ -1,6 +1,9 @@
 import Strings from 'constants/strings';
 import { generateUniqueId, separateAndCapitaliseAll } from './common';
 
+export const enumArrayToObject = (arr) =>
+  arr.reduce((p, c) => ({ ...p, [c]: c }), {});
+
 export const enumsToSelectBoxOptions = (arr) =>
   arr.map((value) => ({ value, text: separateAndCapitaliseAll(value) }));
 

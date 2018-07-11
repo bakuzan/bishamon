@@ -34,7 +34,8 @@ module.exports = {
     );
   },
   workItemCreate(_, { projectId, ...args }) {
-    return WorkItem.create({ ...args, status: DefaultStatus }).then(
+    const cause = Utils.resolveWorkItemCause(args);
+    return WorkItem.create({ ...args, status: DefaultStatus, cause }).then(
       (workItem) =>
         Project.findById(projectId)
           .then((project) => project.addWorkItem(workItem))
@@ -42,8 +43,10 @@ module.exports = {
     );
   },
   workItemUpdate(_, { id, ...args }) {
+    const cause = Utils.resolveWorkItemCause(args);
+
     return WorkItem.update(
-      { ...args },
+      { ...args, cause },
       { where: { id }, individualHooks: true }
     ).then((count) => WorkItem.findById(id));
   },

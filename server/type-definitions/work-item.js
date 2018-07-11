@@ -5,6 +5,7 @@ module.exports = `
     description: String
     type: WorkType
     status: Status
+    cause: String
     tasks: [Task]
     taskRatio: String
   }

@@ -1,3 +1,5 @@
+const { WorkTypes } = require('../constants/enums');
+
 const setTimeForDate = (h, m, s) => (date) => {
   const d = new Date(date);
   return new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m, s);
@@ -25,6 +27,9 @@ function firstAvailableKey(m, keys) {
 
 const mapObjectListToIdList = (arr) => arr.map((o) => o.id);
 
+const resolveWorkItemCause = (args) =>
+  args.type !== WorkTypes.Bug ? '' : args.cause;
+
 module.exports = {
   formatDateISO,
   getDateXDaysFromToday,
@@ -32,5 +37,6 @@ module.exports = {
   startOfDay,
   checkMapForKeys,
   firstAvailableKey,
-  mapObjectListToIdList
+  mapObjectListToIdList,
+  resolveWorkItemCause
 };

@@ -1,4 +1,6 @@
-export default Object.freeze([
+import { enumArrayToObject } from 'utils/mappers';
+
+const WorkTypes = Object.freeze([
   'Feature',
   'Bug',
   'Enhancement',
@@ -6,3 +8,7 @@ export default Object.freeze([
   'Upgrade',
   'Investigate'
 ]);
+
+export default WorkTypes;
+
+export const WorkType = enumArrayToObject(WorkTypes);

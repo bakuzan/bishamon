@@ -41,6 +41,7 @@ export const workItemUpdate = gql`
     $description: String
     $type: WorkType
     $status: Status
+    $cause: String
   ) {
     workItemUpdate(
       id: $id
@@ -48,12 +49,14 @@ export const workItemUpdate = gql`
       description: $description
       type: $type
       status: $status
+      cause: $cause
     ) {
       id
       name
       description
       type
       status
+      cause
     }
   }
 `;

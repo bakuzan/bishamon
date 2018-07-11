@@ -2,13 +2,13 @@ import React from 'react';
 
 import ItemCard from './ItemCard';
 import Mutate from 'queries/mutate';
-import { InProgress } from 'constants/status';
+import { ItemStatus } from 'constants/status';
 import {
   mapWorkItemViewToOptimisticResponse,
   mapTaskViewToOptimisticResponse
 } from 'utils/mappers';
 
-const status = InProgress;
+const status = ItemStatus.InProgress;
 
 function CustomItemCardWrappers({
   mutation,
@@ -32,7 +32,7 @@ function CustomItemCardWrappers({
   return <ItemCard {...props} mutationProps={mutationProps} />;
 }
 
-export const WorkItemCard = props => (
+export const WorkItemCard = (props) => (
   <CustomItemCardWrappers
     {...props}
     mutation={Mutate.workItemStatusUpdate}
@@ -40,7 +40,7 @@ export const WorkItemCard = props => (
   />
 );
 
-export const TaskCard = props => (
+export const TaskCard = (props) => (
   <CustomItemCardWrappers
     {...props}
     mutation={Mutate.taskStatusUpdate}

@@ -1,15 +1,11 @@
-module.exports.mapArrToGraphqlString = function(arr) {
-  return arr.join(' ');
-};
+const enumArrayToObject = (arr) =>
+  arr.slice(0).reduce((p, c) => ({ ...p, [c]: c }), {});
 
-module.exports.ProjectType = [
-  'Application',
-  'Training',
-  'Library',
-  'SubModule'
-];
+const mapArrToGraphqlString = (arr) => arr.join(' ');
 
-module.exports.WorkType = [
+const ProjectType = ['Application', 'Training', 'Library', 'SubModule'];
+
+const WorkType = [
   'Feature',
   'Bug',
   'Enhancement',
@@ -17,8 +13,9 @@ module.exports.WorkType = [
   'Upgrade',
   'Investigate'
 ];
+const WorkTypes = enumArrayToObject(WorkType);
 
-module.exports.Status = [
+const Status = [
   'Todo',
   'InProgress',
   'OnHold',
@@ -27,22 +24,31 @@ module.exports.Status = [
   'Done',
   'Removed'
 ];
-module.exports.DefaultStatus = module.exports.Status[0];
-module.exports.FinishedStatus = module.exports.Status[5];
-module.exports.RemovedStatus = module.exports.Status[6];
-module.exports.NotDoneStatuses = [...module.exports.Status.slice(0, 3)];
-module.exports.DoneStatuses = [...module.exports.Status.slice(3, 6)];
+const ItemStatus = enumArrayToObject(Status);
+const DefaultStatus = ItemStatus.Todo;
+const NotDoneStatuses = [...Status.slice(0, 3)];
+const DoneStatuses = [...Status.slice(3, 6)];
 
-module.exports.ItemStatus = [...module.exports.Status.slice(0)].reduce(
-  (p, c) => ({ ...p, [c]: c }),
-  {}
-);
-module.exports.IgnoreStatuses = [
-  module.exports.ItemStatus.Todo,
-  module.exports.ItemStatus.InProgress,
-  module.exports.ItemStatus.OnHold
+const IgnoreStatuses = [
+  ItemStatus.Todo,
+  ItemStatus.InProgress,
+  ItemStatus.OnHold
 ];
 
-module.exports.AuditType = ['WorkItem', 'Task'];
-module.exports.AuditWorkItem = module.exports.AuditType[0];
-module.exports.AuditTask = module.exports.AuditType[1];
+const AuditType = ['WorkItem', 'Task'];
+const AuditTypes = enumArrayToObject(AuditType);
+
+module.exports = {
+  mapArrToGraphqlString,
+  ProjectType,
+  WorkType,
+  WorkTypes,
+  Status,
+  ItemStatus,
+  DefaultStatus,
+  NotDoneStatuses,
+  DoneStatuses,
+  IgnoreStatuses,
+  AuditType,
+  AuditTypes
+};

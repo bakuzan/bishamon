@@ -24,7 +24,7 @@ module.exports = {
         ...args,
         ...optionalArgs,
         [Op.or]: [
-          { status: { [Op.ne]: ItemStatus.DevComplete } },
+          { status: { [Op.ne]: ItemStatus.Done } },
           { updatedAt: { [Op.gt]: oneWeekAgo } }
         ]
       }
@@ -35,7 +35,7 @@ module.exports = {
     return WorkItem.findAll({
       where: {
         ...args,
-        status: ItemStatus.DevComplete,
+        status: ItemStatus.Done,
         updatedAt: { [Op.lt]: oneWeekAgo }
       }
     });
@@ -50,7 +50,7 @@ module.exports = {
       where: {
         ...args,
         [Op.or]: [
-          { status: { [Op.ne]: ItemStatus.DevComplete } },
+          { status: { [Op.ne]: ItemStatus.Done } },
           { updatedAt: { [Op.gt]: oneWeekAgo } }
         ]
       }
@@ -61,7 +61,7 @@ module.exports = {
     return Task.findAll({
       where: {
         ...args,
-        status: ItemStatus.DevComplete,
+        status: ItemStatus.Done,
         updatedAt: { [Op.lt]: oneWeekAgo }
       }
     });

@@ -5,7 +5,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn(TABLE, COLUMN, {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
+      defaultValue: ''
     });
   },
   down: (queryInterface, Sequelize) => {

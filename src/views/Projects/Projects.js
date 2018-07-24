@@ -98,7 +98,11 @@ class Projects extends React.Component {
                 </div>
                 <TechnologyContext.Consumer>
                   {(technologies) => {
-                    const TECHNOLOGY_TAGS = dataToTagCloudOptions(technologies);
+                    const TECHNOLOGY_TAGS = dataToTagCloudOptions(
+                      technologies,
+                      data.projects
+                    );
+
                     return (
                       <TagCloudSelector
                         className="bishmon-tag-cloud"
@@ -107,6 +111,7 @@ class Projects extends React.Component {
                         selectedTags={[...filters.technologies.values()]}
                         tagOptions={TECHNOLOGY_TAGS}
                         onSelect={this.handleMultiSelect}
+                        sizeRelativeToCount
                       />
                     );
                   }}

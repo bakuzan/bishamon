@@ -7,8 +7,17 @@ export const enumArrayToObject = (arr) =>
 export const enumsToSelectBoxOptions = (arr) =>
   arr.map((value) => ({ value, text: separateAndCapitaliseAll(value) }));
 
-export const dataToTagCloudOptions = (arr = []) =>
-  arr.map((obj) => ({ id: obj.id, name: obj.name }));
+export const dataToTagCloudOptions = (arr = [], projects = []) =>
+  arr.map((o, i, list) => {
+    const projectsWithTech = projects.filter((x) =>
+      x.technologies.some((x) => x.id === o.id)
+    );
+    const count = projectsWithTech.length;
+    return {
+      ...o,
+      count
+    };
+  });
 
 export const removeTypename = ({ __typename, ...o }) => ({ ...o });
 

@@ -11,11 +11,15 @@ export const filterListForBoardItems = (items = []) =>
 export const filterProjects = (filters, items = []) => {
   const { search, types, technologies } = filters;
   const searchLower = search.toLowerCase();
+  const techValues = [...technologies.values()];
 
   return items.filter(
     (x) =>
       x.name.toLowerCase().includes(searchLower) &&
       types.has(x.type) &&
-      (!technologies.size || x.technologies.some((y) => technologies.has(y.id)))
+      (!technologies.size ||
+        techValues.every((techId) =>
+          x.technologies.some((z) => z.id === techId)
+        ))
   );
 };

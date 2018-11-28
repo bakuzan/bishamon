@@ -1,36 +1,15 @@
-import { Utils } from 'meiko';
+import {
+  getObjectFromLocalStorageByProperty,
+  persistObjectToLocalStorage
+} from 'meiko-lib';
 import Strings from 'constants/strings';
 
-export const {
-  generateUniqueId,
-  capitalise,
-  objectsAreEqual,
-  debounce
-} = Utils.Common;
-
-export const capitaliseEachWord = str =>
-  str
-    .split(' ')
-    .map(capitalise)
-    .join(' ');
-
-export const fromCamelCase = (str, separator = ' ') =>
-  str
-    .replace(/([a-z\d])([A-Z])/g, '$1' + separator + '$2')
-    .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + separator + '$2')
-    .toLowerCase();
-
-export const separateAndCapitaliseAll = Utils.Common.compose(
-  capitaliseEachWord,
-  fromCamelCase
-);
-
-export const dataIdForObject = o => `${o.__typename}:${o.id}`;
+export const dataIdForObject = (o) => `${o.__typename}:${o.id}`;
 
 export const getAppSettings = () =>
-  Utils.Common.getObjectFromLocalStorageByProperty(Strings.appSettingsStorage);
+  getObjectFromLocalStorageByProperty(Strings.appSettingsStorage);
 
-export const saveAppSettings = Utils.Common.persistObjectToLocalStorage(
+export const saveAppSettings = persistObjectToLocalStorage(
   Strings.appSettingsStorage
 );
 

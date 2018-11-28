@@ -5,7 +5,7 @@ import { Mutation } from 'react-apollo';
 
 import { Button } from 'components/Buttons';
 
-import './ItemCard.css';
+import './ItemCard.scss';
 
 class ItemCard extends React.PureComponent {
   render() {

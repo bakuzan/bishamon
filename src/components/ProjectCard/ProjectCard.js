@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
+import { separateAndCapitaliseAll } from 'meiko-lib';
 import { ButtonisedNavLink } from 'components/Buttons';
 import Routes from 'constants/routes';
 import Strings from 'constants/strings';
-import { separateAndCapitaliseAll } from 'utils/common';
 
-import './ProjectCard.css';
+import './ProjectCard.scss';
 
 const PROJECT_VIEW_URL = `${Routes.base}${Routes.projectList}`;
 

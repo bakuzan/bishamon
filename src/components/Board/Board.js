@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { Portal } from 'meiko';
+import { Portal } from 'meiko-lib';
 import DragAndDropContext from 'components/DragAndDrop';
 import Swimlane from 'components/Swimlane/Swimlane';
 import Strings from 'constants/strings';
@@ -22,13 +22,13 @@ class Board extends React.Component {
   }
 
   handleSelectedCard(selectedId) {
-    this.setState(prev => ({
+    this.setState((prev) => ({
       selectedId: selectedId !== prev.selectedId ? selectedId : null
     }));
   }
 
   handleCanDrop(swimlane, item) {
-    const swimlaneIndex = SwimlaneStatus.findIndex(x => x === swimlane);
+    const swimlaneIndex = SwimlaneStatus.findIndex((x) => x === swimlane);
     if (swimlaneIndex === 0) return false;
     return true;
   }
@@ -68,7 +68,7 @@ class Board extends React.Component {
 
           return (
             <React.Fragment>
-              {SwimlaneStatus.map(x => {
+              {SwimlaneStatus.map((x) => {
                 return (
                   <Swimlane
                     key={x}

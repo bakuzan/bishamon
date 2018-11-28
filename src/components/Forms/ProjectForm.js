@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { ClearableInput, ChipListInput, SelectBox } from 'meiko';
+import { ClearableInput, ChipListInput, SelectBox } from 'meiko-lib';
 import Form from './Form';
 import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
@@ -19,6 +19,8 @@ import {
 const PROJECT_TYPES = enumsToSelectBoxOptions(ProjectTypes);
 
 class ProjectForm extends React.PureComponent {
+  static contextType = TechnologyContext;
+
   constructor(props) {
     super(props);
 
@@ -55,6 +57,12 @@ class ProjectForm extends React.PureComponent {
   }
 
   render() {
+    let allTechnologies = this.context;
+    const hasOptions = allTechnologies.length !== 0;
+    const technologyOptions = hasOptions
+      ? allTechnologies
+      : [{ id: -1, name: '____' }];
+
     const { formProps } = this.props;
     const projectFormProps = {
       ...formProps,
@@ -67,6 +75,7 @@ class ProjectForm extends React.PureComponent {
         })
       }
     };
+
     return (
       <Form {...projectFormProps}>
         {({ values, actions }) => {
@@ -106,31 +115,20 @@ class ProjectForm extends React.PureComponent {
                   });
 
                   return (
-                    <TechnologyContext.Consumer>
-                      {(allTechnologies = []) => {
-                        const hasOptions = allTechnologies.length !== 0;
-                        const technologyOptions = hasOptions
-                          ? allTechnologies
-                          : [{ id: -1, name: '____' }];
-
-                        return (
-                          <ChipListInput
-                            tagClassName="bishamon-tag"
-                            menuClassName="bishamon-autocomplete-menu"
-                            label="Technologies"
-                            attr="name"
-                            name="technologies"
-                            chipsSelected={values.technologies.map(
-                              projectTechnologyModel
-                            )}
-                            chipOptions={technologyOptions}
-                            updateChipList={actions.handleListUpdate}
-                            createNew={onCreateNewTechnology}
-                            createNewMessage="Create New Technology"
-                          />
-                        );
-                      }}
-                    </TechnologyContext.Consumer>
+                    <ChipListInput
+                      tagClassName="bishamon-tag"
+                      menuClassName="bishamon-autocomplete-menu"
+                      label="Technologies"
+                      attr="name"
+                      name="technologies"
+                      chipsSelected={values.technologies.map(
+                        projectTechnologyModel
+                      )}
+                      chipOptions={technologyOptions}
+                      updateChipList={actions.handleListUpdate}
+                      createNew={onCreateNewTechnology}
+                      createNewMessage="Create New Technology"
+                    />
                   );
                 }}
               </Mutation>

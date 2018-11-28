@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Tabs } from 'meiko';
+import { Tabs } from 'meiko-lib';
 
 const TabContainer = ({ children, ...props }) => (
   <Tabs.TabContainer

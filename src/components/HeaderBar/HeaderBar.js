@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Header, SVGLogo } from 'meiko';
+import { Header, SVGLogo } from 'meiko-lib';
 import AppSettings from 'components/AppSettings/AppSettings';
 import RoutePaths from 'constants/routes';
 
-import './HeaderBar.css';
+import './HeaderBar.scss';
 
-const HeaderBar = props => (
+const HeaderBar = (props) => (
   <Header
     className="header-bar"
     title="Bishamon"

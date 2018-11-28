@@ -1,5 +1,5 @@
+import { generateUniqueId, separateAndCapitaliseAll } from 'meiko-lib';
 import Strings from 'constants/strings';
-import { generateUniqueId, separateAndCapitaliseAll } from './common';
 
 export const enumArrayToObject = (arr) =>
   arr.reduce((p, c) => ({ ...p, [c]: c }), {});

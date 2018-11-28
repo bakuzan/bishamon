@@ -6,7 +6,7 @@ import {
   withButtonisation,
   withCustomButtonWrapper,
   Button as MButton
-} from 'meiko';
+} from 'meiko-lib';
 
 const STANDARD_CLASS = 'bishamon-button ripple';
 
@@ -14,7 +14,7 @@ const BishamonButton = ({ appClass, className, ...props }) => (
   <MButton {...props} className={classNames(appClass, className)} />
 );
 
-export const Button = props => (
+export const Button = (props) => (
   <BishamonButton {...props} appClass={STANDARD_CLASS} />
 );
 

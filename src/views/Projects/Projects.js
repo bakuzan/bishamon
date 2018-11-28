@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { Portal, ClearableInput, TagCloudSelector } from 'meiko';
+import { Portal, ClearableInput, TagCloudSelector } from 'meiko-lib';
 import MultiSelect from 'components/MultiSelect';
 import { ButtonisedNavButton } from 'components/Buttons';
 import List from 'components/List/List';
@@ -19,6 +19,8 @@ const DefaultProjectTypeFilters = new Set(ProjectTypes.slice(0));
 const PROJECT_TYPE_OPTIONS = enumsToSelectBoxOptions(ProjectTypes);
 
 class Projects extends React.Component {
+  static contextType = TechnologyContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -60,6 +62,8 @@ class Projects extends React.Component {
   }
 
   render() {
+    let technologies = this.context;
+
     const { selectedId, filters } = this.state;
     const { match } = this.props;
     const projectCreateUrl = `${match.path}/create`;
@@ -68,6 +72,10 @@ class Projects extends React.Component {
       <Query query={Fetch.projectsAll}>
         {({ loading, error, data = {} }) => {
           const filteredProjects = filterProjects(filters, data.projects);
+          const TECHNOLOGY_TAGS = dataToTagCloudOptions(
+            technologies,
+            data.projects
+          );
 
           return (
             <div className="padded padded--standard">
@@ -96,26 +104,16 @@ class Projects extends React.Component {
                     </ButtonisedNavButton>
                   </div>
                 </div>
-                <TechnologyContext.Consumer>
-                  {(technologies) => {
-                    const TECHNOLOGY_TAGS = dataToTagCloudOptions(
-                      technologies,
-                      data.projects
-                    );
 
-                    return (
-                      <TagCloudSelector
-                        className="bishmon-tag-cloud"
-                        tagClass="bishamon-tag"
-                        name="technologies"
-                        selectedTags={[...filters.technologies.values()]}
-                        tagOptions={TECHNOLOGY_TAGS}
-                        onSelect={this.handleMultiSelect}
-                        sizeRelativeToCount
-                      />
-                    );
-                  }}
-                </TechnologyContext.Consumer>
+                <TagCloudSelector
+                  className="bishmon-tag-cloud"
+                  tagClass="bishamon-tag"
+                  name="technologies"
+                  selectedTags={[...filters.technologies.values()]}
+                  tagOptions={TECHNOLOGY_TAGS}
+                  onSelect={this.handleMultiSelect}
+                  sizeRelativeToCount
+                />
               </div>
               <List
                 items={filteredProjects}

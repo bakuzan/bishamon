@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { Form as MForm, Utils } from 'meiko';
+import { Form as MForm, getEventValue } from 'meiko-lib';
 
 class Form extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Form extends React.Component {
 
   handleUserInput(e) {
     const { name } = e.target;
-    const value = Utils.Common.getEventValue(e.target);
+    const value = getEventValue(e.target);
 
     this.setState((prev) => ({
       values: {

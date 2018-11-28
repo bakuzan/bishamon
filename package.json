@@ -42,7 +42,10 @@
       "git add"
     ]
   },
-  "pre-commit": ["precommit-msg", "lint"],
+  "pre-commit": [
+    "precommit-msg",
+    "lint"
+  ],
   "scripts": {
     "precommit-msg": "echo 'Precommit checks...'",
     "lint": "lint-staged",
@@ -53,5 +56,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">1%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">1%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

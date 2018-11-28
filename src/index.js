@@ -9,7 +9,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import App from './App';
 import RoutePaths from 'constants/routes';
 
-// import 'meiko/dist/bundle.min.css';
+import 'meiko/dist/bundle.min.css';
 import './styles/index.scss';
 
 const cache = new InMemoryCache({

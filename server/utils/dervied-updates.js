@@ -12,7 +12,10 @@ module.exports = (taskStatus) => {
       workItem.status !== ItemStatus.InProgress
         ? ItemStatus.InProgress
         : undefined;
-  } else if (DoneStatuses.includes(taskStatus)) {
+  } else if (
+    DoneStatuses.includes(taskStatus) ||
+    taskStatus === ItemStatus.Removed
+  ) {
     taskStatusCheck = (tasks) => {
       const taskStatuses = tasks
         .map((x) => x.dataValues)
@@ -24,8 +27,9 @@ module.exports = (taskStatus) => {
           new Map([])
         );
 
-      if (Utils.checkMapForKeys(taskStatuses, NotDoneStatuses))
+      if (Utils.checkMapForKeys(taskStatuses, NotDoneStatuses)) {
         return undefined;
+      }
 
       return Utils.firstAvailableKey(taskStatuses, DoneStatuses);
     };

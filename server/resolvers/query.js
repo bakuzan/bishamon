@@ -14,7 +14,7 @@ module.exports = {
   },
   project(_, args) {
     const { id } = args;
-    return Project.findById(id, { include: [{ model: Technology }] });
+    return Project.findByPk(id, { include: [{ model: Technology }] });
   },
   workItems(_, { statusIn, ...args }) {
     const optionalArgs = !statusIn ? {} : { status: { [Op.or]: statusIn } };
@@ -42,7 +42,7 @@ module.exports = {
   },
   workItem(_, args) {
     const { id } = args;
-    return WorkItem.findById(id);
+    return WorkItem.findByPk(id);
   },
   tasks(_, args) {
     const oneWeekAgo = Utils.getDateXDaysFromToday(-7);
@@ -68,7 +68,7 @@ module.exports = {
   },
   task(_, args) {
     const { id } = args;
-    return Task.findById(id);
+    return Task.findByPk(id);
   },
   technologies(_, { sort, ...args }) {
     const order = !sort

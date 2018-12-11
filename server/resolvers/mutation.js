@@ -26,7 +26,7 @@ module.exports = {
       { ...args },
       { where: { id }, individualHooks: true }
     ).then(() =>
-      Project.findById(id).then((project) =>
+      Project.findByPk(id).then((project) =>
         project
           .setTechnologies(Utils.mapObjectListToIdList(technologies))
           .then(() => project.reload({ includes: [{ model: Technology }] }))
@@ -37,7 +37,7 @@ module.exports = {
     const cause = Utils.resolveWorkItemCause(args);
     return WorkItem.create({ ...args, status: DefaultStatus, cause }).then(
       (workItem) =>
-        Project.findById(projectId)
+        Project.findByPk(projectId)
           .then((project) => project.addWorkItem(workItem))
           .then(() => workItem)
     );
@@ -48,14 +48,14 @@ module.exports = {
     return WorkItem.update(
       { ...args, cause },
       { where: { id }, individualHooks: true }
-    ).then((count) => WorkItem.findById(id));
+    ).then((count) => WorkItem.findByPk(id));
   },
   taskCreate(_, { workItemId, ...args }) {
     let createdTask;
     return Task.create({ ...args, status: DefaultStatus })
       .then((task) => {
         createdTask = task;
-        return WorkItem.findById(workItemId);
+        return WorkItem.findByPk(workItemId);
       })
       .then((workItem) => {
         workItem.addTask(createdTask);
@@ -84,11 +84,11 @@ module.exports = {
         individualHooks: true
       }
     )
-      .then(() => Task.findById(id))
+      .then(() => Task.findByPk(id))
       .then((task) => {
         updatedTask = task.dataValues;
         const { workItemId } = updatedTask;
-        return WorkItem.findById(workItemId);
+        return WorkItem.findByPk(workItemId);
       })
       .then(async (workItem) => ({
         tasks: await workItem.getTasks(),

@@ -27,12 +27,12 @@ class TaskView extends React.Component {
     }
   ) {
     const { id, workItemId } = this.props;
-    const { tasks = [] } = cache.readQuery({
+    const { tasks = [], tasksHistoric = [] } = cache.readQuery({
       query: Fetch.workItemTasks,
       variables: { workItemId }
     });
 
-    const index = tasks.findIndex(x => x.id === id);
+    const index = tasks.findIndex((x) => x.id === id);
     const oldTask = tasks[index];
 
     cache.writeQuery({
@@ -43,7 +43,8 @@ class TaskView extends React.Component {
           ...tasks.slice(0, index),
           { ...oldTask, ...taskUpdate },
           ...tasks.slice(index + 1)
-        ]
+        ],
+        tasksHistoric
       }
     });
   }

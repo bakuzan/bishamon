@@ -55,7 +55,7 @@
     "start-js": "react-scripts start",
     "start": "npm-run-all -p start-js server",
     "build": "react-scripts build",
-    "server": "node server --harmony",
+    "server": "nodemon server --harmony",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

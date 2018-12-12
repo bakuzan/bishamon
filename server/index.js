@@ -3,7 +3,6 @@ dotenv.config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const favicon = require('serve-favicon');
 const path = require('path');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
@@ -15,7 +14,7 @@ const resolvers = require('./resolvers');
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-  formatError: error => {
+  formatError: (error) => {
     console.log(error);
     return error;
   }
@@ -34,12 +33,8 @@ const corsOptions = {
 };
 
 app.use(
-  `/${Constants.appName}/favicon.ico`,
-  favicon(path.join(__dirname, '..', 'build', 'favicon.ico'))
-);
-app.use(
-  `/${Constants.appName}/static`,
-  express.static(path.resolve(__dirname, '..', 'build/static'))
+  `/${Constants.appName}`,
+  express.static(path.resolve(__dirname, '..', 'build'))
 );
 
 app.use(

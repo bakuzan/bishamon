@@ -4,16 +4,11 @@
 .item-card {
   display: flex;
   flex-direction: column;
-  width: 20%;
   min-height: 3em;
   padding: $app--standard-padding;
   @include work-item-type-border;
 
   &__name {
     padding: $app--standard-padding 0;
-  }
-
-  @include respond-to(xs) {
-    width: calc(50% - #{$app--standard-padding * 2});
   }
 }

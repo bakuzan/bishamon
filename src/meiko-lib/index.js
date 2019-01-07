@@ -3,6 +3,7 @@ import DropdownMenu from 'meiko/modules/components/DropdownMenu';
 import Portal from 'meiko/modules/components/Portal';
 import Loaders from 'meiko/modules/components/Loaders';
 import Form from 'meiko/modules/components/Form';
+import Grid from 'meiko/modules/components/Grid';
 import ChipListInput from 'meiko/modules/components/ChipListInput';
 import ClearableInput from 'meiko/modules/components/ClearableInput';
 import SVGLogo from 'meiko/modules/components/SVGLogo';
@@ -41,6 +42,7 @@ export {
   ChipListInput,
   ClearableInput,
   SVGLogo,
+  Grid,
   Header,
   MultiSelect,
   TagCloudSelector,

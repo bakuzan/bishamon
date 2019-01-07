@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import Tabs from 'components/Tabs';
 import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
-import List from 'components/List/List';
+import Grid from 'components/Grid';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import { WorkItemCard } from 'components/ItemCard';
 import WorkItemBoardCreate from './WorkItemBoardCreate';
@@ -130,27 +130,31 @@ class WorkItemBoard extends React.Component {
                           name="OH_HOLD"
                           displayName={`On Hold (${onHoldWorkItems.length})`}
                         >
-                          <List
+                          <Grid
+                            className="bishamon-board-grid"
                             items={onHoldWorkItems}
-                            itemTemplate={item => (
+                          >
+                            {(item) => (
                               <WorkItemCard key={item.id} data={item} />
                             )}
-                          />
+                          </Grid>
                         </Tabs.TabView>
                         <Tabs.TabView
                           name="HISTORIC"
                           displayName={`Historic (${historicItems.length})`}
                         >
-                          <List
+                          <Grid
+                            className="bishamon-board-grid"
                             items={historicItems}
-                            itemTemplate={item => (
+                          >
+                            {(item) => (
                               <WorkItemCard
                                 key={item.id}
                                 data={item}
                                 readOnly
                               />
                             )}
-                          />
+                          </Grid>
                         </Tabs.TabView>
                       </Tabs.TabContainer>
                     );

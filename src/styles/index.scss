@@ -2,12 +2,6 @@
 @import './_variables';
 @import './_themes';
 
-html {
-  @include respond-to(xs) {
-    width: max-content;
-  }
-}
-
 body {
   font-size: $app--font-size;
 }

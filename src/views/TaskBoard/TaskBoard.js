@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import Tabs from 'components/Tabs';
 import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Board from 'components/Board/Board';
-import List from 'components/List/List';
+import Grid from 'components/Grid';
 import ProjectInformation from 'components/ProjectInformation/ProjectInformation';
 import { TaskCard } from 'components/ItemCard';
 import TaskBoardCreate from './TaskBoardCreate';
@@ -131,23 +131,25 @@ class TaskBoard extends React.Component {
                           name="ON_HOLD"
                           displayName={`On Hold (${onHoldItems.length})`}
                         >
-                          <List
+                          <Grid
+                            className="bishamon-board-grid"
                             items={onHoldItems}
-                            itemTemplate={item => (
-                              <TaskCard key={item.id} data={item} />
-                            )}
-                          />
+                          >
+                            {(item) => <TaskCard key={item.id} data={item} />}
+                          </Grid>
                         </Tabs.TabView>
                         <Tabs.TabView
                           name="HISTORIC"
                           displayName={`Historic (${historicItems.length})`}
                         >
-                          <List
+                          <Grid
+                            className="bishamon-board-grid"
                             items={historicItems}
-                            itemTemplate={item => (
+                          >
+                            {(item) => (
                               <TaskCard key={item.id} data={item} readOnly />
                             )}
-                          />
+                          </Grid>
                         </Tabs.TabView>
                       </Tabs.TabContainer>
                     );

@@ -1,0 +1,23 @@
+@import '~meiko/modules/components/Grid/Grid.scss';
+
+$project-grid: (
+  xs: 50,
+  sm: 33,
+  md: 25,
+  lg: 20
+);
+
+$board-grid: (
+  xs: 50,
+  sm: 33,
+  md: 25,
+  lg: 20
+);
+.bishamon-project-grid {
+  @include gridColumnGenerator($project-grid);
+}
+
+.bishamon-board-grid {
+  width: 100%;
+  @include gridColumnGenerator($board-grid);
+}

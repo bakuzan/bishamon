@@ -3,8 +3,6 @@
 .project-card {
   @extend %project-container;
   @extend %project-text;
-  height: 0%; // causes flex item to expand with its contents instead of siblings!
-  max-width: 32%;
 
   &--can-click {
     cursor: pointer;

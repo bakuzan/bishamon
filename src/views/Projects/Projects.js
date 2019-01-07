@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import { Portal, ClearableInput, TagCloudSelector } from 'meiko-lib';
 import MultiSelect from 'components/MultiSelect';
 import { ButtonisedNavButton } from 'components/Buttons';
-import List from 'components/List/List';
+import Grid from 'components/Grid';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
 import ProjectView from './ProjectView';
 import { TechnologyContext } from 'context';
@@ -115,9 +115,8 @@ class Projects extends React.Component {
                   sizeRelativeToCount
                 />
               </div>
-              <List
-                items={filteredProjects}
-                itemTemplate={(item) => (
+              <Grid className="bishamon-project-grid" items={filteredProjects}>
+                {(item) => (
                   <ProjectCard
                     key={item.id}
                     data={item}
@@ -125,7 +124,7 @@ class Projects extends React.Component {
                     onClick={() => this.handleSelectedCard(item.id)}
                   />
                 )}
-              />
+              </Grid>
               {selectedId && (
                 <Portal
                   querySelector={`#${

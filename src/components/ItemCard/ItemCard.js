@@ -18,7 +18,7 @@ class ItemCard extends React.PureComponent {
           <li className={classNames('item-card', [`item-card--type_${type}`])}>
             <div className="item-card__name">{data.name}</div>
             <div className="item-card__detail">
-              <div>{data.description}</div>
+              <div className="item-card__description">{data.description}</div>
               <div className="button-group align-right">
                 {!readOnly && (
                   <Button onClick={updateFunc}>Continue Work</Button>

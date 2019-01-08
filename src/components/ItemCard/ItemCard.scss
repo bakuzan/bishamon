@@ -11,4 +11,10 @@
   &__name {
     padding: $app--standard-padding 0;
   }
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: -webkit-fill-available;
+  }
 }

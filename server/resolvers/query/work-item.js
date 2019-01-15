@@ -4,6 +4,10 @@ const { WorkItem } = require('../../connectors');
 
 const { ItemStatus } = require('../../constants/enums');
 const Utils = require('../../utils');
+const {
+  buildHistoricQueryParams,
+  buildOnHoldQueryParams
+} = require('../../utils/query-builders');
 
 module.exports = {
   workItems(_, { statusIn, ...args }) {
@@ -20,15 +24,21 @@ module.exports = {
       }
     });
   },
+  workItemsOnHoldCount(_, args) {
+    const queryParams = buildOnHoldQueryParams(args);
+    return WorkItem.count(queryParams);
+  },
+  workItemsOnHold(_, args) {
+    const queryParams = buildOnHoldQueryParams(args);
+    return WorkItem.findAll(queryParams);
+  },
+  workItemsHistoricCount(_, args) {
+    const queryParams = buildHistoricQueryParams(args);
+    return WorkItem.count(queryParams);
+  },
   workItemsHistoric(_, args) {
-    const oneWeekAgo = Utils.getDateXDaysFromToday(-7);
-    return WorkItem.findAll({
-      where: {
-        ...args,
-        status: ItemStatus.Done,
-        updatedAt: { [Op.lt]: oneWeekAgo }
-      }
-    });
+    const queryParams = buildHistoricQueryParams(args);
+    return WorkItem.findAll(queryParams);
   },
   workItem(_, args) {
     const { id } = args;

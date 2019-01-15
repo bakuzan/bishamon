@@ -1,30 +1,50 @@
 import gql from 'graphql-tag';
 
-import { SwimlaneStatus, ItemStatus } from 'constants/status';
+import { SwimlaneStatus } from 'constants/status';
 
 function mapStatuses() {
-  return SwimlaneStatus.concat([ItemStatus.OnHold]).join(',');
+  return SwimlaneStatus.join(',');
 }
+
+const fields = gql`
+  fragment WorkItemFields on WorkItem {
+    id
+    name
+    description
+    type
+    status
+  }
+`;
 
 export const projectWorkItems = gql`
   query projectWorkItems($projectId: Int) {
     workItems(projectId: $projectId, statusIn: [${mapStatuses()}]) {
-      id
-      name
-      description
-      type
-      status
+      ...WorkItemFields
       taskRatio
     }
-    workItemsHistoric(projectId: $projectId) {
-      id
-      name
-      description
-      type
-      status
+    workItemsOnHoldCount(projectId: $projectId)
+    workItemsHistoricCount(projectId: $projectId)
+  }
+  ${fields}
+`;
+
+export const projectWorkItemsOnHold = gql`
+  query projectWorkItemsOnHold($projectId: Int) {
+    workItemsOnHold(projectId: $projectId) {
+      ...WorkItemFields
       taskRatio
     }
   }
+  ${fields}
+`;
+
+export const projectWorkItemsHistoric = gql`
+  query projectWorkItemsHistoric($projectId: Int) {
+    workItemsHistoric(projectId: $projectId) {
+      ...WorkItemFields
+    }
+  }
+  ${fields}
 `;
 
 export const projectWorkItemInformation = gql`
@@ -46,14 +66,11 @@ export const projectWorkItemInformation = gql`
 export const workItemById = gql`
   query workItemById($id: Int) {
     workItem(id: $id) {
-      id
-      name
-      description
-      type
-      status
+      ...WorkItemFields
       cause
     }
   }
+  ${fields}
 `;
 
 export const workItemRefreshOnTaskMutation = gql`

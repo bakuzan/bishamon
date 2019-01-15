@@ -16,10 +16,7 @@ import Mutate from 'queries/mutate';
 import Routes, { PROJECT_LIST_URL } from 'constants/routes';
 import { dataIdForObject } from 'utils/common';
 import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
-import {
-  filterListForOnHoldItems,
-  filterListForBoardItems
-} from 'utils/filters';
+import { filterListForBoardItems } from 'utils/filters';
 
 class WorkItemBoard extends React.Component {
   constructor(props) {
@@ -105,11 +102,11 @@ class WorkItemBoard extends React.Component {
               {!isAddingWork && (
                 <Query query={Fetch.projectWorkItems} variables={{ projectId }}>
                   {({ loading, error, data = {} }) => {
+                    const {
+                      workItemsHistoricCount = 0,
+                      workItemsOnHoldCount = 0
+                    } = data;
                     const boardItems = filterListForBoardItems(data.workItems);
-                    const onHoldWorkItems = filterListForOnHoldItems(
-                      data.workItems
-                    );
-                    const historicItems = data.workItemsHistoric || [];
 
                     return (
                       <Tabs.TabContainer>
@@ -135,33 +132,47 @@ class WorkItemBoard extends React.Component {
                         </Tabs.TabView>
                         <Tabs.TabView
                           name="OH_HOLD"
-                          displayName={`On Hold (${onHoldWorkItems.length})`}
+                          displayName={`On Hold (${workItemsOnHoldCount})`}
                         >
-                          <Grid
-                            className="bishamon-board-grid"
-                            items={onHoldWorkItems}
+                          <Query
+                            query={Fetch.projectWorkItemsOnHold}
+                            variables={{ projectId }}
                           >
-                            {(item) => (
-                              <WorkItemCard key={item.id} data={item} />
+                            {({ loading, error, data = {} }) => (
+                              <Grid
+                                className="bishamon-board-grid"
+                                items={data.workItemsOnHold}
+                              >
+                                {(item) => (
+                                  <WorkItemCard key={item.id} data={item} />
+                                )}
+                              </Grid>
                             )}
-                          </Grid>
+                          </Query>
                         </Tabs.TabView>
                         <Tabs.TabView
                           name="HISTORIC"
-                          displayName={`Historic (${historicItems.length})`}
+                          displayName={`Historic (${workItemsHistoricCount})`}
                         >
-                          <Grid
-                            className="bishamon-board-grid"
-                            items={historicItems}
+                          <Query
+                            query={Fetch.projectWorkItemsOnHold}
+                            variables={{ projectId }}
                           >
-                            {(item) => (
-                              <WorkItemCard
-                                key={item.id}
-                                data={item}
-                                readOnly
-                              />
+                            {({ loading, error, data = {} }) => (
+                              <Grid
+                                className="bishamon-board-grid"
+                                items={data.workItemsHistoric}
+                              >
+                                {(item) => (
+                                  <WorkItemCard
+                                    key={item.id}
+                                    data={item}
+                                    readOnly
+                                  />
+                                )}
+                              </Grid>
                             )}
-                          </Grid>
+                          </Query>
                         </Tabs.TabView>
                       </Tabs.TabContainer>
                     );

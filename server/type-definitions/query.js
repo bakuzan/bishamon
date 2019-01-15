@@ -3,9 +3,15 @@ const Query = `
     projects: [Project]
     project(id: Int): Project
     workItems(projectId: Int, status: Status, statusIn: [Status]): [WorkItem]
+    workItemsOnHoldCount(projectId: Int): Int
+    workItemsOnHold(projectId: Int): [WorkItem]
+    workItemsHistoricCount(projectId: Int): Int
     workItemsHistoric(projectId: Int): [WorkItem]
     workItem(id: Int): WorkItem
     tasks(workItemId: Int, status: Status): [Task]
+    tasksOnHoldCount(workItemId: Int): Int
+    tasksOnHold(workItemId: Int): [Task]
+    tasksHistoricCount(workItemId: Int): Int
     tasksHistoric(workItemId: Int): [Task]
     task(id: Int): Task
     technologies(sort: TechnologySortType): [Technology]

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import Tabs from 'components/Tabs';
 import { Button, ButtonisedNavLink } from 'components/Buttons';
@@ -88,8 +89,14 @@ class WorkItemBoard extends React.Component {
                 </div>
               }
             >
+              <Helmet>
+                {data.project && (
+                  <title>{`${data.project.name} / Work Items`}</title>
+                )}
+              </Helmet>
               {isAddingWork && (
                 <WorkItemBoardCreate
+                  projectData={data.project}
                   projectId={projectId}
                   onCancel={this.handleResolvingAddWork}
                   onCompleted={this.handleResolvingAddWork}

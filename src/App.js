@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import HeaderBar from 'components/HeaderBar/HeaderBar';
 import Projects from 'views/Projects/Projects';
@@ -47,6 +48,7 @@ class App extends React.Component {
 
     return (
       <div id="app" className={classNames('app', [`app--theme_${theme}`])}>
+        <Helmet defaultTitle="Bishamon" titleTemplate="Bishamon - %s" />
         <ThemeContext.Provider value={themeProps}>
           <HeaderBar />
         </ThemeContext.Provider>

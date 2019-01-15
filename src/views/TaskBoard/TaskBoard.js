@@ -1,5 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import Tabs from 'components/Tabs';
 import { Button, ButtonisedNavLink } from 'components/Buttons';
@@ -88,8 +89,17 @@ class TaskBoard extends React.Component {
                 </div>
               }
             >
+              <Helmet>
+                {data.project && (
+                  <title>
+                    {`${data.project.name} /
+                    ${data.project.workItem.name} / Tasks`}
+                  </title>
+                )}
+              </Helmet>
               {isAdding && (
                 <TaskBoardCreate
+                  projectData={data.project}
                   workItemId={workItemId}
                   onCancel={this.handleResolvingAdd}
                   onCompleted={this.handleResolvingAdd}

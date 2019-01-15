@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import { Portal, ClearableInput, TagCloudSelector } from 'meiko-lib';
 import MultiSelect from 'components/MultiSelect';
@@ -79,6 +80,9 @@ class Projects extends React.Component {
 
           return (
             <div className="padded padded--standard">
+              <Helmet>
+                <title>Projects</title>
+              </Helmet>
               <div className={classNames('flex-column')}>
                 <div className={classNames('flex-row', 'project-filters')}>
                   <ClearableInput

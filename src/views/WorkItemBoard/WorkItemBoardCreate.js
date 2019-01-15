@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Forms from 'components/Forms';
 import WorkTypes from 'constants/work-types';
@@ -15,7 +16,7 @@ const formDefaults = Object.freeze({
 
 class WorkItemBoardCreate extends React.PureComponent {
   render() {
-    const { projectId, onCompleted, onCancel } = this.props;
+    const { projectData, projectId, onCompleted, onCancel } = this.props;
     const mutationProps = {
       mutation: Mutate.workItemCreate,
       onCompleted,
@@ -51,11 +52,23 @@ class WorkItemBoardCreate extends React.PureComponent {
       onCancel: onCancel
     };
 
-    return <Forms.WorkItemForm formProps={formProps} isCreate />;
+    return (
+      <React.Fragment>
+        <Helmet>
+          {projectData && (
+            <title>{`${projectData.name} / Create Work Item`}</title>
+          )}
+        </Helmet>
+        <Forms.WorkItemForm formProps={formProps} isCreate />
+      </React.Fragment>
+    );
   }
 }
 
 WorkItemBoardCreate.propTypes = {
+  projectData: PropTypes.shape({
+    name: PropTypes.string.isRequired
+  }).isRequired,
   projectId: PropTypes.number.isRequired,
   onCompleted: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired

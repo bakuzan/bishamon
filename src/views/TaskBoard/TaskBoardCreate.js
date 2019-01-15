@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Forms from 'components/Forms';
 import Fetch from 'queries/fetch';
@@ -12,7 +13,7 @@ const formDefaults = Object.freeze({
 
 class TaskBoardCreate extends React.PureComponent {
   render() {
-    const { workItemId, onCompleted, onCancel } = this.props;
+    const { projectData, workItemId, onCompleted, onCancel } = this.props;
     const mutationProps = {
       mutation: Mutate.taskCreate,
       onCompleted,
@@ -47,11 +48,28 @@ class TaskBoardCreate extends React.PureComponent {
       onCancel
     };
 
-    return <Forms.TaskForm formProps={formProps} isCreate />;
+    return (
+      <React.Fragment>
+        <Helmet>
+          {projectData && (
+            <title>{`${projectData.name} / ${
+              projectData.workItem.name
+            } / Create Task`}</title>
+          )}
+        </Helmet>
+        <Forms.TaskForm formProps={formProps} isCreate />
+      </React.Fragment>
+    );
   }
 }
 
 TaskBoardCreate.propTypes = {
+  projectData: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    workItem: PropTypes.shape({
+      name: PropTypes.string.isRequired
+    })
+  }).isRequired,
   workItemId: PropTypes.number.isRequired,
   onCompleted: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired

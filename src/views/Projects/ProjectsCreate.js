@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Forms from 'components/Forms';
 import { PROJECT_LIST_URL } from 'constants/routes';
@@ -54,7 +55,14 @@ class ProjectsCreate extends React.Component {
       onCancel: this.handleNavigateToList
     };
 
-    return <Forms.ProjectForm formProps={formProps} isCreate />;
+    return (
+      <React.Fragment>
+        <Helmet>
+          <title>Create Project</title>
+        </Helmet>
+        <Forms.ProjectForm formProps={formProps} isCreate />
+      </React.Fragment>
+    );
   }
 }
 

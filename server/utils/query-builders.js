@@ -1,3 +1,5 @@
+const Op = require('sequelize').Op;
+
 const { ItemStatus } = require('../constants/enums');
 const Utils = require('./index');
 

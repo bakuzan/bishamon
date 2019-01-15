@@ -134,45 +134,53 @@ class WorkItemBoard extends React.Component {
                           name="OH_HOLD"
                           displayName={`On Hold (${workItemsOnHoldCount})`}
                         >
-                          <Query
-                            query={Fetch.projectWorkItemsOnHold}
-                            variables={{ projectId }}
-                          >
-                            {({ loading, error, data = {} }) => (
-                              <Grid
-                                className="bishamon-board-grid"
-                                items={data.workItemsOnHold}
+                          {(onHoldActive) =>
+                            onHoldActive && (
+                              <Query
+                                query={Fetch.projectWorkItemsOnHold}
+                                variables={{ projectId }}
                               >
-                                {(item) => (
-                                  <WorkItemCard key={item.id} data={item} />
+                                {({ loading, error, data = {} }) => (
+                                  <Grid
+                                    className="bishamon-board-grid"
+                                    items={data.workItemsOnHold}
+                                  >
+                                    {(item) => (
+                                      <WorkItemCard key={item.id} data={item} />
+                                    )}
+                                  </Grid>
                                 )}
-                              </Grid>
-                            )}
-                          </Query>
+                              </Query>
+                            )
+                          }
                         </Tabs.TabView>
                         <Tabs.TabView
                           name="HISTORIC"
                           displayName={`Historic (${workItemsHistoricCount})`}
                         >
-                          <Query
-                            query={Fetch.projectWorkItemsOnHold}
-                            variables={{ projectId }}
-                          >
-                            {({ loading, error, data = {} }) => (
-                              <Grid
-                                className="bishamon-board-grid"
-                                items={data.workItemsHistoric}
+                          {(historicActive) =>
+                            historicActive && (
+                              <Query
+                                query={Fetch.projectWorkItemsHistoric}
+                                variables={{ projectId }}
                               >
-                                {(item) => (
-                                  <WorkItemCard
-                                    key={item.id}
-                                    data={item}
-                                    readOnly
-                                  />
+                                {({ loading, error, data = {} }) => (
+                                  <Grid
+                                    className="bishamon-board-grid"
+                                    items={data.workItemsHistoric}
+                                  >
+                                    {(item) => (
+                                      <WorkItemCard
+                                        key={item.id}
+                                        data={item}
+                                        readOnly
+                                      />
+                                    )}
+                                  </Grid>
                                 )}
-                              </Grid>
-                            )}
-                          </Query>
+                              </Query>
+                            )
+                          }
                         </Tabs.TabView>
                       </Tabs.TabContainer>
                     );

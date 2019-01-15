@@ -141,45 +141,53 @@ class TaskBoard extends React.Component {
                           name="ON_HOLD"
                           displayName={`On Hold (${tasksOnHoldCount})`}
                         >
-                          <Query
-                            query={Fetch.workItemTasksOnHold}
-                            variables={{ workItemId }}
-                          >
-                            {({ loading, error, data = {} }) => (
-                              <Grid
-                                className="bishamon-board-grid"
-                                items={data.tasksOnHold}
+                          {(onHoldActive) =>
+                            onHoldActive && (
+                              <Query
+                                query={Fetch.workItemTasksOnHold}
+                                variables={{ workItemId }}
                               >
-                                {(item) => (
-                                  <TaskCard key={item.id} data={item} />
+                                {({ loading, error, data = {} }) => (
+                                  <Grid
+                                    className="bishamon-board-grid"
+                                    items={data.tasksOnHold}
+                                  >
+                                    {(item) => (
+                                      <TaskCard key={item.id} data={item} />
+                                    )}
+                                  </Grid>
                                 )}
-                              </Grid>
-                            )}
-                          </Query>
+                              </Query>
+                            )
+                          }
                         </Tabs.TabView>
                         <Tabs.TabView
                           name="HISTORIC"
                           displayName={`Historic (${tasksHistoricCount})`}
                         >
-                          <Query
-                            query={Fetch.workItemTasksOnHold}
-                            variables={{ workItemId }}
-                          >
-                            {({ loading, error, data = {} }) => (
-                              <Grid
-                                className="bishamon-board-grid"
-                                items={data.tasksHistoric}
+                          {(historicActive) =>
+                            historicActive && (
+                              <Query
+                                query={Fetch.workItemTasksHistoric}
+                                variables={{ workItemId }}
                               >
-                                {(item) => (
-                                  <TaskCard
-                                    key={item.id}
-                                    data={item}
-                                    readOnly
-                                  />
+                                {({ loading, error, data = {} }) => (
+                                  <Grid
+                                    className="bishamon-board-grid"
+                                    items={data.tasksHistoric}
+                                  >
+                                    {(item) => (
+                                      <TaskCard
+                                        key={item.id}
+                                        data={item}
+                                        readOnly
+                                      />
+                                    )}
+                                  </Grid>
                                 )}
-                              </Grid>
-                            )}
-                          </Query>
+                              </Query>
+                            )
+                          }
                         </Tabs.TabView>
                       </Tabs.TabContainer>
                     );

@@ -1,5 +1,11 @@
 import gql from 'graphql-tag';
 
+import { SwimlaneStatus } from 'constants/status';
+
+function mapStatuses() {
+  return SwimlaneStatus.join(',');
+}
+
 const fields = gql`
   fragment TaskFields on Task {
     id
@@ -11,7 +17,7 @@ const fields = gql`
 
 export const workItemTasks = gql`
   query workItemTasks($workItemId: Int) {
-    tasks(workItemId: $workItemId) {
+    tasks(workItemId: $workItemId, statusIn: [${mapStatuses()}]) {
       ...TaskFields
     }
     tasksOnHoldCount(workItemId: $workItemId)

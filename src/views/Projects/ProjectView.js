@@ -31,7 +31,7 @@ class ProjectView extends React.Component {
       query: Fetch.projectsAll
     });
 
-    const index = projects.findIndex(x => x.id === id);
+    const index = projects.findIndex((x) => x.id === id);
     const oldProject = projects[index];
 
     cache.writeQuery({

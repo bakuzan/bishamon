@@ -8,7 +8,7 @@ const Query = `
     workItemsHistoricCount(projectId: Int): Int
     workItemsHistoric(projectId: Int): [WorkItem]
     workItem(id: Int): WorkItem
-    tasks(workItemId: Int, status: Status): [Task]
+    tasks(workItemId: Int, status: Status, statusIn: [Status]): [Task]
     tasksOnHoldCount(workItemId: Int): Int
     tasksOnHold(workItemId: Int): [Task]
     tasksHistoricCount(workItemId: Int): Int

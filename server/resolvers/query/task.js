@@ -10,7 +10,7 @@ const {
 } = require('../../utils/query-builders');
 
 module.exports = {
-  tasks(_, args) {
+  tasks(_, { statusIn, ...args }) {
     const optionalArgs = !statusIn ? {} : { status: { [Op.or]: statusIn } };
     const oneWeekAgo = Utils.getDateXDaysFromToday(-7);
     return Task.findAll({

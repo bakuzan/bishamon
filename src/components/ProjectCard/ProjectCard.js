@@ -39,7 +39,9 @@ class ProjectCard extends React.PureComponent {
         </div>
         <div
           id={`${Strings.selectors.projectCardPortal}${data.id}`}
-          className="project-card__view"
+          className={classNames('project-card__view', {
+            'project-card__view--selected': isSelected
+          })}
         >
           {/* Content placed here via portal. */}
         </div>

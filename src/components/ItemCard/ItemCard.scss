@@ -12,10 +12,18 @@
   &__name {
     padding: $app--standard-padding 0;
   }
+  &__description {
+    display: flex;
+    padding: $app--standard-padding 0;
+  }
   &__detail {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: space-between;
-    height: -webkit-fill-available;
+  }
+  &__button-group {
+    display: flex;
+    justify-content: flex-end;
   }
 }

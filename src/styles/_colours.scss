@@ -6,7 +6,7 @@ $bishamon--knight--skirt: #333399;
 $bishamon--knight--underskirt: #f0ecfd;
 $bishamon--knight--armour: lighten(#c0c0c0, 10%);
 
-$bishamon--warlord--base: lighten(#993399, 15%);
+$bishamon--warlord--base: saturate(lighten(#993399, 15%), 15%);
 $bishamon--warlord--trim: #1a1b23;
 $bishamon--warlord--pattern: #357f7c;
 
@@ -15,7 +15,7 @@ $bishamon--kimono--obi: #993366;
 $bishamon--kimono--pattern: #d593a2;
 
 $bishamon--suit--base: #333333;
-$bishamon--suit--trim: lighten(#7e2e2f, 25%);
+$bishamon--suit--trim: saturate(lighten(#7e2e2f, 30%), 10%);
 $bishamon--suit--lining: #663333;
 
 // Shades

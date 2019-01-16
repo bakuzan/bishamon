@@ -27,7 +27,10 @@ $header--height: 50px;
 
 $swimlane--status-count: 5;
 
-$z-index: (above-siblings: 10);
+$z-index: (
+  above-siblings: 10,
+  modal: 100
+);
 
 // Derived Variables
 $form-padding: $app--standard-padding * 2;

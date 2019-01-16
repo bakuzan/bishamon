@@ -1,6 +1,7 @@
 @import '../../styles/_extendables';
 
 .project-card {
+  position: relative;
   @extend %project-container;
   @extend %project-text;
 
@@ -16,6 +17,14 @@
   }
 
   &__view {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    right: -5px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    &--selected {
+      z-index: map-get($z-index, modal);
+    }
   }
 }

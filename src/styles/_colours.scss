@@ -1,3 +1,10 @@
+@function hex-to-hsla($hex, $alpha) {
+  $hue: hue($hex);
+  $sat: 60; //saturation($hex);
+  $lite: 60; //lightness($hex);
+  @return hsla($hue, $sat, $lite, $alpha);
+}
+
 $bishamon--jacket: #63636b;
 $bishamon--eyes: #cc7eec;
 $bishamon--hair: #fff9b3;
@@ -6,36 +13,34 @@ $bishamon--knight--skirt: #333399;
 $bishamon--knight--underskirt: #f0ecfd;
 $bishamon--knight--armour: lighten(#c0c0c0, 10%);
 
-$bishamon--warlord--base: saturate(lighten(#993399, 15%), 15%);
+$bishamon--warlord--base: hex-to-hsla(#993399, 1);
+$bishamon--warlord--base-fade: hex-to-hsla(#993399, 0.6);
+// saturate(lighten(#993399, 15%), 15%);
 $bishamon--warlord--trim: #1a1b23;
 $bishamon--warlord--pattern: #357f7c;
-
 $bishamon--kimono--base: #f5e6f9;
 $bishamon--kimono--obi: #993366;
 $bishamon--kimono--pattern: #d593a2;
-
 $bishamon--suit--base: #333333;
-$bishamon--suit--trim: saturate(lighten(#7e2e2f, 30%), 10%);
+$bishamon--suit--trim: hex-to-hsla(#7e2e2f, 1);
+$bishamon--suit--trim-fade: hex-to-hsla(
+  #7e2e2f,
+  0.8
+); // saturate(lighten(#7e2e2f, 30%), 10%);
 $bishamon--suit--lining: #663333;
-
 // Shades
 $black: #000;
 $grey--50: #808080; // Grey
 $grey--light: #d3d3d3;
 $white: #fff;
-
-//Colours
+// Colours
 $blue--vivid: #3399ff;
-
 $cyan: #00ffff; // aqua
-
 $green--lime-strong: #33cc33;
-
-$magenta--soft: #da70d6; //Orchid
+$magenta--soft: #da70d6;
+// Orchid
 $orange: #ff9900;
-
 $red: #f00;
-
 $work-types: (
   feature: $blue--vivid,
   bug: $red,

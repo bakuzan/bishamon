@@ -6,7 +6,8 @@ const {
 const Utils = require('../utils');
 
 module.exports = (taskStatus) => {
-  let taskStatusCheck = null;
+  let taskStatusCheck = () => undefined;
+
   if (taskStatus === ItemStatus.InProgress) {
     taskStatusCheck = (tasks, workItem) =>
       workItem.status !== ItemStatus.InProgress

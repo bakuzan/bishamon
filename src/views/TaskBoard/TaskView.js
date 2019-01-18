@@ -27,7 +27,7 @@ class TaskView extends React.Component {
     }
   ) {
     const { id, workItemId } = this.props;
-    const { tasks = [], tasksHistoric = [] } = cache.readQuery({
+    const { tasks = [], ...other } = cache.readQuery({
       query: Fetch.workItemTasks,
       variables: { workItemId }
     });
@@ -39,12 +39,12 @@ class TaskView extends React.Component {
       query: Fetch.workItemTasks,
       variables: { workItemId },
       data: {
+        ...other,
         tasks: [
           ...tasks.slice(0, index),
           { ...oldTask, ...taskUpdate },
           ...tasks.slice(index + 1)
-        ],
-        tasksHistoric
+        ]
       }
     });
   }

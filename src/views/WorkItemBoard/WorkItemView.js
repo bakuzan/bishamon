@@ -27,7 +27,7 @@ class WorkItemView extends React.Component {
     }
   ) {
     const { id, projectId } = this.props;
-    const { workItems = [], workItemsHistoric = [] } = cache.readQuery({
+    const { workItems = [], ...other } = cache.readQuery({
       query: Fetch.projectWorkItems,
       variables: { projectId }
     });
@@ -39,12 +39,12 @@ class WorkItemView extends React.Component {
       query: Fetch.projectWorkItems,
       variables: { projectId },
       data: {
+        ...other,
         workItems: [
           ...workItems.slice(0, index),
           { ...oldWorkItem, ...workItemUpdate },
           ...workItems.slice(index + 1)
-        ],
-        workItemsHistoric
+        ]
       }
     });
   }

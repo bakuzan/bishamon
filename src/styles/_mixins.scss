@@ -35,3 +35,17 @@
     }
   }
 }
+
+@mixin lightenOrDarken($key, $colour) {
+  $percentage: 10%;
+  $colour-lightness: lightness($colour);
+  @if $colour-lightness < 20% or $colour-lightness > 80% {
+    $percentage: 25%;
+  }
+
+  @if $colour-lightness < 50% {
+    #{$key}: lighten($colour, $percentage);
+  } @else {
+    #{$key}: darken($colour, $percentage);
+  }
+}

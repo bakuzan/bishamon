@@ -81,6 +81,13 @@ $theme-maps: (
         filter: drop-shadow(0 -2px 2px $accent-colour);
       }
     }
+    .nav-link {
+      color: $base-colour;
+      &:hover:not(.fake-button),
+      &--active:not(.fake-button) {
+        color: $accent-colour;
+      }
+    }
     .header-bar {
       background-color: $header-background;
       color: $header-colour;
@@ -114,18 +121,26 @@ $theme-maps: (
     }
     .bishamon-button:not(.primary):not(.accent),
     .form-container button:not(.primary):not(.accent) {
-      background-color: $base-background;
+      @if map-has-key($values, base-background-fade) {
+        background-color: $base-background-fade;
+      } @else {
+        background-color: $base-background;
+      }
       &:hover {
-        background-color: darken($base-background, $button--darken-percentage);
+        @if map-has-key($values, base-background-fade) {
+          @include lightenOrDarken('background-color', $base-background-fade);
+        } @else {
+          @include lightenOrDarken('background-color', $base-background);
+        }
       }
     }
     .bishamon-button.primary {
       background-color: map-get($values, button--background);
       color: $button-colour;
       &:hover {
-        background-color: darken(
-          map-get($values, button--background),
-          $button--darken-percentage
+        @include lightenOrDarken(
+          'background-color',
+          map-get($values, button--background)
         );
       }
     }
@@ -133,21 +148,22 @@ $theme-maps: (
       background-color: $accent-colour;
       color: $button-colour;
       &:hover {
-        background-color: darken($accent-colour, $button--darken-percentage);
+        @include lightenOrDarken('background-color', $accent-colour);
       }
     }
     .bishamon-button-link {
       color: map-get($values, button-link--colour);
       &:hover {
-        color: darken(
-          map-get($values, button-link--colour),
-          $button--darken-percentage
+        @include lightenOrDarken(
+          'color',
+          map-get($values, button-link--colour)
         );
       }
     }
     .bishamon-tabs {
       & li[role='tab'] {
         border-color: $base-background;
+        &:hover,
         &.active {
           border-color: $base-colour;
           border-bottom-color: $base-background;
@@ -160,9 +176,12 @@ $theme-maps: (
     .bishamon-multiselect-list {
       background-color: $base-background;
     }
-    .bishamon-tag.active {
-      background-color: $accent-colour;
-      color: $base-colour;
+    .bishamon-tag {
+      &.input-chip-clickable:hover,
+      &.active {
+        background-color: $accent-colour;
+        color: $base-colour;
+      }
     }
   }
 }

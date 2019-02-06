@@ -7,46 +7,17 @@ import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { mapTaskViewToOptimisticResponse } from 'utils/mappers';
+import taskUpdater from './TaskViewUpdater';
 
 class TaskView extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleCloseAfterAction = this.handleCloseAfterAction.bind(this);
-    this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
   handleCloseAfterAction() {
     this.props.closeView();
-  }
-
-  handleCacheUpdate(
-    cache,
-    {
-      data: { taskUpdate }
-    }
-  ) {
-    const { id, workItemId } = this.props;
-    const { tasks = [], ...other } = cache.readQuery({
-      query: Fetch.workItemTasks,
-      variables: { workItemId }
-    });
-
-    const index = tasks.findIndex((x) => x.id === id);
-    const oldTask = tasks[index];
-
-    cache.writeQuery({
-      query: Fetch.workItemTasks,
-      variables: { workItemId },
-      data: {
-        ...other,
-        tasks: [
-          ...tasks.slice(0, index),
-          { ...oldTask, ...taskUpdate },
-          ...tasks.slice(index + 1)
-        ]
-      }
-    });
   }
 
   render() {
@@ -54,7 +25,7 @@ class TaskView extends React.Component {
     const mutationProps = {
       mutation: Mutate.taskUpdate,
       onCompleted: this.handleCloseAfterAction,
-      update: this.handleCacheUpdate,
+      update: taskUpdater,
       refetchQueries: () => [
         {
           query: Fetch.workItemRefreshOnTaskMutation,

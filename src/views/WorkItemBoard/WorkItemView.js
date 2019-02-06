@@ -7,46 +7,17 @@ import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
+import workItemUpdater from './WorkItemViewUpdater';
 
 class WorkItemView extends React.Component {
   constructor(props) {
     super(props);
 
     this.handleCloseAfterAction = this.handleCloseAfterAction.bind(this);
-    this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
   handleCloseAfterAction() {
     this.props.closeView();
-  }
-
-  handleCacheUpdate(
-    cache,
-    {
-      data: { workItemUpdate }
-    }
-  ) {
-    const { id, projectId } = this.props;
-    const { workItems = [], ...other } = cache.readQuery({
-      query: Fetch.projectWorkItems,
-      variables: { projectId }
-    });
-
-    const index = workItems.findIndex((x) => x.id === id);
-    const oldWorkItem = workItems[index];
-
-    cache.writeQuery({
-      query: Fetch.projectWorkItems,
-      variables: { projectId },
-      data: {
-        ...other,
-        workItems: [
-          ...workItems.slice(0, index),
-          { ...oldWorkItem, ...workItemUpdate },
-          ...workItems.slice(index + 1)
-        ]
-      }
-    });
   }
 
   render() {
@@ -54,7 +25,7 @@ class WorkItemView extends React.Component {
     const mutationProps = {
       mutation: Mutate.workItemUpdate,
       onCompleted: this.handleCloseAfterAction,
-      update: this.handleCacheUpdate,
+      update: workItemUpdater,
       refetchQueries: () => [
         {
           query: Fetch.projectRefreshOnWorkItemMutation,

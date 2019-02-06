@@ -12,6 +12,7 @@ const fields = gql`
     name
     description
     status
+    workItemId
   }
 `;
 

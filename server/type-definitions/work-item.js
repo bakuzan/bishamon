@@ -8,5 +8,6 @@ module.exports = `
     cause: String
     tasks: [Task]
     taskRatio: String
+    projectId: Int
   }
 `;

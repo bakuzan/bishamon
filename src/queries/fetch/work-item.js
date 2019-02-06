@@ -13,6 +13,7 @@ const fields = gql`
     description
     type
     status
+    projectId
   }
 `;
 

@@ -50,6 +50,7 @@ class WorkItemBoard extends React.Component {
       fragment: Fragment.workItemStatus,
       data: { status, __typename }
     });
+    console.log('cache update! > ', workItemUpdate);
   }
 
   render() {

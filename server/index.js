@@ -29,7 +29,6 @@ const server = new ApolloServer({
 
 // Overide origin if it doesn't exist
 app.use(function(req, _, next) {
-  console.log(req.headers, req.rawHeaders);
   req.headers.origin = req.headers.origin || req.headers.host;
   next();
 });

@@ -7,11 +7,13 @@ import {
   mapWorkItemViewToOptimisticResponse,
   mapTaskViewToOptimisticResponse
 } from 'utils/mappers';
+import { workItemUpdater, taskUpdater } from './ItemCardUpdaters';
 
 const status = ItemStatus.InProgress;
 
 function CustomItemCardWrappers({
   mutation,
+  update,
   optimisticResponseMapper,
   ...props
 }) {
@@ -25,6 +27,7 @@ function CustomItemCardWrappers({
   };
   const mutationProps = {
     mutation,
+    update,
     variables: updateVariables,
     optimisticResponse
   };
@@ -36,6 +39,7 @@ export const WorkItemCard = (props) => (
   <CustomItemCardWrappers
     {...props}
     mutation={Mutate.workItemStatusUpdate}
+    update={workItemUpdater}
     optimisticResponseMapper={mapWorkItemViewToOptimisticResponse}
   />
 );
@@ -44,6 +48,7 @@ export const TaskCard = (props) => (
   <CustomItemCardWrappers
     {...props}
     mutation={Mutate.taskStatusUpdate}
+    update={taskUpdater}
     optimisticResponseMapper={mapTaskViewToOptimisticResponse}
   />
 );

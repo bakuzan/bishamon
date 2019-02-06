@@ -22,6 +22,7 @@ export const taskStatusUpdate = gql`
       name
       description
       status
+      workItemId
     }
   }
 `;
@@ -43,6 +44,7 @@ export const taskUpdate = gql`
       name
       description
       status
+      workItemId
     }
   }
 `;

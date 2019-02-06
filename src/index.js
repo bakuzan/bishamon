@@ -3,12 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 
+import createEnhancedCache from './enhanced-cache';
 import App from './App';
 import RoutePaths from 'constants/routes';
 
@@ -16,14 +16,7 @@ import 'meiko/dist/bundle.min.css';
 import './styles/index.scss';
 
 const client = new ApolloClient({
-  cache: new InMemoryCache({
-    cacheRedirects: {
-      Query: {
-        workItem: (_, args, { getCacheKey }) =>
-          getCacheKey({ __typename: 'WorkItem', id: args.id })
-      }
-    }
-  }),
+  cache: createEnhancedCache(),
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {

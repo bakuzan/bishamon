@@ -30,6 +30,8 @@ export const workItemStatusUpdate = gql`
       description
       type
       status
+      taskRatio
+      projectId
     }
   }
 `;
@@ -57,6 +59,7 @@ export const workItemUpdate = gql`
       type
       status
       cause
+      projectId
     }
   }
 `;

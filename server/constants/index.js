@@ -3,6 +3,6 @@ module.exports = {
   environment: {
     production: 'production'
   },
-  whitelist: /^http\:\/\/localhost:/,
+  whitelist: /^.*localhost:\d{4}/,
   fallbackColour: '#fff'
 };

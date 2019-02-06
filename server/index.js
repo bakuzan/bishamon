@@ -1,53 +1,46 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const express = require('express');
-const bodyParser = require('body-parser');
 const path = require('path');
-const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
-const { makeExecutableSchema } = require('graphql-tools');
-const cors = require('cors');
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+
 const Constants = require('./constants/index');
 const typeDefs = require('./type-definitions');
 const resolvers = require('./resolvers');
 
-const schema = makeExecutableSchema({
+const app = express();
+const server = new ApolloServer({
   typeDefs,
   resolvers,
+  playground: {
+    settings: {
+      'editor.cursorShape': 'block',
+      'editor.fontSize': 16,
+      'editor.fontFamily': '"Lucida Console", Consolas, monospace',
+      'editor.theme': 'light'
+    }
+  },
   formatError: (error) => {
     console.log(error);
     return error;
   }
 });
-const app = express();
 
-const corsOptions = {
-  origin: function(origin, callback) {
-    if (Constants.whitelist.test(origin)) {
-      callback(null, true);
-    } else {
-      console.log(`Origin: ${origin}, not allowed by CORS`);
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-};
-
+// Overide origin if it doesn't exist
+app.use(function(req, _, next) {
+  console.log(req.headers, req.rawHeaders);
+  req.headers.origin = req.headers.origin || req.headers.host;
+  next();
+});
 app.use(
   `/${Constants.appName}`,
   express.static(path.resolve(__dirname, '..', 'build'))
 );
 
-app.use(
-  '/graphql',
-  cors(corsOptions),
-  bodyParser.json(),
-  graphqlExpress({ schema })
-);
-app.use('/graphiql', cors(), graphiqlExpress({ endpointURL: '/graphql' }));
-
 // Always return the main index.html, so react-router render the route in the client
 if (process.env.NODE_ENV === Constants.environment.production) {
-  app.get('*', (req, res) => {
+  app.get('*', (_, res) => {
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
 }
@@ -58,6 +51,20 @@ const PORT =
     ? process.env.PORT
     : process.env.SERVER_PORT || 9005;
 
-app.listen(PORT, () => {
-  console.log(`Go to http://localhost:${PORT}/graphiql to run queries!`);
+server.applyMiddleware({
+  app,
+  cors: {
+    origin: function(origin, callback) {
+      if (Constants.whitelist.test(origin)) {
+        callback(null, true);
+      } else {
+        console.log(`Origin: ${origin}, not allowed by CORS`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  }
+});
+
+app.listen({ port: PORT }, () => {
+  console.log(`Go to http://localhost:${PORT}/graphql to run queries!`);
 });

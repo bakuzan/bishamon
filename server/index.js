@@ -13,6 +13,7 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
   playground: {
     settings: {
       'editor.cursorShape': 'block',
@@ -39,7 +40,10 @@ app.use(
 
 // Always return the main index.html, so react-router render the route in the client
 if (process.env.NODE_ENV === Constants.environment.production) {
-  app.get('*', (_, res) => {
+  app.get('*', (req, res, next) => {
+    if (req.url.includes('graphql')) {
+      next();
+    }
     res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
   });
 }

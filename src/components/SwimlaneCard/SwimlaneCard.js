@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
-import { objectsAreEqual } from 'meiko-lib';
 import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
 import Strings from 'constants/strings';
+import { objectsAreEqual } from 'utils/common';
 
 import './SwimlaneCard.scss';
 

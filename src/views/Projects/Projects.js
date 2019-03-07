@@ -86,6 +86,7 @@ class Projects extends React.Component {
               <div className={classNames('flex-column')}>
                 <div className={classNames('flex-row', 'project-filters')}>
                   <ClearableInput
+                    id="search"
                     name="search"
                     value={filters.search}
                     onChange={this.handleSearch}

@@ -1,6 +1,11 @@
 @import './_variables.scss';
 @import './_mixins';
 
+/* TODO
+ * Update themes to use the normal classes rather than the 'bishamon-' ones.
+ * No longer required!
+ */
+
 $theme-maps: (
   default: (
     base-background: $bishamon--hair,

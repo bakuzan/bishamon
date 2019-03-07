@@ -82,12 +82,14 @@ class ProjectForm extends React.PureComponent {
           return (
             <React.Fragment>
               <ClearableInput
+                id="name"
                 name="name"
                 label="name"
                 value={values.name}
                 onChange={actions.handleUserInput}
               />
               <SelectBox
+                id="type"
                 name="type"
                 text="type"
                 value={values.type}

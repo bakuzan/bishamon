@@ -22,7 +22,7 @@ class WorkItemBoardCreate extends React.PureComponent {
       onCompleted,
       variables: { projectId },
       update: (cache, { data: { workItemCreate } }) => {
-        const { workItems = [], workItemsHistoric } = cache.readQuery({
+        const { workItems = [], ...other } = cache.readQuery({
           query: Fetch.projectWorkItems,
           variables: { projectId }
         });
@@ -30,10 +30,10 @@ class WorkItemBoardCreate extends React.PureComponent {
           query: Fetch.projectWorkItems,
           variables: { projectId },
           data: {
+            ...other,
             workItems: workItems.concat([
-              { ...workItemCreate, taskRatio: 'N/A' }
-            ]),
-            workItemsHistoric
+              { ...workItemCreate, projectId, taskRatio: 'N/A' }
+            ])
           }
         });
       },

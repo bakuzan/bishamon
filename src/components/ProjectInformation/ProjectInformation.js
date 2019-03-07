@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
-import { separateAndCapitaliseAll } from 'meiko-lib';
+import { separateAndCapitaliseAll } from 'utils/common';
 import './ProjectInformation.scss';
 
 class ProjectInformation extends React.PureComponent {

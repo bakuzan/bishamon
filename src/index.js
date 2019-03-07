@@ -12,7 +12,8 @@ import createEnhancedCache from './enhanced-cache';
 import App from './App';
 import RoutePaths from 'constants/routes';
 
-import 'meiko/dist/bundle.min.css';
+// TODO remove this when meiko uses styled-components!!
+import 'meiko/bundle.min.css';
 import './styles/index.scss';
 
 const client = new ApolloClient({

@@ -16,6 +16,7 @@ class AppSettings extends React.Component {
       <DropdownMenu id="app-settings" portalTarget="#app" align="right">
         <li>
           <SelectBox
+            id="appTheme"
             name="appTheme"
             text="App Theme"
             options={appThemes}

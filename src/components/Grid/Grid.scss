@@ -1,4 +1,4 @@
-@import '~meiko/modules/components/Grid/Grid.scss';
+@import '~meiko/Grid/Grid.scss';
 
 $project-grid: (
   xs: 50,
@@ -13,6 +13,7 @@ $board-grid: (
   md: 25,
   lg: 20
 );
+
 .bishamon-project-grid {
   @include gridColumnGenerator($project-grid);
 }

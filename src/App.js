@@ -12,7 +12,7 @@ import TaskBoard from 'views/TaskBoard/TaskBoard';
 import Fetch from 'queries/fetch';
 import RoutePaths from 'constants/routes';
 import Strings from 'constants/strings';
-import { getAppSettings, saveAppSettings } from 'utils/common';
+import { appSettingsStore } from 'utils/common';
 import { ThemeContext, TechnologyContext } from 'context';
 
 class App extends React.Component {
@@ -26,13 +26,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const settings = getAppSettings() || {};
+    const settings = appSettingsStore.get();
     this.setState({ ...settings });
   }
 
   handleThemeChange(e) {
     const theme = e.target.value;
-    saveAppSettings({ theme });
+    appSettingsStore.set({ theme });
     this.setState({ theme });
   }
 

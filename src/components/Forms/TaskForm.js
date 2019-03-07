@@ -19,12 +19,14 @@ class TaskForm extends React.PureComponent {
           return (
             <React.Fragment>
               <ClearableInput
+                id="name"
                 name="name"
                 label="name"
                 value={values.name}
                 onChange={actions.handleUserInput}
               />
               <ClearableInput
+                id="description"
                 name="description"
                 label="description"
                 value={values.description}
@@ -32,6 +34,7 @@ class TaskForm extends React.PureComponent {
               />
               {!isCreate && (
                 <SelectBox
+                  id="status"
                   name="status"
                   text="status"
                   value={values.status}

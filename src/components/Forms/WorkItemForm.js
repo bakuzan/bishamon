@@ -24,18 +24,21 @@ class WorkItemForm extends React.PureComponent {
           return (
             <React.Fragment>
               <ClearableInput
+                id="name"
                 name="name"
                 label="name"
                 value={values.name}
                 onChange={actions.handleUserInput}
               />
               <ClearableInput
+                id="description"
                 name="description"
                 label="description"
                 value={values.description}
                 onChange={actions.handleUserInput}
               />
               <SelectBox
+                id="type"
                 name="type"
                 text="type"
                 value={values.type}
@@ -44,6 +47,7 @@ class WorkItemForm extends React.PureComponent {
               />
               {!isCreate && (
                 <SelectBox
+                  id="status"
                   name="status"
                   text="status"
                   value={values.status}
@@ -51,15 +55,15 @@ class WorkItemForm extends React.PureComponent {
                   options={STATUSES}
                 />
               )}
-              {!isCreate &&
-                isBug && (
-                  <ClearableInput
-                    name="cause"
-                    label="cause"
-                    value={values.cause}
-                    onChange={actions.handleUserInput}
-                  />
-                )}
+              {!isCreate && isBug && (
+                <ClearableInput
+                  id="cause"
+                  name="cause"
+                  label="cause"
+                  value={values.cause}
+                  onChange={actions.handleUserInput}
+                />
+              )}
             </React.Fragment>
           );
         }}

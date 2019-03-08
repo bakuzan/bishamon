@@ -1,30 +1,29 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+import { buildUrlWithIds, workItemBoardUrl } from 'constants/routes';
 import { mapWorkItemViewToOptimisticResponse } from 'utils/mappers';
 import workItemUpdater from './WorkItemViewUpdater';
 
 class WorkItemView extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleCloseAfterAction = this.handleCloseAfterAction.bind(this);
-  }
-
-  handleCloseAfterAction() {
-    this.props.closeView();
-  }
-
   render() {
-    const { id, projectId } = this.props;
+    const { history, match, projectData } = this.props;
+    const projectId = Number(match.params.projectId);
+    const id = Number(match.params.workItemId);
+
+    function goToBoard() {
+      const cancelUrl = buildUrlWithIds(workItemBoardUrl, { projectId });
+      history.push(cancelUrl);
+    }
+
     const mutationProps = {
       mutation: Mutate.workItemUpdate,
-      onCompleted: this.handleCloseAfterAction,
+      onCompleted: goToBoard,
       update: workItemUpdater,
       refetchQueries: () => [
         {
@@ -41,24 +40,28 @@ class WorkItemView extends React.Component {
           if (loading) return <DelayedLoader />;
 
           const formProps = {
-            className: 'card-form',
             formName: 'work-item-edit',
             defaults: data.workItem,
             mutationProps,
-            onCancel: this.handleCloseAfterAction
+            onCancel: goToBoard
           };
 
-          return <Forms.WorkItemForm formProps={formProps} />;
+          return (
+            <React.Fragment>
+              <Helmet>
+                {projectData && (
+                  <title>{`${projectData.name} / Edit Work Item, ${
+                    data.workItem.name
+                  }`}</title>
+                )}
+              </Helmet>
+              <Forms.WorkItemForm formProps={formProps} />
+            </React.Fragment>
+          );
         }}
       </Query>
     );
   }
 }
-
-WorkItemView.propTypes = {
-  projectId: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-  closeView: PropTypes.func.isRequired
-};
 
 export default WorkItemView;

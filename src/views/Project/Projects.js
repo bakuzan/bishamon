@@ -3,16 +3,17 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet';
 
-import { Portal, ClearableInput, TagCloudSelector } from 'meiko-lib';
+import { ClearableInput, TagCloudSelector } from 'meiko-lib';
 import MultiSelect from 'components/MultiSelect';
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
-import ProjectView from './ProjectView';
+
 import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
-import Strings from 'constants/strings';
+
 import ProjectTypes from 'constants/project-types';
+import { projectCreateUrl } from 'constants/routes';
 import { enumsToSelectBoxOptions, dataToTagCloudOptions } from 'utils/mappers';
 import { filterProjects } from 'utils/filters';
 
@@ -25,31 +26,19 @@ class Projects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedId: null,
-      filters: {
-        search: '',
-        types: DefaultProjectTypeFilters,
-        technologies: new Set([])
-      }
+      search: '',
+      types: DefaultProjectTypeFilters,
+      technologies: new Set([])
     };
 
-    this.handleSelectedCard = this.handleSelectedCard.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleMultiSelect = this.handleMultiSelect.bind(this);
   }
 
-  handleSelectedCard(selectedId) {
-    this.setState((prev) => ({
-      selectedId: selectedId !== prev.selectedId ? selectedId : null
-    }));
-  }
-
   handleUserInput(name, value) {
     this.setState((prev) => ({
-      filters: {
-        ...prev.filters,
-        [name]: value
-      }
+      ...prev,
+      [name]: value
     }));
   }
 
@@ -64,10 +53,7 @@ class Projects extends React.Component {
 
   render() {
     let technologies = this.context;
-
-    const { selectedId, filters } = this.state;
-    const { match } = this.props;
-    const projectCreateUrl = `${match.path}/create`;
+    const filters = this.state;
 
     return (
       <Query query={Fetch.projectsAll}>
@@ -121,27 +107,8 @@ class Projects extends React.Component {
                 />
               </div>
               <Grid className="bishamon-project-grid" items={filteredProjects}>
-                {(item) => (
-                  <ProjectCard
-                    key={item.id}
-                    data={item}
-                    isSelected={selectedId === item.id}
-                    onClick={() => this.handleSelectedCard(item.id)}
-                  />
-                )}
+                {(item) => <ProjectCard key={item.id} data={item} />}
               </Grid>
-              {selectedId && (
-                <Portal
-                  querySelector={`#${
-                    Strings.selectors.projectCardPortal
-                  }${selectedId}`}
-                >
-                  <ProjectView
-                    id={selectedId}
-                    closeView={this.handleSelectedCard}
-                  />
-                </Portal>
-              )}
             </div>
           );
         }}

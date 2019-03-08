@@ -3,17 +3,43 @@ import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet';
+import Loadable from 'react-loadable';
+
+import WorkItemHub from 'views/WorkItem';
+import TaskHub from 'views/Task';
 
 import HeaderBar from 'components/HeaderBar/HeaderBar';
-import Projects from 'views/Projects/Projects';
-import ProjectsCreate from 'views/Projects/ProjectsCreate';
-import WorkItemBoard from 'views/WorkItemBoard/WorkItemBoard';
-import TaskBoard from 'views/TaskBoard/TaskBoard';
 import Fetch from 'queries/fetch';
-import RoutePaths from 'constants/routes';
+import * as RoutePaths from 'constants/routes';
 import Strings from 'constants/strings';
-import { appSettingsStore } from 'utils/common';
+import { appSettingsStore, loadableSettings } from 'utils/common';
 import { ThemeContext, TechnologyContext } from 'context';
+
+const {
+  base: baseUrl,
+  projectListUrl,
+  workItemBoardUrl,
+  taskBoardUrl,
+
+  projectCreateUrl,
+  projectEditUrl
+} = RoutePaths;
+
+const Projects = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'Projects' */ './views/Project/Projects'),
+  ...loadableSettings
+});
+const ProjectsCreate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'ProjectsCreate' */ './views/Project/ProjectsCreate'),
+  ...loadableSettings
+});
+const ProjectView = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'ProjectView' */ './views/Project/ProjectView'),
+  ...loadableSettings
+});
 
 class App extends React.Component {
   constructor(props) {
@@ -38,9 +64,6 @@ class App extends React.Component {
 
   render() {
     const { theme } = this.state;
-    const { match } = this.props;
-    const projectListUrl = `${match.path}${RoutePaths.projectList}`;
-    const workItemBoardUrl = `${projectListUrl}/:projectId`;
     const themeProps = {
       value: theme,
       onSelect: this.handleThemeChange
@@ -57,20 +80,14 @@ class App extends React.Component {
             {({ data = { technologies: [] } }) => (
               <TechnologyContext.Provider value={data.technologies}>
                 <Switch>
-                  <Redirect exact from={RoutePaths.base} to={projectListUrl} />
-                  <Route exact path={projectListUrl} component={Projects} />
-                  <Route
-                    path={`${projectListUrl}/create`}
-                    component={ProjectsCreate}
-                  />
+                  <Redirect exact from={baseUrl} to={projectListUrl} />
 
-                  <Route
-                    path={`${workItemBoardUrl}${
-                      RoutePaths.taskBoard
-                    }/:workItemId`}
-                    component={TaskBoard}
-                  />
-                  <Route path={workItemBoardUrl} component={WorkItemBoard} />
+                  <Route path={taskBoardUrl} component={TaskHub} />
+                  <Route path={workItemBoardUrl} component={WorkItemHub} />
+
+                  <Route exact path={projectListUrl} component={Projects} />
+                  <Route path={projectCreateUrl} component={ProjectsCreate} />
+                  <Route path={projectEditUrl} component={ProjectView} />
                 </Switch>
               </TechnologyContext.Provider>
             )}

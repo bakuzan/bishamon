@@ -20,6 +20,14 @@
   }
 }
 
+@mixin respond-to-all($sizes) {
+  @each $size in $sizes {
+    @include respond-to($size) {
+      @content;
+    }
+  }
+}
+
 @mixin standard-shadow($colour) {
   box-shadow: 2px 2px 10px $colour;
 }

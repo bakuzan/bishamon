@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import Forms from 'components/Forms';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+import { buildUrlWithIds, taskBoardUrl } from 'constants/routes';
 
 const formDefaults = Object.freeze({
   name: '',
@@ -13,10 +14,21 @@ const formDefaults = Object.freeze({
 
 class TaskBoardCreate extends React.PureComponent {
   render() {
-    const { projectData, workItemId, onCompleted, onCancel } = this.props;
+    const { projectData, history, match } = this.props;
+    const projectId = Number(match.params.projectId);
+    const workItemId = Number(match.params.workItemId);
+
+    function goToBoard() {
+      const cancelUrl = buildUrlWithIds(taskBoardUrl, {
+        projectId,
+        workItemId
+      });
+      history.push(cancelUrl);
+    }
+
     const mutationProps = {
       mutation: Mutate.taskCreate,
-      onCompleted,
+      onCompleted: goToBoard,
       variables: { workItemId },
       update: (cache, { data: { taskCreate } }) => {
         const { tasks = [], ...other } = cache.readQuery({
@@ -45,7 +57,7 @@ class TaskBoardCreate extends React.PureComponent {
       formName: 'task-create',
       defaults: formDefaults,
       mutationProps,
-      onCancel
+      onCancel: goToBoard
     };
 
     return (
@@ -69,10 +81,7 @@ TaskBoardCreate.propTypes = {
     workItem: PropTypes.shape({
       name: PropTypes.string.isRequired
     })
-  }).isRequired,
-  workItemId: PropTypes.number.isRequired,
-  onCompleted: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default TaskBoardCreate;

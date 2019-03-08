@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
 
@@ -6,18 +5,14 @@ import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+import { projectListUrl } from 'constants/routes';
 import { mapProjectViewToOptimisticResponse } from 'utils/mappers';
 
 class ProjectView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleCloseAfterAction = this.handleCloseAfterAction.bind(this);
     this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
-  }
-
-  handleCloseAfterAction() {
-    this.props.closeView();
   }
 
   handleCacheUpdate(
@@ -26,7 +21,7 @@ class ProjectView extends React.Component {
       data: { projectUpdate }
     }
   ) {
-    const { id } = this.props;
+    const id = Number(this.props.match.params.projectId);
     const { projects = [] } = cache.readQuery({
       query: Fetch.projectsAll
     });
@@ -47,10 +42,16 @@ class ProjectView extends React.Component {
   }
 
   render() {
-    const { id } = this.props;
+    const { match, history } = this.props;
+    const id = Number(match.params.projectId);
+
+    function goToList() {
+      history.push(projectListUrl);
+    }
+
     const mutationProps = {
       mutation: Mutate.projectUpdate,
-      onCompleted: this.handleCloseAfterAction,
+      onCompleted: goToList,
       update: this.handleCacheUpdate,
       buildOptimisticResponse: mapProjectViewToOptimisticResponse
     };
@@ -61,11 +62,10 @@ class ProjectView extends React.Component {
           if (loading) return <DelayedLoader />;
 
           const formProps = {
-            className: 'card-form',
             formName: 'project-edit',
             defaults: data.project,
             mutationProps,
-            onCancel: this.handleCloseAfterAction
+            onCancel: goToList
           };
 
           return <Forms.ProjectForm formProps={formProps} />;
@@ -74,10 +74,5 @@ class ProjectView extends React.Component {
     );
   }
 }
-
-ProjectView.propTypes = {
-  id: PropTypes.number.isRequired,
-  closeView: PropTypes.func.isRequired
-};
 
 export default ProjectView;

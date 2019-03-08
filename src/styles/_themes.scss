@@ -15,7 +15,8 @@ $theme-maps: (
     header-colour: $bishamon--hair,
     button--background: $bishamon--jacket,
     button--colour: $bishamon--hair,
-    button-link--colour: $bishamon--jacket
+    button-link--colour: $bishamon--jacket,
+    faded-out: $grey--80
   ),
   theme-two: (
     base-background: $bishamon--suit--trim,
@@ -26,7 +27,8 @@ $theme-maps: (
     header-colour: $bishamon--suit--trim,
     button--background: $bishamon--suit--base,
     button--colour: $bishamon--suit--trim,
-    button-link--colour: $bishamon--suit--base
+    button-link--colour: $bishamon--suit--base,
+    faded-out: $grey--80
   ),
   theme-three: (
     base-background: $bishamon--knight--armour,
@@ -36,7 +38,8 @@ $theme-maps: (
     header-colour: $bishamon--knight--armour,
     button--background: $bishamon--knight--skirt,
     button--colour: $bishamon--knight--armour,
-    button-link--colour: $bishamon--knight--skirt
+    button-link--colour: $bishamon--knight--skirt,
+    faded-out: $grey--80
   ),
   theme-four: (
     base-background: $bishamon--warlord--base,
@@ -47,7 +50,8 @@ $theme-maps: (
     header-colour: $bishamon--warlord--base,
     button--background: $bishamon--warlord--trim,
     button--colour: $bishamon--warlord--base,
-    button-link--colour: $bishamon--warlord--trim
+    button-link--colour: $bishamon--warlord--trim,
+    faded-out: $grey--80
   ),
   theme-five: (
     base-background: $bishamon--kimono--base,
@@ -57,7 +61,8 @@ $theme-maps: (
     header-colour: $bishamon--kimono--base,
     button--background: $bishamon--kimono--obi,
     button--colour: $bishamon--kimono--base,
-    button-link--colour: $bishamon--kimono--obi
+    button-link--colour: $bishamon--kimono--obi,
+    faded-out: $grey--80
   )
 );
 @each $theme-name, $values in $theme-maps {
@@ -68,6 +73,8 @@ $theme-maps: (
   $header-background: map-get($values, header-background);
   $header-colour: map-get($values, header-colour);
   $button-colour: map-get($values, button--colour);
+  $faded-out: map-get($values, faded-out);
+
   .app--theme_#{$theme-name} {
     &.app,
     main {
@@ -165,19 +172,29 @@ $theme-maps: (
         );
       }
     }
+
+    // Tabs
+    .bishamon-tab-panels {
+      border-top: 1px solid $base-colour;
+    }
     .bishamon-tabs {
       & li[role='tab'] {
-        border-color: $base-background;
+        &:not(.active):not(:hover) {
+          background-color: $faded-out;
+          color: $grey--33;
+          border-color: $faded-out;
+          border-bottom: none;
+        }
         &:hover,
         &.active {
-          border-color: $base-colour;
-          border-bottom-color: $base-background;
+          border: {
+            color: $base-colour;
+            bottom-color: $base-background;
+          }
         }
       }
     }
-    .bishamon-tab-panels {
-      border-top-color: $base-colour;
-    }
+
     .bishamon-multiselect-list {
       background-color: $base-background;
     }

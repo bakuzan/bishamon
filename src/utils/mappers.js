@@ -44,6 +44,10 @@ const mapOptimisticResponse = (key, __typename) => (obj) => {
 export const mapProjectViewToOptimisticResponse = (values) => {
   return mapOptimisticResponse('projectUpdate', 'Project')({
     ...values,
+    technologies: values.technologies.map((x) => ({
+      ...x,
+      __typename: 'Technology'
+    })),
     primaryColour: values.colours[0] || Strings.defaultColour
   });
 };

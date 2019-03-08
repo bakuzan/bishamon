@@ -10,12 +10,8 @@ import {
 
 const STANDARD_CLASS = 'bishamon-button ripple';
 
-const BishamonButton = ({ appClass, className, ...props }) => (
-  <MButton {...props} className={classNames(appClass, className)} />
-);
-
-export const Button = (props) => (
-  <BishamonButton {...props} appClass={STANDARD_CLASS} />
+export const Button = ({ className, ...props }) => (
+  <MButton {...props} className={classNames(STANDARD_CLASS, className)} />
 );
 
 export const ButtonisedNavLink = withCustomButtonWrapper(

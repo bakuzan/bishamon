@@ -1,0 +1,13 @@
+@import '../../styles/_mixins';
+@import '../../styles/_variables';
+
+.board {
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fit, #{100% / $swimlane--status-count});
+  width: 100%;
+
+  @include respond-to(xs) {
+    grid-template-columns: unset;
+  }
+}

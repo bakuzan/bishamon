@@ -1,30 +1,33 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet';
 
 import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+import { buildUrlWithIds, taskBoardUrl } from 'constants/routes';
 import { mapTaskViewToOptimisticResponse } from 'utils/mappers';
 import taskUpdater from './TaskViewUpdater';
 
 class TaskView extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleCloseAfterAction = this.handleCloseAfterAction.bind(this);
-  }
-
-  handleCloseAfterAction() {
-    this.props.closeView();
-  }
-
   render() {
-    const { id, workItemId } = this.props;
+    const { history, match, projectData } = this.props;
+    const projectId = Number(match.params.projectId);
+    const workItemId = Number(match.params.workItemId);
+    const id = Number(match.params.workItemId);
+
+    function goToBoard() {
+      const cancelUrl = buildUrlWithIds(taskBoardUrl, {
+        projectId,
+        workItemId
+      });
+      history.push(cancelUrl);
+    }
+
     const mutationProps = {
       mutation: Mutate.taskUpdate,
-      onCompleted: this.handleCloseAfterAction,
+      onCompleted: goToBoard,
       update: taskUpdater,
       refetchQueries: () => [
         {
@@ -41,24 +44,28 @@ class TaskView extends React.Component {
           if (loading) return <DelayedLoader />;
 
           const formProps = {
-            className: 'card-form',
             formName: 'task-edit',
             defaults: data.task,
             mutationProps,
-            onCancel: this.handleCloseAfterAction
+            onCancel: goToBoard
           };
 
-          return <Forms.TaskForm formProps={formProps} />;
+          return (
+            <React.Fragment>
+              <Helmet>
+                {projectData && (
+                  <title>{`${projectData.name} / ${
+                    projectData.workItem.name
+                  } / Edit Task, ${data.task.name}`}</title>
+                )}
+              </Helmet>
+              <Forms.TaskForm formProps={formProps} />
+            </React.Fragment>
+          );
         }}
       </Query>
     );
   }
 }
-
-TaskView.propTypes = {
-  workItemId: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-  closeView: PropTypes.func.isRequired
-};
 
 export default TaskView;

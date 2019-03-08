@@ -6,6 +6,7 @@ import Forms from 'components/Forms';
 import WorkTypes from 'constants/work-types';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+import { buildUrlWithIds, workItemBoardUrl } from 'constants/routes';
 import { enumDefault } from 'utils/derived-data';
 
 const formDefaults = Object.freeze({
@@ -16,10 +17,17 @@ const formDefaults = Object.freeze({
 
 class WorkItemBoardCreate extends React.PureComponent {
   render() {
-    const { projectData, projectId, onCompleted, onCancel } = this.props;
+    const { projectData, history, match } = this.props;
+    const projectId = Number(match.params.projectId);
+
+    function goToBoard() {
+      const boardUrl = buildUrlWithIds(workItemBoardUrl, { projectId });
+      history.push(boardUrl);
+    }
+
     const mutationProps = {
       mutation: Mutate.workItemCreate,
-      onCompleted,
+      onCompleted: goToBoard,
       variables: { projectId },
       update: (cache, { data: { workItemCreate } }) => {
         const { workItems = [], ...other } = cache.readQuery({
@@ -49,7 +57,7 @@ class WorkItemBoardCreate extends React.PureComponent {
       formName: 'work-item-create',
       defaults: formDefaults,
       mutationProps,
-      onCancel: onCancel
+      onCancel: goToBoard
     };
 
     return (
@@ -65,13 +73,14 @@ class WorkItemBoardCreate extends React.PureComponent {
   }
 }
 
+WorkItemBoardCreate.defaultProps = {
+  projectData: {}
+};
+
 WorkItemBoardCreate.propTypes = {
   projectData: PropTypes.shape({
-    name: PropTypes.string.isRequired
-  }).isRequired,
-  projectId: PropTypes.number.isRequired,
-  onCompleted: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+    name: PropTypes.string
+  }).isRequired
 };
 
 export default WorkItemBoardCreate;

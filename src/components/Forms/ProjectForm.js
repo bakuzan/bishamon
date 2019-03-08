@@ -58,7 +58,7 @@ class ProjectForm extends React.PureComponent {
 
   render() {
     let allTechnologies = this.context;
-    const hasOptions = allTechnologies.length !== 0;
+    const hasOptions = allTechnologies && allTechnologies.length !== 0;
     const technologyOptions = hasOptions
       ? allTechnologies
       : [{ id: -1, name: '____' }];
@@ -97,6 +97,7 @@ class ProjectForm extends React.PureComponent {
                 options={PROJECT_TYPES}
               />
               <ChipListInput
+                id="colours"
                 tagClassName="bishamon-tag"
                 menuClassName="bishamon-autocomplete-menu"
                 label="Colours"
@@ -118,6 +119,7 @@ class ProjectForm extends React.PureComponent {
 
                   return (
                     <ChipListInput
+                      id="technologies"
                       tagClassName="bishamon-tag"
                       menuClassName="bishamon-autocomplete-menu"
                       label="Technologies"

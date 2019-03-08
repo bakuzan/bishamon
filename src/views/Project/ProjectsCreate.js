@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import Forms from 'components/Forms';
-import { PROJECT_LIST_URL } from 'constants/routes';
+import { projectListUrl } from 'constants/routes';
 import ProjectTypes from 'constants/project-types';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
@@ -24,7 +24,7 @@ class ProjectsCreate extends React.Component {
   }
 
   handleNavigateToList() {
-    this.props.history.push(PROJECT_LIST_URL);
+    this.props.history.push(projectListUrl);
   }
 
   handleCacheUpdate(

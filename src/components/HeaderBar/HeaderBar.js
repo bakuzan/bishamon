@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import { Header, SVGLogo } from 'meiko-lib';
 import AppSettings from 'components/AppSettings/AppSettings';
-import RoutePaths from 'constants/routes';
+import * as RoutePaths from 'constants/routes';
 
 import './HeaderBar.scss';
 

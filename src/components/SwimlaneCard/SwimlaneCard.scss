@@ -11,38 +11,39 @@
   min-height: 3em;
   padding: $app--standard-padding;
   @include work-item-type-border;
+
   &--can-move {
     cursor: pointer;
   }
+
   &--dragging {
     opacity: 0.5;
     box-shadow: none !important;
   }
+
   &__name {
     display: flex;
   }
+
   &__link {
     white-space: pre-line !important; // force override library
   }
+
   &__ratio {
     display: flex;
     flex: 1;
     justify-content: flex-end;
     align-items: center;
   }
-  &__view {
-    display: flex;
+
+  &__edit {
+    align-self: flex-start;
   }
+
   @include respond-to(xs) {
     flex: 1 0 auto;
     max-width: 210px;
+    margin: 5px 0;
     margin-right: 0.25em;
-    &--selected {
-      height: max-content;
-      z-index: map-get($z-index, above-siblings);
-    }
-    &__view:not(:empty) {
-      flex: 1;
-    }
   }
 }

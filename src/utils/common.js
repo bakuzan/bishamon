@@ -10,6 +10,8 @@ import objectsAreEqual from 'ayaka/objectsAreEqual';
 import debounce from 'ayaka/debounce';
 import getEventValue from 'ayaka/getEventValue';
 import Store from 'ayaka/localStorage';
+
+import { Loaders } from 'meiko-lib';
 import Strings from 'constants/strings';
 
 export {
@@ -33,4 +35,9 @@ export const createMapFromArray = (arr, prop = 'id') => {
     const list = p.has(c.status) ? p.get(c.status) : [];
     return p.set(c.status, [...list, c]);
   }, new Map([]));
+};
+
+export const loadableSettings = {
+  loading: Loaders.LoadingBouncer,
+  delay: 500
 };

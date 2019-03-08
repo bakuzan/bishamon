@@ -1,6 +1,5 @@
 import SelectBox from 'meiko/SelectBox';
 import DropdownMenu from 'meiko/DropdownMenu';
-import Portal from 'meiko/Portal';
 import Loaders from 'meiko/Loaders';
 import Form from 'meiko/Form';
 import Grid from 'meiko/Grid';
@@ -20,7 +19,6 @@ import {
 export {
   SelectBox,
   DropdownMenu,
-  Portal,
   Loaders,
   Form,
   ChipListInput,

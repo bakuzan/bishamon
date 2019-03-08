@@ -4,68 +4,63 @@ import React from 'react';
 
 import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
-import Strings from 'constants/strings';
+import { RouteContext } from 'context';
+import { buildUrlWithIds } from 'constants/routes';
 import { objectsAreEqual } from 'utils/common';
 
 import './SwimlaneCard.scss';
 
 class SwimlaneCard extends React.Component {
+  static contextType = RouteContext;
+
   shouldComponentUpdate(nextProps) {
-    const isSelectedChanged = nextProps.isSelected !== this.props.isSelected;
     const isDraggingChanged = nextProps.isDragging !== this.props.isDragging;
     const dataChanged = !objectsAreEqual(nextProps.data, this.props.data);
 
-    return isSelectedChanged || isDraggingChanged || dataChanged;
+    return isDraggingChanged || dataChanged;
   }
 
   render() {
-    const { linkPath, data = {}, onClick, isSelected, isDragging } = this.props;
-    const buttonLink = !!linkPath ? `${linkPath}/${data.id}` : '#';
+    const { data = {}, isDragging } = this.props;
     const hasType = !!data.type;
     const type = hasType ? data.type.toLowerCase() : '';
 
+    let routeData = this.context;
+    const editUrl = buildUrlWithIds(routeData.edit, {
+      [routeData.key]: data.id
+    });
+    const drilldownUrl = buildUrlWithIds(routeData.drilldown, {
+      [routeData.key]: data.id
+    });
+
     return (
-      <div
+      <li
         className={classNames('swimlane-card', 'bottom-spacing', {
           [`swimlane-card--type_${type}`]: hasType,
           'swimlane-card--can-move': true,
-          'swimlane-card--selected': isSelected,
           'swimlane-card--dragging': isDragging
         })}
-        onClick={onClick}
         title={data.type}
-        role="button"
-        tabIndex="0"
       >
         <div className={classNames('swimlane-card__name')}>
           <ButtonisedNavLink
             className={classNames('swimlane-card__link')}
-            to={buttonLink}
+            to={drilldownUrl}
           >
             {data.name}
           </ButtonisedNavLink>
         </div>
         <div className="swimlane-card__ratio">{data.taskRatio}</div>
-        <div
-          id={`${Strings.selectors.swimlaneCardPortal}${data.id}`}
-          className="swimlane-card__view"
-        >
-          {/* Content placed here via portal. */}
-        </div>
-      </div>
+        <ButtonisedNavLink className="swimlane-card__edit" to={editUrl}>
+          Edit
+        </ButtonisedNavLink>
+      </li>
     );
   }
 }
 
-SwimlaneCard.defaultProps = {
-  isSelected: false
-};
-
 SwimlaneCard.propTypes = {
-  data: PropTypes.object.isRequired,
-  linkPath: PropTypes.string,
-  onClick: PropTypes.func,
-  isSelected: PropTypes.bool
+  data: PropTypes.object.isRequired
 };
 
 export default withDragSource(SwimlaneCard);

@@ -8,16 +8,13 @@ $swimlane--height-xs: calc((100vh - 175px) / 5);
 $swimlane--header-width-xs: 90px;
 
 .swimlane {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  flex-basis: calc(100% / #{$swimlane--status-count});
-  align-items: center;
   padding: $app--standard-padding 0;
   border-right: $placeholder-border;
 
-  &:first-child {
-    border-left: $placeholder-border;
+  @include respond-to-all(sm md lg) {
+    &:first-child {
+      border-left: $placeholder-border;
+    }
   }
 
   &__header {
@@ -28,24 +25,35 @@ $swimlane--header-width-xs: 90px;
   }
   &__list {
     height: 100%;
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin: 5px 0;
+    list-style-type: none;
   }
 
   @include respond-to(xs) {
-    flex: unset;
-    flex-direction: row;
+    display: flex;
     height: $swimlane--height-xs;
+    padding: 0 $app--standard-padding;
     border: {
       left: $placeholder-border;
       bottom: $placeholder-border;
       right: none;
     }
 
+    &__list {
+      display: flex;
+      padding: 0 5px;
+      margin: 0;
+    }
+
     &__header {
       display: flex;
       flex-shrink: 0;
+      align-items: center;
       width: $swimlane--header-width-xs;
       height: 100%;
-      align-items: center;
+      padding: 0 $app--standard-padding;
       border: none {
         right: $placeholder-border;
       }

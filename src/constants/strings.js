@@ -1,10 +1,13 @@
 const themes = new Map([
-  ['default', { text: 'Classic', value: 'default' }],
-  ['theme-two', { text: 'Suit', value: 'theme-two' }],
+  ['default', { text: 'Classic (Light)', value: 'default' }],
+  ['theme-two', { text: 'Suit (Dark)', value: 'theme-two' }]
+]);
+
+/*
   ['theme-three', { text: 'Knight', value: 'theme-three' }],
   ['theme-four', { text: 'Warlord', value: 'theme-four' }],
   ['theme-five', { text: 'Kimono', value: 'theme-five' }]
-]);
+*/
 
 export default Object.freeze({
   selectors: {

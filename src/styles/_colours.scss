@@ -21,13 +21,11 @@ $bishamon--warlord--pattern: #357f7c;
 $bishamon--kimono--base: #f5e6f9;
 $bishamon--kimono--obi: #993366;
 $bishamon--kimono--pattern: #d593a2;
-$bishamon--suit--base: #333333;
-$bishamon--suit--trim: hex-to-hsla(#7e2e2f, 1);
-$bishamon--suit--trim-fade: hex-to-hsla(
-  #7e2e2f,
-  0.8
-); // saturate(lighten(#7e2e2f, 30%), 10%);
+
+$bishamon--suit--base: #2b2b2b; // #333333; failed contrast test
+$bishamon--suit--trim: #dc7576; // hex-to-hsla(#7e2e2f, 1); failed contrast
 $bishamon--suit--lining: #663333;
+
 // Shades
 $black: #000;
 $grey--33: #555;

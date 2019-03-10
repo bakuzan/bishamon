@@ -8,86 +8,47 @@
 
 $theme-maps: (
   default: (
-    base-background: $bishamon--hair,
-    base-colour: $bishamon--jacket,
+    base-background: $white,
+    base-colour: $black,
+    primary-background: $bishamon--jacket,
+    primary-colour: $bishamon--hair,
     accent-colour: $bishamon--eyes,
-    header-background: $bishamon--jacket,
-    header-colour: $bishamon--hair,
-    button--background: $bishamon--jacket,
-    button--colour: $bishamon--hair,
-    button-link--colour: $bishamon--jacket,
     faded-out: $grey--80
   ),
   theme-two: (
-    base-background: $bishamon--suit--trim,
-    base-background-fade: $bishamon--suit--trim-fade,
-    base-colour: $bishamon--suit--base,
-    accent-colour: $bishamon--hair,
-    header-background: $bishamon--suit--base,
-    header-colour: $bishamon--suit--trim,
-    button--background: $bishamon--suit--base,
-    button--colour: $bishamon--suit--trim,
-    button-link--colour: $bishamon--suit--base,
-    faded-out: $grey--80
-  ),
-  theme-three: (
-    base-background: $bishamon--knight--armour,
-    base-colour: $bishamon--knight--skirt,
-    accent-colour: $bishamon--knight--underskirt,
-    header-background: $bishamon--knight--skirt,
-    header-colour: $bishamon--knight--armour,
-    button--background: $bishamon--knight--skirt,
-    button--colour: $bishamon--knight--armour,
-    button-link--colour: $bishamon--knight--skirt,
-    faded-out: $grey--80
-  ),
-  theme-four: (
-    base-background: $bishamon--warlord--base,
-    base-background-fade: $bishamon--warlord--base-fade,
-    base-colour: $bishamon--warlord--trim,
-    accent-colour: $bishamon--warlord--pattern,
-    header-background: $bishamon--warlord--trim,
-    header-colour: $bishamon--warlord--base,
-    button--background: $bishamon--warlord--trim,
-    button--colour: $bishamon--warlord--base,
-    button-link--colour: $bishamon--warlord--trim,
-    faded-out: $grey--80
-  ),
-  theme-five: (
-    base-background: $bishamon--kimono--base,
-    base-colour: $bishamon--kimono--obi,
-    accent-colour: $bishamon--kimono--pattern,
-    header-background: $bishamon--kimono--obi,
-    header-colour: $bishamon--kimono--base,
-    button--background: $bishamon--kimono--obi,
-    button--colour: $bishamon--kimono--base,
-    button-link--colour: $bishamon--kimono--obi,
+    base-background: $bishamon--suit--base,
+    base-colour: $white,
+    primary-background: $bishamon--suit--trim,
+    primary-colour: $bishamon--suit--base,
+    accent-colour: $bishamon--suit--lining,
     faded-out: $grey--80
   )
 );
 @each $theme-name, $values in $theme-maps {
   $base-background: map-get($values, base-background);
-  $base-background-fade: map-get($values, base-background-fade);
   $base-colour: map-get($values, base-colour);
   $accent-colour: map-get($values, accent-colour);
-  $header-background: map-get($values, header-background);
-  $header-colour: map-get($values, header-colour);
-  $button-colour: map-get($values, button--colour);
+  $primary-background: map-get($values, primary-background);
+  $primary-colour: map-get($values, primary-colour);
   $faded-out: map-get($values, faded-out);
 
   .app--theme_#{$theme-name} {
-    &.app,
-    main {
-      @if map-has-key($values, base-background-fade) {
-        background-color: $base-background-fade;
-      } @else {
-        background-color: $base-background;
-      }
+    background-color: $base-background;
+    color: $base-colour;
+
+    select,
+    input {
       color: $base-colour;
     }
+    option {
+      background-color: $base-background;
+      color: $base-colour;
+    }
+
     #app-settings-menu {
       background-color: $base-background;
       @include standard-shadow($accent-colour);
+
       > li:first-child {
         border-bottom-color: $base-background;
         filter: drop-shadow(0 -2px 2px $accent-colour);
@@ -95,27 +56,27 @@ $theme-maps: (
     }
     .nav-link {
       color: $base-colour;
+
       &:hover:not(.fake-button),
       &--active:not(.fake-button) {
         color: $accent-colour;
       }
     }
     .header-bar {
-      background-color: $header-background;
-      color: $header-colour;
+      background-color: $primary-background;
+      color: $primary-colour;
+
       svg > text {
-        fill: $header-colour;
+        fill: $primary-colour;
       }
     }
     .meiko-bouncer > div {
       background-color: $accent-colour;
     }
-    .project-card {
-      &__view--selected {
-        background-color: $base-background;
-        border-color: $accent-colour;
-      }
+    .autocomplete-menu {
+      background-color: $base-background;
     }
+
     .swimlane,
     .swimlane__header {
       border-color: $base-colour;
@@ -131,45 +92,37 @@ $theme-maps: (
         @include standard-shadow($accent-colour);
       }
     }
+    .autocomplete-suggestion.active {
+      border: 1px solid $primary-background;
+    }
+
+    // Buttons
     .bishamon-button:not(.primary):not(.accent),
     .form-container button:not(.primary):not(.accent) {
-      @if map-has-key($values, base-background-fade) {
-        background-color: $base-background-fade;
-      } @else {
-        background-color: $base-background;
-      }
       &:hover {
-        @if map-has-key($values, base-background-fade) {
-          @include lightenOrDarken('background-color', $base-background-fade);
-        } @else {
-          @include lightenOrDarken('background-color', $base-background);
-        }
+        @include lightenOrDarken('background-color', $base-background);
       }
     }
     .bishamon-button.primary {
-      background-color: map-get($values, button--background);
-      color: $button-colour;
+      background-color: $primary-background;
+      color: $primary-colour;
       &:hover {
-        @include lightenOrDarken(
-          'background-color',
-          map-get($values, button--background)
-        );
+        @include lightenOrDarken('background-color', $primary-background);
       }
     }
     .bishamon-button.accent {
       background-color: $accent-colour;
-      color: $button-colour;
+      color: $primary-colour;
+
       &:hover {
         @include lightenOrDarken('background-color', $accent-colour);
       }
     }
     .bishamon-button-link {
-      color: map-get($values, button-link--colour);
+      color: $primary-background;
+
       &:hover {
-        @include lightenOrDarken(
-          'color',
-          map-get($values, button-link--colour)
-        );
+        @include lightenOrDarken('color', $primary-background);
       }
     }
 

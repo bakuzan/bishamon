@@ -57,7 +57,11 @@ class ProjectView extends React.Component {
     };
 
     return (
-      <Query query={Fetch.projectById} variables={{ id }}>
+      <Query
+        query={Fetch.projectById}
+        variables={{ id }}
+        fetchPolicy="network-only"
+      >
         {({ loading, error, data = {} }) => {
           if (loading) return <DelayedLoader />;
 

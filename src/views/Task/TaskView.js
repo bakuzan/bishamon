@@ -15,7 +15,7 @@ class TaskView extends React.Component {
     const { history, match, projectData } = this.props;
     const projectId = Number(match.params.projectId);
     const workItemId = Number(match.params.workItemId);
-    const id = Number(match.params.workItemId);
+    const id = Number(match.params.taskId);
 
     function goToBoard() {
       const cancelUrl = buildUrlWithIds(taskBoardUrl, {
@@ -39,7 +39,11 @@ class TaskView extends React.Component {
     };
 
     return (
-      <Query query={Fetch.taskById} variables={{ id }}>
+      <Query
+        query={Fetch.taskById}
+        variables={{ id }}
+        fetchPolicy="network-only"
+      >
         {({ loading, error, data = {} }) => {
           if (loading) return <DelayedLoader />;
 

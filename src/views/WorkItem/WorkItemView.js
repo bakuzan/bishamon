@@ -35,7 +35,11 @@ class WorkItemView extends React.Component {
     };
 
     return (
-      <Query query={Fetch.workItemById} variables={{ id }}>
+      <Query
+        query={Fetch.workItemById}
+        variables={{ id }}
+        fetchPolicy="network-only"
+      >
         {({ loading, error, data = {} }) => {
           if (loading) return <DelayedLoader />;
 

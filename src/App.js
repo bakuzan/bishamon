@@ -93,6 +93,7 @@ class App extends React.Component {
             )}
           </Query>
         </main>
+        <footer className="app__footer" />
       </div>
     );
   }

@@ -31,6 +31,15 @@ main {
   }
 }
 
+// Exists to ensure #app height is correct!
+.app__footer {
+  padding: 15px;
+
+  @include respond-to(xs) {
+    padding: 0;
+  }
+}
+
 // Page specifics
 
 .project-filters {
@@ -50,7 +59,7 @@ main {
   }
 
   @include respond-to(xs) {
-    position: fixed;
+    position: absolute;
     right: 0;
   }
 }

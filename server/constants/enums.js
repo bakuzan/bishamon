@@ -3,7 +3,13 @@ const enumArrayToObject = (arr) =>
 
 const mapArrToGraphqlString = (arr) => arr.join(' ');
 
-const ProjectType = ['Application', 'Training', 'Library', 'SubModule'];
+const ProjectType = [
+  'Application',
+  'Training',
+  'Library',
+  'SubModule',
+  'Utility'
+];
 
 const WorkType = [
   'Feature',

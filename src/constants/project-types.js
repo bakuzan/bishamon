@@ -2,5 +2,6 @@ export default Object.freeze([
   'Application',
   'Training',
   'Library',
-  'SubModule'
+  'SubModule',
+  'Utility'
 ]);

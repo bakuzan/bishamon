@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
 import WorkTypes from 'constants/work-types';
@@ -54,7 +54,7 @@ class WorkItemBoardCreate extends React.PureComponent {
     };
 
     const formProps = {
-      formName: 'work-item-create',
+      name: 'work-item-create',
       defaults: formDefaults,
       mutationProps,
       onCancel: goToBoard

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
-import Tabs from 'components/Tabs';
+import { Tabs } from 'meiko-lib';
 import Board from 'components/Board';
 import Grid from 'components/Grid';
 
@@ -75,16 +75,16 @@ class WorkItemBoard extends React.Component {
             const boardItems = filterListForBoardItems(data.workItems);
 
             return (
-              <Tabs.TabContainer>
-                <Tabs.TabView
+              <Tabs.Container>
+                <Tabs.View
                   name="BOARD"
                   displayName={`Board (${boardItems.length})`}
                 >
                   <RouteContext.Provider value={cardUrls}>
                     <Board data={boardItems} mutationProps={mutationProps} />
                   </RouteContext.Provider>
-                </Tabs.TabView>
-                <Tabs.TabView
+                </Tabs.View>
+                <Tabs.View
                   name="OH_HOLD"
                   displayName={`On Hold (${workItemsOnHoldCount})`}
                 >
@@ -107,8 +107,8 @@ class WorkItemBoard extends React.Component {
                       </Query>
                     )
                   }
-                </Tabs.TabView>
-                <Tabs.TabView
+                </Tabs.View>
+                <Tabs.View
                   name="HISTORIC"
                   displayName={`Historic (${workItemsHistoricCount})`}
                 >
@@ -135,8 +135,8 @@ class WorkItemBoard extends React.Component {
                       </Query>
                     )
                   }
-                </Tabs.TabView>
-              </Tabs.TabContainer>
+                </Tabs.View>
+              </Tabs.Container>
             );
           }}
         </Query>

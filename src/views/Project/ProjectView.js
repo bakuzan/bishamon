@@ -66,7 +66,7 @@ class ProjectView extends React.Component {
           if (loading) return <DelayedLoader />;
 
           const formProps = {
-            formName: 'project-edit',
+            name: 'project-edit',
             defaults: data.project,
             mutationProps,
             onCancel: goToList

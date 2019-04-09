@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Loaders } from 'meiko-lib';
+import { SimpleLoading } from 'meiko-lib';
 import { debounce } from 'utils/common';
 
 class DelayedLoader extends React.PureComponent {
@@ -22,7 +22,7 @@ class DelayedLoader extends React.PureComponent {
   }
 
   render() {
-    return <Loaders.Loadables.SimpleLoading {...this.state} />;
+    return <SimpleLoading {...this.state} />;
   }
 }
 

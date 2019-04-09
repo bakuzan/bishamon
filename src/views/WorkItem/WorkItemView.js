@@ -1,6 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
@@ -44,7 +44,7 @@ class WorkItemView extends React.Component {
           if (loading) return <DelayedLoader />;
 
           const formProps = {
-            formName: 'work-item-edit',
+            name: 'work-item-edit',
             defaults: data.workItem,
             mutationProps,
             onCancel: goToBoard

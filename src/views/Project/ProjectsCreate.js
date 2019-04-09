@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
 import { projectListUrl } from 'constants/routes';
@@ -48,8 +48,10 @@ class ProjectsCreate extends React.Component {
       onCompleted: this.handleNavigateToList,
       update: this.handleCacheUpdate
     };
+
     const formProps = {
-      formName: 'project-create',
+      title: 'Create a Project',
+      name: 'project-create',
       defaults: projectCreateDefaults,
       mutationProps,
       onCancel: this.handleNavigateToList

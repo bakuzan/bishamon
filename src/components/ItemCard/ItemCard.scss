@@ -7,7 +7,7 @@
   min-height: 3em;
   padding: $app--standard-padding;
   margin: 2px 0;
-  @include work-item-type-border;
+  @include workItemTypeBorder;
 
   &__name {
     padding: $app--standard-padding 0;

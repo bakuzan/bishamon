@@ -11,7 +11,7 @@ $swimlane--header-width-xs: 90px;
   padding: $app--standard-padding 0;
   border-right: $placeholder-border;
 
-  @include respond-to-all(sm md lg) {
+  @include respondToAll(sm md lg) {
     &:first-child {
       border-left: $placeholder-border;
     }
@@ -31,7 +31,7 @@ $swimlane--header-width-xs: 90px;
     list-style-type: none;
   }
 
-  @include respond-to(xs) {
+  @include respondTo(xs) {
     display: flex;
     height: $swimlane--height-xs;
     padding: 0 $app--standard-padding;

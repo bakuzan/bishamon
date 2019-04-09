@@ -11,3 +11,11 @@
     margin-#{$direction}: 0.25em;
   }
 }
+
+.flex {
+  display: flex;
+
+  &--column {
+    flex-direction: column;
+  }
+}

@@ -60,7 +60,7 @@ class Form extends React.Component {
   }
 
   handleSubmit(callApi) {
-    return (...test) => {
+    return () => {
       const { mutationProps } = this.props;
       const passedVariables = mutationProps.variables || {};
 
@@ -80,13 +80,15 @@ class Form extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      formName,
-      mutationProps: { buildOptimisticResponse, ...validMutationProps }
-    } = this.props;
     const { values } = this.state;
-    const cancelProps = { onCancel: this.handleCancel };
+    const {
+      onCancel,
+      defaults,
+      mutationProps: { buildOptimisticResponse, ...validMutationProps },
+      children,
+      ...formProps
+    } = this.props;
+    console.log('FORM PROPS', this.props);
     const actions = {
       handleUserInput: this.handleUserInput,
       handleListCreate: this.handleListCreate,
@@ -95,18 +97,21 @@ class Form extends React.Component {
 
     return (
       <Mutation {...validMutationProps}>
-        {(callAPI, { data }) => {
-          const submitProps = { onSubmit: this.handleSubmit(callAPI) };
+        {(callAPI) => {
+          const cancelProps = { onCancel: this.handleCancel, link: true };
+          const submitProps = {
+            onSubmit: this.handleSubmit(callAPI),
+            btnStyle: 'primary'
+          };
 
           return (
             <MForm
-              id={formName}
-              className={className}
-              name={formName}
+              id={formProps.name}
+              {...formProps}
               submitOptions={submitProps}
               cancelOptions={cancelProps}
             >
-              {this.props.children({
+              {children({
                 values,
                 actions
               })}
@@ -123,7 +128,8 @@ Form.defaultProps = {
 };
 
 Form.propTypes = {
-  formName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string,
   defaults: PropTypes.object,
   children: PropTypes.func.isRequired,
   mutationProps: PropTypes.shape({

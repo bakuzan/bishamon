@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
 import Fetch from 'queries/fetch';
@@ -54,7 +54,7 @@ class TaskBoardCreate extends React.PureComponent {
     };
 
     const formProps = {
-      formName: 'task-create',
+      name: 'task-create',
       defaults: formDefaults,
       mutationProps,
       onCancel: goToBoard

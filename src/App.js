@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Loadable from 'react-loadable';
 
+import { useGlobalStyles } from 'meiko-lib';
 import WorkItemHub from 'views/WorkItem';
 import TaskHub from 'views/Task';
 
@@ -41,36 +42,24 @@ const ProjectView = Loadable({
   ...loadableSettings
 });
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      theme: Strings.defaultTheme
-    };
+function App() {
+  useGlobalStyles();
+  const [theme, setTheme] = useState(
+    appSettingsStore.get('theme') || Strings.defaultTheme
+  );
 
-    this.handleThemeChange = this.handleThemeChange.bind(this);
-  }
+  const themeProps = {
+    value: theme,
+    onChange: (e) => {
+      const theme = e.target.value;
+      appSettingsStore.set({ theme });
+      setTheme(theme);
+    }
+  };
 
-  componentDidMount() {
-    const settings = appSettingsStore.get();
-    this.setState({ ...settings });
-  }
-
-  handleThemeChange(e) {
-    const theme = e.target.value;
-    appSettingsStore.set({ theme });
-    this.setState({ theme });
-  }
-
-  render() {
-    const { theme } = this.state;
-    const themeProps = {
-      value: theme,
-      onSelect: this.handleThemeChange
-    };
-
-    return (
-      <div id="app" className={classNames('app', [`app--theme_${theme}`])}>
+  return (
+    <HelmetProvider>
+      <div id="app" className={classNames('app theme', [`theme--${theme}`])}>
         <Helmet defaultTitle="Bishamon" titleTemplate="Bishamon - %s" />
         <ThemeContext.Provider value={themeProps}>
           <HeaderBar />
@@ -95,8 +84,8 @@ class App extends React.Component {
         </main>
         <footer className="app__footer" />
       </div>
-    );
-  }
+    </HelmetProvider>
+  );
 }
 
 export default App;

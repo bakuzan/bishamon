@@ -7,7 +7,7 @@
   grid-template-columns: repeat(auto-fit, #{100% / $swimlane--status-count});
   width: 100%;
 
-  @include respond-to(xs) {
+  @include respondTo(xs) {
     grid-template-columns: unset;
   }
 }

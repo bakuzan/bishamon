@@ -1,10 +1,8 @@
 @import './_variables.scss';
 @import './_mixins';
+@import '~meiko/styles/_appTheme';
 
-/* TODO
- * Update themes to use the normal classes rather than the 'bishamon-' ones.
- * No longer required!
- */
+$percentage: 10%;
 
 $theme-maps: (
   default: (
@@ -12,7 +10,8 @@ $theme-maps: (
     base-colour: $black,
     primary-background: $bishamon--jacket,
     primary-colour: $bishamon--hair,
-    accent-colour: $bishamon--eyes,
+    active-background: $bishamon--eyes,
+    active-colour: $black,
     faded-out: $grey--80
   ),
   theme-two: (
@@ -20,143 +19,52 @@ $theme-maps: (
     base-colour: $white,
     primary-background: $bishamon--suit--trim,
     primary-colour: $bishamon--suit--base,
-    accent-colour: $bishamon--suit--lining,
+    active-background: $bishamon--suit--lining,
+    active-colour: $white,
     faded-out: $grey--80
   )
 );
-@each $theme-name, $values in $theme-maps {
-  $base-background: map-get($values, base-background);
-  $base-colour: map-get($values, base-colour);
-  $accent-colour: map-get($values, accent-colour);
-  $primary-background: map-get($values, primary-background);
-  $primary-colour: map-get($values, primary-colour);
-  $faded-out: map-get($values, faded-out);
 
-  .app--theme_#{$theme-name} {
+@include appTheme($theme-maps) {
+  // Overrides
+  .dropdown-menu__toggler {
+    background-color: $primary-background;
+    color: $primary-colour;
+
+    &:focus,
+    &:hover {
+      @include lightenOrDarken(
+        'background-color',
+        $primary-background,
+        $percentage
+      );
+    }
+  }
+  // Overrides END
+
+  .bishamon-button-link,
+  .button--link {
+    color: $primary-background;
+
+    &:hover {
+      @include lightenOrDarken('color', $primary-background, $percentage);
+    }
+  }
+
+  .swimlane,
+  .swimlane__header {
+    border-color: $base-colour;
+  }
+  .swimlane__list--droppable {
+    background-color: $active-background;
+    opacity: 0.25;
+  }
+  .swimlane-card {
     background-color: $base-background;
-    color: $base-colour;
+    @include standardShadow($base-colour);
 
-    select,
-    input {
-      color: $base-colour;
-    }
-    option {
-      background-color: $base-background;
-      color: $base-colour;
-    }
-
-    #app-settings-menu {
-      background-color: $base-background;
-      @include standard-shadow($accent-colour);
-
-      > li:first-child {
-        border-bottom-color: $base-background;
-        filter: drop-shadow(0 -2px 2px $accent-colour);
-      }
-    }
-    .nav-link {
-      color: $base-colour;
-
-      &:hover:not(.fake-button),
-      &--active:not(.fake-button) {
-        color: $accent-colour;
-      }
-    }
-    .header-bar {
-      background-color: $primary-background;
-      color: $primary-colour;
-
-      svg > text {
-        fill: $primary-colour;
-      }
-    }
-    .meiko-bouncer > div {
-      background-color: $accent-colour;
-    }
-    .autocomplete-menu {
-      background-color: $base-background;
-    }
-
-    .swimlane,
-    .swimlane__header {
-      border-color: $base-colour;
-    }
-    .swimlane__list--droppable {
-      background-color: $accent-colour;
-      opacity: 0.25;
-    }
-    .swimlane-card {
-      background-color: $base-background;
-      @include standard-shadow($base-colour);
-      &--selected {
-        @include standard-shadow($accent-colour);
-      }
-    }
-    .autocomplete-suggestion.active {
-      border: 1px solid $primary-background;
-    }
-
-    // Buttons
-    .bishamon-button:not(.primary):not(.accent),
-    .form-container button:not(.primary):not(.accent) {
-      &:hover {
-        @include lightenOrDarken('background-color', $base-background);
-      }
-    }
-    .bishamon-button.primary {
-      background-color: $primary-background;
-      color: $primary-colour;
-      &:hover {
-        @include lightenOrDarken('background-color', $primary-background);
-      }
-    }
-    .bishamon-button.accent {
-      background-color: $accent-colour;
-      color: $primary-colour;
-
-      &:hover {
-        @include lightenOrDarken('background-color', $accent-colour);
-      }
-    }
-    .bishamon-button-link {
-      color: $primary-background;
-
-      &:hover {
-        @include lightenOrDarken('color', $primary-background);
-      }
-    }
-
-    // Tabs
-    .bishamon-tab-panels {
-      border-top: 1px solid $base-colour;
-    }
-    .bishamon-tabs {
-      & li[role='tab'] {
-        &:not(.active):not(:hover) {
-          background-color: $faded-out;
-          color: $grey--33;
-          border-color: $faded-out;
-          border-bottom: none;
-        }
-        &:hover,
-        &.active {
-          border: {
-            color: $base-colour;
-            bottom-color: $base-background;
-          }
-        }
-      }
-    }
-
-    .bishamon-multiselect-list {
-      background-color: $base-background;
-    }
-    .bishamon-tag {
-      &.input-chip-clickable:hover,
-      &.active {
-        background-color: $accent-colour;
-        color: $base-colour;
-      }
+    &--selected {
+      @include standardShadow($active-background);
     }
   }
 }

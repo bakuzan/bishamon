@@ -1,38 +1,7 @@
 @import './_variables';
+@import '~meiko/styles/_mixins';
 
-@mixin respond-to($media) {
-  @if $media == xs {
-    @media (max-width: $screen-xs-max) {
-      @content;
-    }
-  } @else if $media == sm {
-    @media (min-width: $screen-sm) and (max-width: $screen-sm-max) {
-      @content;
-    }
-  } @else if $media == md {
-    @media (min-width: $screen-md) and (max-width: $screen-md-max) {
-      @content;
-    }
-  } @else if $media == lg {
-    @media (min-width: $screen-lg) {
-      @content;
-    }
-  }
-}
-
-@mixin respond-to-all($sizes) {
-  @each $size in $sizes {
-    @include respond-to($size) {
-      @content;
-    }
-  }
-}
-
-@mixin standard-shadow($colour) {
-  box-shadow: 2px 2px 10px $colour;
-}
-
-@mixin work-item-type-border {
+@mixin workItemTypeBorder {
   border-left: $cards--coloured-border-width solid transparent;
 
   &--type_ {
@@ -41,19 +10,5 @@
         border-left-color: $value;
       }
     }
-  }
-}
-
-@mixin lightenOrDarken($key, $colour) {
-  $percentage: 10%;
-  $colour-lightness: lightness($colour);
-  @if $colour-lightness < 20% or $colour-lightness > 80% {
-    $percentage: 25%;
-  }
-
-  @if $colour-lightness < 50% {
-    #{$key}: lighten($colour, $percentage);
-  } @else {
-    #{$key}: darken($colour, $percentage);
   }
 }

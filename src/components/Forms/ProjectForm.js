@@ -93,7 +93,7 @@ class ProjectForm extends React.PureComponent {
                 name="type"
                 text="type"
                 value={values.type}
-                onSelect={actions.handleUserInput}
+                onChange={actions.handleUserInput}
                 options={PROJECT_TYPES}
               />
               <ChipListInput

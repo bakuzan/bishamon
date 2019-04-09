@@ -1,4 +1,5 @@
-@import '~meiko/Grid/Grid.scss';
+@import '~styles/_variables';
+@import '~meiko/styles/_mixins.scss';
 
 $project-grid: (
   xs: 50,

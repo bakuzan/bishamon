@@ -1,4 +1,5 @@
 @import './_framework';
+@import './_form';
 @import './_variables';
 @import './_themes';
 
@@ -15,7 +16,7 @@
 }
 
 html {
-  @include respond-to(xs) {
+  @include respondTo(xs) {
     width: max-content;
   }
 }
@@ -35,7 +36,7 @@ main {
 .app__footer {
   padding: 15px;
 
-  @include respond-to(xs) {
+  @include respondTo(xs) {
     padding: 0;
   }
 }
@@ -43,7 +44,14 @@ main {
 // Page specifics
 
 .project-filters {
+  display: flex;
   height: 45px;
+}
+
+.project-create-title {
+  margin: 0.5em;
+  font-size: 1.2em;
+  font-weight: normal;
 }
 
 // General styles
@@ -58,28 +66,13 @@ main {
     display: flex;
   }
 
-  @include respond-to(xs) {
+  @include respondTo(xs) {
     position: absolute;
     right: 0;
   }
 }
 
 // Overrides
-.bishmon-tag-cloud {
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-
-  > .right {
-    margin-left: 0.25em;
-  }
-}
-
-.bishamon-tag > button {
-  background-color: inherit !important;
-}
-
-.bishamon-tab-panels > div:first-child {
-  @include respond-to(xs) {
-    flex-direction: column;
-  }
+.multi-select__input.multi-select__input {
+  margin-bottom: 0px;
 }

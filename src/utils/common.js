@@ -11,7 +11,7 @@ import debounce from 'ayaka/debounce';
 import getEventValue from 'ayaka/getEventValue';
 import Store from 'ayaka/localStorage';
 
-import { Loaders } from 'meiko-lib';
+import { LoadingBouncer } from 'meiko-lib';
 import Strings from 'constants/strings';
 
 export {
@@ -38,6 +38,6 @@ export const createMapFromArray = (arr, prop = 'id') => {
 };
 
 export const loadableSettings = {
-  loading: Loaders.LoadingBouncer,
+  loading: LoadingBouncer,
   delay: 500
 };

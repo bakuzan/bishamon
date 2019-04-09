@@ -20,6 +20,6 @@
 .project-header {
   &__text {
     padding: $app--standard-padding / 2;
-    @include work-item-type-border;
+    @include workItemTypeBorder;
   }
 }

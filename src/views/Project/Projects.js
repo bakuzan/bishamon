@@ -1,10 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
 import { Query } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
-import { ClearableInput, TagCloudSelector } from 'meiko-lib';
-import MultiSelect from 'components/MultiSelect';
+import { ClearableInput, TagCloudSelector, MultiSelect } from 'meiko-lib';
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
@@ -69,11 +68,12 @@ class Projects extends React.Component {
               <Helmet>
                 <title>Projects</title>
               </Helmet>
-              <div className={classNames('flex-column')}>
-                <div className={classNames('flex-row', 'project-filters')}>
+              <div className={classNames('flex flex--column')}>
+                <div className="project-filters">
                   <ClearableInput
                     id="search"
                     name="search"
+                    label="Search"
                     value={filters.search}
                     onChange={this.handleSearch}
                   />

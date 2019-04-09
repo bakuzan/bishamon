@@ -10,7 +10,7 @@
   );
   min-height: 3em;
   padding: $app--standard-padding;
-  @include work-item-type-border;
+  @include workItemTypeBorder;
 
   &--can-move {
     cursor: pointer;
@@ -40,7 +40,7 @@
     align-self: flex-start;
   }
 
-  @include respond-to(xs) {
+  @include respondTo(xs) {
     flex: 1 0 auto;
     max-width: 210px;
     margin: 5px 0;

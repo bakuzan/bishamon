@@ -1,25 +1,25 @@
 import SelectBox from 'meiko/SelectBox';
 import DropdownMenu from 'meiko/DropdownMenu';
-import Loaders from 'meiko/Loaders';
+import { SimpleLoading } from 'meiko/Loadable';
+import LoadingBouncer from 'meiko/LoadingBouncer';
 import Form from 'meiko/Form';
 import Grid from 'meiko/Grid';
 import ChipListInput from 'meiko/ChipListInput';
 import ClearableInput from 'meiko/ClearableInput';
-import SVGLogo from 'meiko/SVGLogo';
+import SVGLogo from 'meiko/Logo';
 import Header from 'meiko/Header';
 import MultiSelect from 'meiko/MultiSelect';
 import TagCloudSelector from 'meiko/TagCloudSelector';
 import Tabs from 'meiko/Tabs';
-import {
-  withButtonisation,
-  withCustomButtonWrapper,
-  Button
-} from 'meiko/Button';
+import { withButtonisation, Button } from 'meiko/Button';
+
+import { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
 
 export {
   SelectBox,
   DropdownMenu,
-  Loaders,
+  SimpleLoading,
+  LoadingBouncer,
   Form,
   ChipListInput,
   ClearableInput,
@@ -30,6 +30,7 @@ export {
   TagCloudSelector,
   Tabs,
   withButtonisation,
-  withCustomButtonWrapper,
-  Button
+  Button,
+  // hooks
+  useGlobalStyles
 };

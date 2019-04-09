@@ -42,7 +42,7 @@ class WorkItemForm extends React.PureComponent {
                 name="type"
                 text="type"
                 value={values.type}
-                onSelect={actions.handleUserInput}
+                onChange={actions.handleUserInput}
                 options={WORK_TYPES}
               />
               {!isCreate && (
@@ -51,7 +51,7 @@ class WorkItemForm extends React.PureComponent {
                   name="status"
                   text="status"
                   value={values.status}
-                  onSelect={actions.handleUserInput}
+                  onChange={actions.handleUserInput}
                   options={STATUSES}
                 />
               )}

@@ -38,7 +38,7 @@ class TaskForm extends React.PureComponent {
                   name="status"
                   text="status"
                   value={values.status}
-                  onSelect={actions.handleUserInput}
+                  onChange={actions.handleUserInput}
                   options={STATUSES}
                 />
               )}

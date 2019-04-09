@@ -7,17 +7,19 @@ import * as RoutePaths from 'constants/routes';
 
 import './HeaderBar.scss';
 
-const HeaderBar = (props) => (
-  <Header
-    className="header-bar"
-    title="Bishamon"
-    navLeft={
-      <NavLink className="logo svg-link" to={RoutePaths.base}>
-        <SVGLogo text="bishamon" />
-      </NavLink>
-    }
-    navRight={<AppSettings />}
-  />
-);
+function HeaderBar() {
+  return (
+    <Header
+      className="header-bar"
+      title="Bishamon"
+      navLeft={
+        <NavLink className="logo svg-link" to={RoutePaths.base}>
+          <SVGLogo text="bishamon" />
+        </NavLink>
+      }
+      navRight={<AppSettings />}
+    />
+  );
+}
 
 export default HeaderBar;

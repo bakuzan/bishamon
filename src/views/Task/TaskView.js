@@ -1,6 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
@@ -48,7 +48,7 @@ class TaskView extends React.Component {
           if (loading) return <DelayedLoader />;
 
           const formProps = {
-            formName: 'task-edit',
+            name: 'task-edit',
             defaults: data.task,
             mutationProps,
             onCancel: goToBoard

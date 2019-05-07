@@ -1,5 +1,5 @@
 const projectMutate = require('./project');
-const workItemMutate = require('./work-item');
+const workItemMutate = require('./workItem');
 const taskMutate = require('./task');
 const technologyMutate = require('./technology');
 

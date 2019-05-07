@@ -16,6 +16,8 @@ const Query = `
     task(id: Int): Task
     technologies(sort: TechnologySortType): [Technology]
 
+    dashboard: Dashboard
+
     audits(itemId: Int, type: AuditType): [Audit]
   }
 `;

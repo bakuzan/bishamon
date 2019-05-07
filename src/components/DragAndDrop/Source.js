@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
-import DnDType from 'constants/dnd-type';
+import DnDType from 'constants/dndType';
 
 const cardSource = {
   beginDrag(props) {

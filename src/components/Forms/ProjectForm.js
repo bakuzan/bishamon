@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { ClearableInput, ChipListInput, SelectBox } from 'meiko-lib';
+import { ClearableInput, ChipListInput, SelectBox } from 'mko';
 import Form from './Form';
 import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import ProjectTypes from 'constants/project-types';
+import ProjectTypes from 'constants/projectTypes';
 import {
   enumsToSelectBoxOptions,
   removeTypename,

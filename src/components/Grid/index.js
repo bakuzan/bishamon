@@ -1,4 +1,4 @@
-import { Grid } from 'meiko-lib';
+import { Grid } from 'mko';
 
 import './Grid.scss';
 

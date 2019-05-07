@@ -8,7 +8,7 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 
-import createEnhancedCache from './enhanced-cache';
+import createEnhancedCache from './createEnhancedCache';
 import App from './App';
 import * as RoutePaths from 'constants/routes';
 

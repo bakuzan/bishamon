@@ -13,7 +13,7 @@ const db = new Sequelize(Constants.appName, null, null, {
 });
 
 const ProjectModel = db.import('./project');
-const WorkItemModel = db.import('./work-item');
+const WorkItemModel = db.import('./workItem');
 const TaskModel = db.import('./task');
 
 const TechModel = db.import('./technology');

@@ -4,6 +4,11 @@ import ItemCard from './ItemCard';
 import Mutate from 'queries/mutate';
 import { ItemStatus } from 'constants/status';
 import {
+  buildUrlWithIds,
+  workItemBoardUrl,
+  taskBoardUrl
+} from 'constants/routes';
+import {
   mapWorkItemViewToOptimisticResponse,
   mapTaskViewToOptimisticResponse
 } from 'utils/mappers';
@@ -41,6 +46,17 @@ export const WorkItemCard = (props) => (
     mutation={Mutate.workItemStatusUpdate}
     update={workItemUpdater}
     optimisticResponseMapper={mapWorkItemViewToOptimisticResponse}
+    projectLinkBuilder={(data) =>
+      buildUrlWithIds(workItemBoardUrl, {
+        projectId: data.projectId
+      })
+    }
+    entryLinkBuilder={(data) =>
+      buildUrlWithIds(taskBoardUrl, {
+        projectId: data.projectId,
+        workItemId: data.id
+      })
+    }
   />
 );
 

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { Form as MForm } from 'meiko-lib';
+import { Form as MForm } from 'mko';
 import { getEventValue } from 'utils/common';
 
 class Form extends React.Component {

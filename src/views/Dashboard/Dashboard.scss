@@ -1,0 +1,13 @@
+.dashboard {
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.dashboard-widget {
+  &__title {
+    font-size: 1.2em;
+    margin: 5px;
+  }
+}

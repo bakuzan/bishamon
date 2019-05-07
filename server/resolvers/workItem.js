@@ -21,15 +21,28 @@ module.exports = {
           ]
         }
       })
-      .then(tasks => {
+      .then((tasks) => {
         const total = tasks.length;
-        const onHold = tasks.filter(t => t.status === ItemStatus.OnHold).length;
-        const done = tasks.filter(t => DoneStatuses.includes(t.status)).length;
-        if (!total) return 'N/A';
+        const onHold = tasks.filter((t) => t.status === ItemStatus.OnHold)
+          .length;
+        const done = tasks.filter((t) => DoneStatuses.includes(t.status))
+          .length;
+
+        if (!total) {
+          return 'N/A';
+        }
+
         return `${done}/${total}(${onHold})`;
       });
   },
   tasks(workItem) {
     return workItem.getTasks();
+  },
+  project(inst) {
+    if (inst.project) {
+      return inst.project;
+    }
+
+    return inst.getProject();
   }
 };

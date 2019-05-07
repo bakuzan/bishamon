@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { SelectBox, DropdownMenu } from 'meiko-lib';
+import { SelectBox, DropdownMenu } from 'mko';
 import Strings from 'constants/strings';
 import { ThemeContext } from 'context';
 
@@ -10,7 +10,7 @@ function AppSettings() {
   const themeProps = useContext(ThemeContext);
 
   return (
-    <DropdownMenu id="app-settings" portalTarget="#app" align="right">
+    <DropdownMenu id="app-settings" align="right">
       <li>
         <SelectBox
           id="appTheme"

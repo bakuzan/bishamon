@@ -13,7 +13,9 @@ import TagCloudSelector from 'meiko/TagCloudSelector';
 import Tabs from 'meiko/Tabs';
 import { withButtonisation, Button } from 'meiko/Button';
 
-import { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
+export { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
+
+export { nano } from 'meiko/styles/nano';
 
 export {
   SelectBox,
@@ -30,7 +32,5 @@ export {
   TagCloudSelector,
   Tabs,
   withButtonisation,
-  Button,
-  // hooks
-  useGlobalStyles
+  Button
 };

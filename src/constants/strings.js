@@ -22,5 +22,6 @@ export default Object.freeze({
     project: 'Project',
     workItem: 'WorkItem',
     task: 'Task'
-  }
+  },
+  noDescription: 'N/A'
 });

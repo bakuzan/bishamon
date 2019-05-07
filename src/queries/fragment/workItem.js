@@ -1,5 +1,16 @@
 import gql from 'graphql-tag';
 
+export const workItemFields = gql`
+  fragment WorkItemFields on WorkItem {
+    id
+    name
+    description
+    type
+    status
+    projectId
+  }
+`;
+
 export const workItemStatus = gql`
   fragment workItemStatus on WorkItem {
     status

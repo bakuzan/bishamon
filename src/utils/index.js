@@ -1,7 +1,7 @@
 import * as _Common from './common';
 import * as _Mappers from './mappers';
 import * as _Filters from './filters';
-import * as _DerivedData from './derived-data';
+import * as _DerivedData from './derivedData';
 
 export const Common = _Common;
 export const Mappers = _Mappers;

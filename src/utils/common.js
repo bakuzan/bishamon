@@ -11,7 +11,7 @@ import debounce from 'ayaka/debounce';
 import getEventValue from 'ayaka/getEventValue';
 import Store from 'ayaka/localStorage';
 
-import { LoadingBouncer } from 'meiko-lib';
+import { LoadingBouncer } from 'mko';
 import Strings from 'constants/strings';
 
 export {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet-async';
 
-import { Tabs } from 'meiko-lib';
+import { Tabs } from 'mko';
 import Board from 'components/Board';
 import Grid from 'components/Grid';
 

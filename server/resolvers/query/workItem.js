@@ -7,7 +7,7 @@ const Utils = require('../../utils');
 const {
   buildHistoricQueryParams,
   buildOnHoldQueryParams
-} = require('../../utils/query-builders');
+} = require('../../utils/queryBuilders');
 
 module.exports = {
   workItems(_, { statusIn, ...args }) {

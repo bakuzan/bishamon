@@ -1,5 +1,5 @@
 import * as ProjectMutations from './project';
-import * as WorkItemMutations from './work-item';
+import * as WorkItemMutations from './workItem';
 import * as TaskMutations from './task';
 import * as TechnologyMutations from './technology';
 

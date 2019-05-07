@@ -3,10 +3,10 @@ import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
 import { projectListUrl } from 'constants/routes';
-import ProjectTypes from 'constants/project-types';
+import ProjectTypes from 'constants/projectTypes';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import { enumDefault } from 'utils/derived-data';
+import { enumDefault } from 'utils/derivedData';
 
 const projectCreateDefaults = Object.freeze({
   name: '',

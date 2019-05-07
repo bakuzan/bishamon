@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ClearableInput, SelectBox } from 'meiko-lib';
+import { ClearableInput, SelectBox } from 'mko';
 import Form from './Form';
 import Status from 'constants/status';
-import WorkTypes, { WorkType } from 'constants/work-types';
-import { enumDefault } from 'utils/derived-data';
+import WorkTypes, { WorkType } from 'constants/workTypes';
+import { enumDefault } from 'utils/derivedData';
 import { enumsToSelectBoxOptions } from 'utils/mappers';
 
 const WORK_TYPES = enumsToSelectBoxOptions(WorkTypes);

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { withButtonisation, Button as MButton } from 'meiko-lib';
+import { withButtonisation, Button as MButton, nano } from 'mko';
 
 const STANDARD_CLASS = 'bishamon-button';
 
@@ -15,6 +15,10 @@ const BtnNavLink = withButtonisation(NavLink);
 export const ButtonisedNavButton = ({ className, ...props }) => (
   <BtnNavLink {...props} className={classNames(STANDARD_CLASS, className)} />
 );
+
+nano.put('.bishamon-button-link.bishamon-button-link', {
+  justifyContent: 'flex-start'
+});
 
 export const ButtonisedNavLink = ({ className, ...props }) => (
   <BtnNavLink

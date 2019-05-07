@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { Header, SVGLogo } from 'meiko-lib';
+import { Header, SVGLogo } from 'mko';
 import AppSettings from 'components/AppSettings/AppSettings';
 import * as RoutePaths from 'constants/routes';
 

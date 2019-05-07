@@ -3,7 +3,7 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet-async';
 
-import { ClearableInput, TagCloudSelector, MultiSelect } from 'meiko-lib';
+import { ClearableInput, TagCloudSelector, MultiSelect } from 'mko';
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
@@ -11,7 +11,7 @@ import ProjectCard from 'components/ProjectCard/ProjectCard';
 import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 
-import ProjectTypes from 'constants/project-types';
+import ProjectTypes from 'constants/projectTypes';
 import { projectCreateUrl } from 'constants/routes';
 import { enumsToSelectBoxOptions, dataToTagCloudOptions } from 'utils/mappers';
 import { filterProjects } from 'utils/filters';

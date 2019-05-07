@@ -3,7 +3,7 @@ const {
   DoneStatuses,
   ItemStatus
 } = require('../constants/enums');
-const Utils = require('../utils');
+const Utils = require('.');
 
 module.exports = (taskStatus) => {
   let taskStatusCheck = () => undefined;

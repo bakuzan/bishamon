@@ -2,20 +2,11 @@ import gql from 'graphql-tag';
 
 import { SwimlaneStatus } from 'constants/status';
 
+import { workItemFields } from '../fragment/workItem';
+
 function mapStatuses() {
   return SwimlaneStatus.join(',');
 }
-
-const fields = gql`
-  fragment WorkItemFields on WorkItem {
-    id
-    name
-    description
-    type
-    status
-    projectId
-  }
-`;
 
 export const projectWorkItems = gql`
   query projectWorkItems($projectId: Int) {
@@ -26,7 +17,7 @@ export const projectWorkItems = gql`
     workItemsOnHoldCount(projectId: $projectId)
     workItemsHistoricCount(projectId: $projectId)
   }
-  ${fields}
+  ${workItemFields}
 `;
 
 export const projectWorkItemsOnHold = gql`
@@ -36,7 +27,7 @@ export const projectWorkItemsOnHold = gql`
       taskRatio
     }
   }
-  ${fields}
+  ${workItemFields}
 `;
 
 export const projectWorkItemsHistoric = gql`
@@ -45,7 +36,7 @@ export const projectWorkItemsHistoric = gql`
       ...WorkItemFields
     }
   }
-  ${fields}
+  ${workItemFields}
 `;
 
 export const projectWorkItemInformation = gql`
@@ -71,7 +62,7 @@ export const workItemById = gql`
       cause
     }
   }
-  ${fields}
+  ${workItemFields}
 `;
 
 export const workItemRefreshOnTaskMutation = gql`

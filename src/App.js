@@ -1,11 +1,11 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Loadable from 'react-loadable';
 
-import { useGlobalStyles } from 'meiko-lib';
+import { useGlobalStyles } from 'mko';
 import WorkItemHub from 'views/WorkItem';
 import TaskHub from 'views/Task';
 
@@ -21,11 +21,14 @@ const {
   projectListUrl,
   workItemBoardUrl,
   taskBoardUrl,
-
   projectCreateUrl,
   projectEditUrl
 } = RoutePaths;
 
+const Dashboard = Loadable({
+  loader: () => import(/* webpackChunkName: 'Dashboard' */ './views/Dashboard'),
+  ...loadableSettings
+});
 const Projects = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'Projects' */ './views/Project/Projects'),
@@ -69,7 +72,7 @@ function App() {
             {({ data = { technologies: [] } }) => (
               <TechnologyContext.Provider value={data.technologies}>
                 <Switch>
-                  <Redirect exact from={baseUrl} to={projectListUrl} />
+                  <Route exact path={baseUrl} component={Dashboard} />
 
                   <Route path={taskBoardUrl} component={TaskHub} />
                   <Route path={workItemBoardUrl} component={WorkItemHub} />

@@ -4,7 +4,7 @@ const {
   ItemStatus,
   IgnoreStatuses
 } = require('../../constants/enums');
-const getWorkItemDerivedStatusCheck = require('../../utils/dervied-updates');
+const getWorkItemDerivedStatusCheck = require('../../utils/derviedUpdates');
 
 module.exports = {
   taskCreate(_, { workItemId, ...args }) {

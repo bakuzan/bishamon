@@ -9,5 +9,6 @@ module.exports = `
     tasks: [Task]
     taskRatio: String
     projectId: Int
+    project: Project
   }
 `;

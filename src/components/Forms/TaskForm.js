@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ClearableInput, SelectBox } from 'meiko-lib';
+import { ClearableInput, SelectBox } from 'mko';
 import Form from './Form';
 import Status from 'constants/status';
-import { enumDefault } from 'utils/derived-data';
+import { enumDefault } from 'utils/derivedData';
 import { enumsToSelectBoxOptions } from 'utils/mappers';
 
 class TaskForm extends React.PureComponent {

@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { DropTarget } from 'react-dnd';
 
-import DnDType from 'constants/dnd-type';
+import DnDType from 'constants/dndType';
 
 const swimlaneTarget = {
   canDrop(props, monitor) {
@@ -29,7 +29,7 @@ export default function withDropTarget(WrappedComponent) {
       return (
         <WrappedComponent
           {...props}
-          ref={instance => connectDropTarget(findDOMNode(instance))}
+          ref={(instance) => connectDropTarget(findDOMNode(instance))}
         />
       );
     }

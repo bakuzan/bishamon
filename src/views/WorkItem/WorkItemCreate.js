@@ -3,11 +3,11 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import Forms from 'components/Forms';
-import WorkTypes from 'constants/work-types';
+import WorkTypes from 'constants/workTypes';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { buildUrlWithIds, workItemBoardUrl } from 'constants/routes';
-import { enumDefault } from 'utils/derived-data';
+import { enumDefault } from 'utils/derivedData';
 
 const formDefaults = Object.freeze({
   name: '',

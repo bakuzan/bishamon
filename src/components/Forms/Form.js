@@ -88,7 +88,7 @@ class Form extends React.Component {
       children,
       ...formProps
     } = this.props;
-    console.log('FORM PROPS', this.props);
+
     const actions = {
       handleUserInput: this.handleUserInput,
       handleListCreate: this.handleListCreate,

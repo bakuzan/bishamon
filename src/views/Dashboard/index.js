@@ -8,6 +8,7 @@ import { WorkItemCard } from 'components/ItemCard';
 import Fetch from 'queries/fetch';
 import { ItemStatus } from 'constants/status';
 import { projectListUrl } from 'constants/routes';
+import { separateAndCapitaliseAll } from 'utils/common';
 
 import './Dashboard.scss';
 
@@ -33,14 +34,16 @@ function Dashboard() {
               ],
               []
             );
-            console.log(data, 'WIDGETS', widgets);
+
             return widgets.map((obj) => (
               <section
                 key={obj.title}
                 className="dashboard__section dashboard-widget"
               >
                 <header>
-                  <h2 className="dashboard-widget__title">{obj.title}</h2>
+                  <h2 className="dashboard-widget__title">
+                    {separateAndCapitaliseAll(obj.title)}
+                  </h2>
                 </header>
                 <div className="dashboard-widget__content">
                   <Grid className="dashboard-grid" items={obj.items}>
@@ -50,7 +53,16 @@ function Dashboard() {
                         data={item}
                         readOnly
                         includeLinks
-                        customDescription={(data) => data.taskRatio}
+                        customDescription={(data) => (
+                          <React.Fragment>
+                            <div className="dashboard-grid__item-type">
+                              {data.type}
+                            </div>
+                            <div className="dashboard-grid__item-ratio">
+                              {data.taskRatio}
+                            </div>
+                          </React.Fragment>
+                        )}
                       />
                     )}
                   </Grid>

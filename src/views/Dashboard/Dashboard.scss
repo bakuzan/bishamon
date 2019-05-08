@@ -6,8 +6,22 @@
 }
 
 .dashboard-widget {
+  margin: 5px 0 10px;
+
   &__title {
     font-size: 1.2em;
     margin: 5px;
+  }
+}
+
+.dashboard-grid {
+  &__item-type,
+  &__item-ratio {
+    display: flex;
+    flex: 1;
+  }
+
+  &__item-ratio {
+    justify-content: flex-end;
   }
 }

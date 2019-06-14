@@ -30,20 +30,53 @@ class WorkItemBoardCreate extends React.PureComponent {
       onCompleted: goToBoard,
       variables: { projectId },
       update: (cache, { data: { workItemCreate } }) => {
+        const newWorkItem = {
+          ...workItemCreate,
+          projectId,
+          taskRatio: 'N/A'
+        };
+
         const { workItems = [], ...other } = cache.readQuery({
           query: Fetch.projectWorkItems,
           variables: { projectId }
         });
+
         cache.writeQuery({
           query: Fetch.projectWorkItems,
           variables: { projectId },
           data: {
             ...other,
-            workItems: workItems.concat([
-              { ...workItemCreate, projectId, taskRatio: 'N/A' }
-            ])
+            workItems: workItems.concat([newWorkItem])
           }
         });
+
+        // Dashboard Update
+        const dashboardData = cache.readQuerySafeBIS({
+          query: Fetch.getDashboard
+        });
+
+        if (dashboardData) {
+          const {
+            dashboardCurrentWork,
+            ...otherDash
+          } = dashboardData.dashboard;
+
+          cache.writeQuery({
+            query: Fetch.getDashboard,
+            data: {
+              dashboard: {
+                ...otherDash,
+                dashboardCurrentWork: [
+                  ...dashboardCurrentWork,
+                  {
+                    ...newWorkItem,
+                    project: { name: projectData.name, __typename: 'Project' }
+                  }
+                ]
+              }
+            }
+          });
+        }
       },
       refetchQueries: () => [
         {

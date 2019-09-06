@@ -36,7 +36,9 @@ const Projects = Loadable({
 });
 const ProjectsCreate = Loadable({
   loader: () =>
-    import(/* webpackChunkName: 'ProjectsCreate' */ './views/Project/ProjectsCreate'),
+    import(
+      /* webpackChunkName: 'ProjectsCreate' */ './views/Project/ProjectsCreate'
+    ),
   ...loadableSettings
 });
 const ProjectView = Loadable({
@@ -48,7 +50,7 @@ const ProjectView = Loadable({
 function App() {
   useGlobalStyles();
   const [theme, setTheme] = useState(
-    appSettingsStore.get('theme') || Strings.defaultTheme
+    appSettingsStore.getKey('theme') || Strings.defaultTheme
   );
 
   const themeProps = {

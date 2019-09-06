@@ -42,7 +42,7 @@ function Dashboard() {
               >
                 <header>
                   <h2 className="dashboard-widget__title">
-                    {separateAndCapitaliseAll(obj.title)}
+                    {separateAndCapitaliseAll(obj.title)} ({obj.items.length})
                   </h2>
                 </header>
                 <div className="dashboard-widget__content">

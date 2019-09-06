@@ -21,7 +21,7 @@ class Swimlane extends React.Component {
         })}
       >
         <div className="swimlane__header">
-          {separateAndCapitaliseAll(title)}
+          {separateAndCapitaliseAll(title)} ({data.length})
         </div>
         <ul
           className={classNames('swimlane__list', {

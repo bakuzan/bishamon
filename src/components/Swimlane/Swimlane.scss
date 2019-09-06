@@ -33,7 +33,7 @@ $swimlane--header-width-xs: 90px;
 
   @include respondTo(xs) {
     display: flex;
-    height: $swimlane--height-xs;
+    height: auto;
     padding: 0 $app--standard-padding;
     border: {
       left: $placeholder-border;
@@ -52,7 +52,6 @@ $swimlane--header-width-xs: 90px;
       flex-shrink: 0;
       align-items: center;
       width: $swimlane--header-width-xs;
-      height: 100%;
       padding: 0 $app--standard-padding;
       border: none {
         right: $placeholder-border;

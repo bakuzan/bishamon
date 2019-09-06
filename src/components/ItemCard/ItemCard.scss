@@ -13,6 +13,10 @@
     display: flex;
     padding: $app--standard-padding 0;
   }
+  &__name,
+  &__link {
+    white-space: pre-line;
+  }
   &__description {
     display: flex;
     padding: $app--standard-padding 0;

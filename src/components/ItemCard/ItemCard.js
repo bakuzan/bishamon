@@ -19,7 +19,10 @@ function ItemCard({ data, readOnly, includeLinks, mutationProps, ...props }) {
             {!includeLinks ? (
               data.name
             ) : (
-              <ButtonisedNavLink to={props.entryLinkBuilder(data)}>
+              <ButtonisedNavLink
+                className="item-card__link"
+                to={props.entryLinkBuilder(data)}
+              >
                 {data.name}
               </ButtonisedNavLink>
             )}

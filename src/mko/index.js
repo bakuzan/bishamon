@@ -13,6 +13,7 @@ import TagCloudSelector from 'meiko/TagCloudSelector';
 import Tabs from 'meiko/Tabs';
 import { withButtonisation, Button } from 'meiko/Button';
 
+export { default as Icons } from 'meiko/constants/icons';
 export { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
 
 export { nano } from 'meiko/styles/nano';

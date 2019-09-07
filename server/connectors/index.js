@@ -6,9 +6,7 @@ const SQL = require('../db-scripts');
 
 const db = new Sequelize(Constants.appName, null, null, {
   dialect: 'sqlite',
-  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${
-    process.env.NODE_ENV
-  }.sqlite`,
+  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${process.env.NODE_ENV}.sqlite`,
   operatorsAliases: false
 });
 
@@ -17,6 +15,7 @@ const WorkItemModel = db.import('./workItem');
 const TaskModel = db.import('./task');
 
 const TechModel = db.import('./technology');
+const NoteModel = db.import('./note');
 
 // Create relationships
 ProjectModel.hasMany(WorkItemModel);
@@ -42,5 +41,6 @@ const Project = db.models.project;
 const WorkItem = db.models.workItem;
 const Task = db.models.task;
 const Technology = db.models.technology;
+const Note = db.models.note;
 
-module.exports = { db, Project, WorkItem, Task, Technology };
+module.exports = { db, Project, WorkItem, Task, Technology, Note };

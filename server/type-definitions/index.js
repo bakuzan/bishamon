@@ -6,6 +6,7 @@ const workItem = require('./workItem');
 const task = require('./task');
 const audit = require('./audit');
 const technology = require('./technology');
+const note = require('./note');
 
 module.exports = [
   ...enums,
@@ -14,6 +15,7 @@ module.exports = [
   project,
   workItem,
   task,
+  note,
   customObjects,
   audit
 ];

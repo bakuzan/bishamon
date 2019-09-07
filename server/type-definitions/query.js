@@ -15,6 +15,8 @@ const Query = `
     tasksHistoric(workItemId: Int): [Task]
     task(id: Int): Task
     technologies(sort: TechnologySortType): [Technology]
+    notes: [Note]
+    note(id: Int!): Note
 
     dashboard: Dashboard
 
@@ -35,6 +37,10 @@ const Mutation = `
 
     technologyCreate(name: String!): Technology
     technologyRemove(id: Int): RemoveResponse
+
+    noteCreate(text: String!): Note
+    noteUpdate(id: Int!, text: String!): Note
+    noteRemove(id: Int): RemoveResponse
   }
 `;
 

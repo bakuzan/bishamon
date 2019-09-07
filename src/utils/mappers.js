@@ -30,7 +30,7 @@ export const projectTechnologyModel = ({ __typename, ...tech }) => ({
   ...tech
 });
 
-const mapOptimisticResponse = (key, __typename) => (obj) => {
+export const mapOptimisticResponse = (key, __typename) => (obj) => {
   return {
     __typename: 'Mutation',
     [key]: {

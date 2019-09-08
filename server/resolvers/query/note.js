@@ -2,8 +2,7 @@ const { Note } = require('../../connectors');
 
 module.exports = {
   notes() {
-    console.log('notes');
-    return Note.findAll({ order: [['createdDate', 'DESC']] });
+    return Note.findAll({ order: [['createdAt', 'ASC']] });
   },
   note(_, args) {
     const { id } = args;

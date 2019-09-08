@@ -1,5 +1,71 @@
+@import '../../styles/_variables';
+
+.note-widget-toggle {
+  padding: 5px;
+  margin: 5px 0;
+
+  &::before {
+    height: 1rem;
+  }
+}
+
 .note-widget {
+  position: absolute;
+  max-width: 450px;
+  padding: 5px;
+  z-index: map-get($z-index, above-siblings);
+  transition: all 0.33s ease-in-out;
+  opacity: 1;
+  visibility: visible;
+
+  &--hidden {
+    margin-top: 10px;
+    visibility: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.25rem;
+  }
   &__add {
     display: flex;
+  }
+  &__submit {
+    margin: 8px 4px;
+  }
+}
+
+.note {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__remove {
+    flex: unset;
+    margin: 8px 4px;
+
+    &::before {
+      color: $danger-colour;
+      font-size: 1rem;
+    }
+  }
+}
+
+.update-note {
+  &__text {
+    justify-content: flex-start;
+  }
+  &__edit {
+    display: flex;
+  }
+  &__submit {
+    flex: unset;
+    margin: 8px 4px;
+
+    &::before {
+      font-size: 1rem;
+    }
   }
 }

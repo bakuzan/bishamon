@@ -2,16 +2,15 @@ const { Note } = require('../../connectors');
 
 module.exports = {
   noteCreate(_, args) {
-    console.log('create');
     return Note.create({ ...args });
   },
   noteUpdate(_, { id, ...args }) {
-    return Note.update({ ...args }, { where: { id } }).then((note) =>
-      note.reload()
+    return Note.update({ ...args }, { where: { id } }).then(() =>
+      Note.findByPk(id)
     );
   },
   noteRemove(_, { id }) {
-    Note.destroy({
+    return Note.destroy({
       where: { id }
     })
       .then(() => ({ success: true, errorMessage: '' }))

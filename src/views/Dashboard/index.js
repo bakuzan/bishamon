@@ -19,6 +19,7 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <div className="dashboard__actions">
+        <div id="notes-toggle"></div>
         <ButtonisedNavLink to={projectListUrl}>To Projects</ButtonisedNavLink>
       </div>
       <div className="dashboard__content">

@@ -6,11 +6,13 @@ const { ItemStatus } = require('../../constants/enums');
 const projectQuery = require('./project');
 const workItemQuery = require('./workItem');
 const taskQuery = require('./task');
+const noteQuery = require('./note');
 
 module.exports = {
   ...projectQuery,
   ...workItemQuery,
   ...taskQuery,
+  ...noteQuery,
   technologies(_, { sort, ...args }) {
     const order = !sort
       ? ['name', 'ASC']

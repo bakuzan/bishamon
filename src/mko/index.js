@@ -12,9 +12,11 @@ import MultiSelect from 'meiko/MultiSelect';
 import TagCloudSelector from 'meiko/TagCloudSelector';
 import Tabs from 'meiko/Tabs';
 import { withButtonisation, Button } from 'meiko/Button';
+import Portal from 'meiko/Portal';
 
 export { default as Icons } from 'meiko/constants/icons';
 export { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
+export { useOutsideClick } from 'meiko/hooks/useOutsideClick';
 
 export { nano } from 'meiko/styles/nano';
 
@@ -33,5 +35,6 @@ export {
   TagCloudSelector,
   Tabs,
   withButtonisation,
-  Button
+  Button,
+  Portal
 };

@@ -67,4 +67,10 @@ $theme-maps: (
       @include standardShadow($active-background);
     }
   }
+
+  .note-widget {
+    background-color: $base-background;
+    box-shadow: 1px 1px 5px 1px $primary-background,
+      0px 0px 1px 0px $primary-background;
+  }
 }

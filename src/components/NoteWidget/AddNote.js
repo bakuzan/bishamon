@@ -8,8 +8,8 @@ import { mapOptimisticResponse } from 'utils/mappers';
 import './NoteWidget.scss';
 
 function update(cache, { data: { noteCreate } }) {
-  const data = cache.readQuery({ query: Fetch.getNotes });
-  const notes = data.notes || [];
+  const data = cache.readQuerySafeBIS({ query: Fetch.getNotes });
+  const notes = (data && data.notes) || [];
 
   cache.writeQuery({
     query: Fetch.getNotes,
@@ -23,7 +23,7 @@ function AddNote() {
   const [noteText, setNoteText] = useState('');
 
   return (
-    <Mutation mutation={Mutate.noteCreate}>
+    <Mutation mutation={Mutate.noteCreate} onCompleted={() => setNoteText('')}>
       {(postForm) => {
         function handleSubmit(e) {
           e.preventDefault();
@@ -31,8 +31,7 @@ function AddNote() {
           postForm({
             variables: { text: noteText },
             update,
-            optimisticResponse: mapOptimisticResponse('noteCreate', 'Note'),
-            onCompleted: () => setNoteText('')
+            optimisticResponse: mapOptimisticResponse('noteCreate', 'Note')
           });
         }
 
@@ -40,13 +39,17 @@ function AddNote() {
           <form noValidate autoComplete="off" onSubmit={handleSubmit}>
             <div className="note-widget__add">
               <ClearableInput
-                id="noteText"
-                name="noteText"
+                id="addNoteText"
+                name="addNoteText"
                 label="New Note Text"
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
               />
-              <Button type="submit" btnStyle="primary">
+              <Button
+                type="submit"
+                className="note-widget__submit"
+                btnStyle="primary"
+              >
                 Add
               </Button>
             </div>

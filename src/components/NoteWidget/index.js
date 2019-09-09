@@ -3,13 +3,22 @@ import React, { useState, useRef } from 'react';
 import { Query, Mutation } from 'react-apollo';
 
 import { Button, Icons, Portal, useOutsideClick } from 'mko';
+
 import Grid from 'components/Grid';
+import TabTrap from 'components/TabTrap';
 import AddNote from './AddNote';
 import UpdateNote from './UpdateNote';
+import keyCodes from 'constants/keyCodes';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-
+import { generateUniqueId } from 'utils/common';
 import './NoteWidget.scss';
+
+const exceptionClasses = [
+  'update-note__text',
+  'note__remove',
+  'note-widget-toggle'
+];
 
 function createUpdate(noteId) {
   return function update(cache, { data: { noteRemove } }) {
@@ -31,11 +40,19 @@ function createUpdate(noteId) {
 
 function NoteWidget() {
   const ref = useRef();
+  const [widgetId] = useState(generateUniqueId());
   const [show, setShowNotes] = useState(false);
+  const isHidden = !show;
+  const toggleBtnId = `toggle-${widgetId}`;
 
   useOutsideClick(ref.current, (e) => {
     const t = e.target;
-    if (!t || (t && t.id !== 'notesToggleButton')) {
+    const isEscape = e.key === keyCodes.Escape;
+    const noTarget = !t;
+    const isNotException =
+      t && !exceptionClasses.some((s) => t.className.includes(s));
+
+    if (noTarget || isEscape || isNotException) {
       setShowNotes(false);
     }
   });
@@ -46,15 +63,25 @@ function NoteWidget() {
         const notes = data.notes || [];
 
         return (
-          <section
+          <TabTrap
+            isActive={show}
+            element="section"
+            firstId="closeNotesButton"
+            lastId="addNoteButton"
+            onDeactivate={() => {
+              // TODO, make mko Button forwardRef
+              const target = document.getElementById(toggleBtnId);
+              target.focus();
+            }}
             ref={ref}
+            aria-hidden={isHidden}
             className={classNames('note-widget', {
-              'note-widget--hidden': !show
+              'note-widget--hidden': isHidden
             })}
           >
             <Portal querySelector="#notes-toggle">
               <Button
-                id="notesToggleButton"
+                id={toggleBtnId}
                 className="note-widget-toggle"
                 aria-label="Toggle notes"
                 icon={`\uD83D\uDDCA\uFE0E`}
@@ -63,8 +90,15 @@ function NoteWidget() {
                 ({notes.length})
               </Button>
             </Portal>
-            <header>
+            <header className="note-widget__header">
               <h2 className="note-widget__title">Notes ({notes.length})</h2>
+              <Button
+                id="closeNotesButton"
+                className="note-widget__close"
+                aria-label="Close notes"
+                icon={Icons.cross}
+                onClick={() => setShowNotes(false)}
+              />
             </header>
             <Grid className="note-grid" items={notes}>
               {(note) => (
@@ -97,7 +131,7 @@ function NoteWidget() {
               )}
             </Grid>
             <AddNote />
-          </section>
+          </TabTrap>
         );
       }}
     </Query>

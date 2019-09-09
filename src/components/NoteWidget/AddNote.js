@@ -46,6 +46,7 @@ function AddNote() {
                 onChange={(e) => setNoteText(e.target.value)}
               />
               <Button
+                id="addNoteButton"
                 type="submit"
                 className="note-widget__submit"
                 btnStyle="primary"

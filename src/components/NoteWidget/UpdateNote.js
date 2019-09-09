@@ -5,7 +5,6 @@ import { Mutation } from 'react-apollo';
 import { Button, ClearableInput, Icons } from 'mko';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import { mapOptimisticResponse } from 'utils/mappers';
 
 import './NoteWidget.scss';
 
@@ -35,11 +34,18 @@ function UpdateNote({ id, text }) {
       {(postForm) => {
         function handleSubmit(e) {
           e.preventDefault();
+          const values = { id: id, text: noteText };
 
           postForm({
-            variables: { id: id, text: noteText },
+            variables: values,
             update,
-            optimisticResponse: mapOptimisticResponse('noteUpdate', 'Note')
+            optimisticResponse: {
+              __typename: 'Mutation',
+              noteUpdate: {
+                __typename: 'Note',
+                ...values
+              }
+            }
           });
         }
 

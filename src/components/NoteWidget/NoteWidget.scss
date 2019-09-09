@@ -1,11 +1,21 @@
 @import '../../styles/_variables';
 
+%remove-button {
+  flex: unset;
+
+  &::before {
+    color: $danger-colour;
+    font-size: 1rem;
+  }
+}
+
 .note-widget-toggle {
   padding: 5px;
   margin: 5px 0;
 
   &::before {
-    height: 1rem;
+    height: 1.25rem;
+    align-items: flex-end;
   }
 }
 
@@ -25,9 +35,17 @@
     opacity: 0;
   }
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
   &__title {
     margin: 0;
     font-size: 1.25rem;
+  }
+  &__close {
+    @extend %remove-button;
+    margin: 0;
   }
   &__add {
     display: flex;
@@ -43,13 +61,8 @@
   align-items: center;
 
   &__remove {
-    flex: unset;
+    @extend %remove-button;
     margin: 8px 4px;
-
-    &::before {
-      color: $danger-colour;
-      font-size: 1rem;
-    }
   }
 }
 

@@ -13,17 +13,19 @@ module.exports = {
   ...workItemQuery,
   ...taskQuery,
   ...noteQuery,
-  technologies(_, { sort, ...args }) {
+  async technologies(_, { sort, ...args }) {
     const order = !sort
       ? ['name', 'ASC']
       : sort.split('_').map((s, i) => (i === 0 ? s.toLowerCase() : s));
 
-    return Technology.findAll({ where: { ...args }, order: [order] });
+    return await Technology.findAll({ where: { ...args }, order: [order] });
   },
   async dashboard() {
     const dashboardCurrentWork = await WorkItem.findAll({
       where: {
-        status: { [Op.in]: [ItemStatus.Todo, ItemStatus.InProgress] }
+        status: {
+          [Op.in]: [ItemStatus.Todo, ItemStatus.InProgress, ItemStatus.OnHold]
+        }
       },
       order: [['createdAt', 'ASC']],
       include: [Project]
@@ -34,7 +36,7 @@ module.exports = {
     };
   },
   // Audit db
-  audits(_, args) {
-    return Audit.findAll({ where: args });
+  async audits(_, args) {
+    return await Audit.findAll({ where: args });
   }
 };

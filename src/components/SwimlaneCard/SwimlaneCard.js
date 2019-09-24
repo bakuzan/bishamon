@@ -21,11 +21,11 @@ class SwimlaneCard extends React.Component {
   }
 
   render() {
+    let routeData = this.context;
     const { data = {}, isDragging } = this.props;
     const hasType = !!data.type;
     const type = hasType ? data.type.toLowerCase() : '';
 
-    let routeData = this.context;
     const editUrl = buildUrlWithIds(routeData.edit, {
       [routeData.key]: data.id
     });

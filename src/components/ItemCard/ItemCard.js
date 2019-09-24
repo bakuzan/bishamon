@@ -8,13 +8,25 @@ import Strings from 'constants/strings';
 
 import './ItemCard.scss';
 
-function ItemCard({ data, readOnly, includeLinks, mutationProps, ...props }) {
+function ItemCard({
+  className,
+  data,
+  readOnly,
+  includeLinks,
+  mutationProps,
+  ...props
+}) {
   const type = data.type ? data.type.toLowerCase() : '';
 
   return (
     <Mutation {...mutationProps}>
       {(updateFunc, _) => (
-        <li className={classNames('item-card', [`item-card--type_${type}`])}>
+        <li
+          className={classNames('item-card', [
+            `item-card--type_${type}`,
+            className
+          ])}
+        >
           <div className="item-card__name">
             {!includeLinks ? (
               data.name

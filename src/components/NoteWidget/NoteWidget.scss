@@ -23,7 +23,7 @@
   position: absolute;
   max-width: 450px;
   padding: 5px;
-  z-index: map-get($z-index, above-siblings);
+  z-index: map-get($z-index, modal);
   transition: all 0.33s ease-in-out;
   opacity: 1;
   visibility: visible;

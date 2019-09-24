@@ -3,10 +3,24 @@
     display: flex;
     justify-content: space-between;
   }
+
+  &__widgets {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  &__item {
+    box-shadow: 0px 0px 15px -5px var(--primary-background);
+  }
 }
 
 .dashboard-widget {
+  padding: 5px;
   margin: 5px 0 10px;
+
+  &__header {
+    border-bottom: 1px solid;
+  }
 
   &__title {
     font-size: 1.2em;
@@ -15,6 +29,8 @@
 }
 
 .dashboard-grid {
+  grid-gap: 5px;
+
   &__item-type,
   &__item-ratio {
     display: flex;

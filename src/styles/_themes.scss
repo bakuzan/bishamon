@@ -42,6 +42,12 @@ $theme-maps: (
   }
   // Overrides END
 
+  // VARS
+  & {
+    --primary-background: #{$primary-background};
+    --primary-colour: #{$primary-colour};
+  }
+
   .bishamon-button-link,
   .button--link {
     color: $primary-background;
@@ -66,6 +72,10 @@ $theme-maps: (
     &--selected {
       @include standardShadow($active-background);
     }
+  }
+
+  .dashboard-widget__header {
+    border-color: $primary-background;
   }
 
   .note-widget {

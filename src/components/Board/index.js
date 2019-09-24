@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-import DragAndDropContext from 'components/DragAndDrop';
 import Swimlane from 'components/Swimlane/Swimlane';
 
 import { SwimlaneStatus } from 'constants/status';
@@ -18,19 +19,26 @@ class Board extends React.Component {
     this.handleDrop = this.handleDrop.bind(this);
   }
 
-  handleCanDrop(swimlane, item) {
+  handleCanDrop(swimlane) {
     const swimlaneIndex = SwimlaneStatus.findIndex((x) => x === swimlane);
-    if (swimlaneIndex === 0) return false;
+    if (swimlaneIndex === 0) {
+      return false;
+    }
+
     return true;
   }
 
   handleDrop(mutateCall) {
     return (swimlane, item) => {
-      if (swimlane === item.status) return;
+      if (swimlane === item.status) {
+        return;
+      }
+
       const { mutationProps } = this.props;
       const optimisticResponse = mutationProps.buildOptimisticResponse
         ? mutationProps.buildOptimisticResponse({ ...item, status: swimlane })
         : undefined;
+
       mutateCall({
         variables: { id: item.id, status: swimlane },
         optimisticResponse
@@ -44,29 +52,29 @@ class Board extends React.Component {
     const dataStatusMap = createStatusMapForBoard(data);
 
     return (
-      <Mutation {...mutationProps}>
-        {(callAPI, _) => {
-          const dropActions = {
-            canDrop: this.handleCanDrop,
-            onDrop: this.handleDrop(callAPI)
-          };
+      <DndProvider backend={HTML5Backend}>
+        <Mutation {...mutationProps}>
+          {(callAPI, _) => {
+            const dropActions = {
+              canDrop: this.handleCanDrop,
+              onDrop: this.handleDrop(callAPI)
+            };
 
-          return (
-            <div className="board">
-              {SwimlaneStatus.map((x) => {
-                return (
+            return (
+              <div className="board">
+                {SwimlaneStatus.map((x) => (
                   <Swimlane
                     key={x}
                     title={x}
                     data={dataStatusMap.get(x)}
                     dropActions={dropActions}
                   />
-                );
-              })}
-            </div>
-          );
-        }}
-      </Mutation>
+                ))}
+              </div>
+            );
+          }}
+        </Mutation>
+      </DndProvider>
     );
   }
 }
@@ -83,4 +91,4 @@ Board.propTypes = {
   }).isRequired
 };
 
-export default DragAndDropContext(Board);
+export default Board;

@@ -40,11 +40,11 @@ function CustomItemCardWrappers({
   return <ItemCard {...props} mutationProps={mutationProps} />;
 }
 
-export const WorkItemCard = (props) => (
+export const WorkItemCard = ({ updater, ...props }) => (
   <CustomItemCardWrappers
     {...props}
     mutation={Mutate.workItemStatusUpdate}
-    update={workItemUpdater}
+    update={updater || workItemUpdater}
     optimisticResponseMapper={mapWorkItemViewToOptimisticResponse}
     projectLinkBuilder={(data) =>
       buildUrlWithIds(workItemBoardUrl, {

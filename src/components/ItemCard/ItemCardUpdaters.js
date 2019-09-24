@@ -37,6 +37,24 @@ export function workItemUpdater(cache, { data: { workItemUpdate } }) {
   });
 }
 
+export function dashboardWorkItemUpdater(cache, { data: { workItemUpdate } }) {
+  const data = cache.readQuery({
+    query: Fetch.getDashboard
+  });
+
+  const dashboardItems = data.dashboard.dashboardCurrentWork;
+
+  cache.writeQuery({
+    query: Fetch.getDashboard,
+    data: {
+      ...data,
+      dashboardCurrentWork: dashboardItems.map((x) =>
+        x.id !== workItemUpdate.id ? x : workItemUpdate
+      )
+    }
+  });
+}
+
 export function taskUpdater(cache, { data: { taskUpdate } }) {
   const workItemId = taskUpdate.workItemId;
 

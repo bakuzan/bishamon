@@ -46,6 +46,13 @@ main {
 .project-filters {
   display: flex;
   height: 45px;
+  margin-bottom: 10px;
+}
+
+.project-count {
+  font-size: 0.8rem;
+  margin: 10px 5px;
+  min-height: 1rem;
 }
 
 .project-create-title {
@@ -70,6 +77,18 @@ main {
     position: absolute;
     right: 0;
   }
+}
+
+// Screen reader class
+.for-screenreader-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 // Overrides

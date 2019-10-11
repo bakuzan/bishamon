@@ -106,6 +106,10 @@ class Projects extends React.Component {
                   sizeRelativeToCount
                 />
               </div>
+              <div className="project-count">
+                {!!data.projects &&
+                  `Showing ${filteredProjects.length} of ${data.projects.length}`}
+              </div>
               <Grid className="bishamon-project-grid" items={filteredProjects}>
                 {(item) => <ProjectCard key={item.id} data={item} />}
               </Grid>

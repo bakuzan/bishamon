@@ -7,6 +7,7 @@ import { Button, ButtonisedNavLink } from 'components/Buttons';
 import Strings from 'constants/strings';
 
 import './ItemCard.scss';
+import { fromCamelCase } from 'utils/common';
 
 function ItemCard({
   className,
@@ -31,12 +32,22 @@ function ItemCard({
             {!includeLinks ? (
               data.name
             ) : (
-              <ButtonisedNavLink
-                className="item-card__link"
-                to={props.entryLinkBuilder(data)}
-              >
-                {data.name}
-              </ButtonisedNavLink>
+              <React.Fragment>
+                <p
+                  id="itemCardNameDescription"
+                  className="for-screenreader-only"
+                >
+                  Click to go to "{data.name}" {fromCamelCase(data.__typename)}{' '}
+                  board
+                </p>
+                <ButtonisedNavLink
+                  className="item-card__link"
+                  to={props.entryLinkBuilder(data)}
+                  aria-describedby="itemCardNameDescription"
+                >
+                  {data.name}
+                </ButtonisedNavLink>
+              </React.Fragment>
             )}
           </div>
           <div className="item-card__detail">
@@ -47,14 +58,39 @@ function ItemCard({
             </div>
             <div className="item-card__button-group">
               {includeLinks && (
-                <ButtonisedNavLink to={props.projectLinkBuilder(data)}>
-                  {`To ${data.project ? data.project.name : 'Project'} Board`}
-                </ButtonisedNavLink>
+                <React.Fragment>
+                  <p
+                    id="itemCardProjectDescription"
+                    className="for-screenreader-only"
+                  >
+                    Click to go to {data.project ? data.project.name : ''}{' '}
+                    project board
+                  </p>
+                  <ButtonisedNavLink
+                    to={props.projectLinkBuilder(data)}
+                    aria-describedby="itemCardProjectDescription"
+                  >
+                    {`To ${data.project ? data.project.name : 'Project'} Board`}
+                  </ButtonisedNavLink>
+                </React.Fragment>
               )}
               {!readOnly && (
-                <Button btnStyle="primary" onClick={updateFunc}>
-                  Continue Work
-                </Button>
+                <React.Fragment>
+                  <p
+                    id="itemCardContinueDescription"
+                    className="for-screenreader-only"
+                  >
+                    Click to move "{data.name}" {fromCamelCase(data.__typename)}{' '}
+                    to in progress state.
+                  </p>
+                  <Button
+                    btnStyle="primary"
+                    onClick={updateFunc}
+                    aria-describedby="itemCardContinueDescription"
+                  >
+                    Continue Work
+                  </Button>
+                </React.Fragment>
               )}
             </div>
           </div>

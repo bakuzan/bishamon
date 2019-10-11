@@ -54,20 +54,39 @@ function TaskHub({ match, location }) {
     >
       {({ loading, error, data = {} }) => {
         const projectData = data.project;
+        const projectName = (projectData && projectData.name) || '';
+        const workItemName =
+          (projectData && projectData.workItem && projectData.workItem.name) ||
+          '';
+
         return (
           <ProjectInformation
             data={projectData}
             headerActions={
               shouldRender && (
                 <React.Fragment>
+                  <p id="addTaskDescription" className="for-screenreader-only">
+                    Add new task item to the "{workItemName}" work item in the{' '}
+                    {projectName} project
+                  </p>
                   <ButtonisedNavButton
                     btnStyle="primary"
                     to={createUrl}
                     onMouseOver={() => TaskBoardCreate.preload()}
+                    aria-describedby="addTaskDescription"
                   >
                     Add Task
                   </ButtonisedNavButton>
-                  <ButtonisedNavLink to={backUrl}>
+                  <p
+                    id="goToWorkItemDescription"
+                    className="for-screenreader-only"
+                  >
+                    Go to the {projectName} project board
+                  </p>
+                  <ButtonisedNavLink
+                    to={backUrl}
+                    aria-describedby="goToWorkItemDescription"
+                  >
                     To Work Items
                   </ButtonisedNavLink>
                 </React.Fragment>

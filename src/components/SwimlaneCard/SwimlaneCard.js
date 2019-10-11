@@ -6,7 +6,8 @@ import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
 import { RouteContext } from 'context';
 import { buildUrlWithIds } from 'constants/routes';
-import { objectsAreEqual } from 'utils/common';
+import Strings from 'constants/strings';
+import { objectsAreEqual, fromCamelCase } from 'utils/common';
 
 import './SwimlaneCard.scss';
 
@@ -25,6 +26,7 @@ class SwimlaneCard extends React.Component {
     const { data = {}, isDragging } = this.props;
     const hasType = !!data.type;
     const type = hasType ? data.type.toLowerCase() : '';
+    const isTask = data.__typename === Strings.dataTypes.task;
 
     const editUrl = buildUrlWithIds(routeData.edit, {
       [routeData.key]: data.id
@@ -43,15 +45,29 @@ class SwimlaneCard extends React.Component {
         title={data.type}
       >
         <div className={classNames('swimlane-card__name')}>
+          {!isTask && (
+            <p id="swimCardNameDescription" className="for-screenreader-only">
+              Click to go to "{data.name}" {fromCamelCase(data.__typename)}{' '}
+              board
+            </p>
+          )}
           <ButtonisedNavLink
             className={classNames('swimlane-card__link')}
             to={drilldownUrl}
+            aria-describedby={isTask ? undefined : 'swimCardNameDescription'}
           >
             {data.name}
           </ButtonisedNavLink>
         </div>
         <div className="swimlane-card__ratio">{data.taskRatio}</div>
-        <ButtonisedNavLink className="swimlane-card__edit" to={editUrl}>
+        <p id="swimCardEditDescription" className="for-screenreader-only">
+          Click to edit "{data.name}" {fromCamelCase(data.__typename)} details
+        </p>
+        <ButtonisedNavLink
+          className="swimlane-card__edit"
+          to={editUrl}
+          aria-describedby="swimCardEditDescription"
+        >
           Edit
         </ButtonisedNavLink>
       </li>

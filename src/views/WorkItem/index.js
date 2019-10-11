@@ -48,16 +48,25 @@ function WorkItemHub({ match, location }) {
     <Query query={Fetch.projectInformation} variables={{ id: projectId }}>
       {({ loading, error, data = {} }) => {
         const projectData = data.project;
+        const projectName = (projectData && projectData.name) || '';
+
         return (
           <ProjectInformation
             data={projectData}
             headerActions={
               shouldRender && (
                 <React.Fragment>
+                  <p
+                    id="addWorkItemDescription"
+                    className="for-screenreader-only"
+                  >
+                    Add new work item to the {projectName} project
+                  </p>
                   <ButtonisedNavButton
                     btnStyle="primary"
                     to={createUrl}
                     onMouseOver={() => WorkItemBoardCreate.preload()}
+                    aria-describedby="addWorkItemDescription"
                   >
                     Add Work
                   </ButtonisedNavButton>

@@ -23,14 +23,26 @@ const ProjectCard = React.memo(function ProjectCard({ data }) {
       className={classNames('project-card bottom-spacing')}
       style={{ borderLeftColor: data.primaryColour }}
     >
-      <ButtonisedNavLink className="project-card__link" to={workItemsUrl}>
+      <p id="projectBoardDescription" className="for-screenreader-only">
+        Click to go to {data.name} project board
+      </p>
+      <ButtonisedNavLink
+        className="project-card__link"
+        to={workItemsUrl}
+        aria-describedby="projectBoardDescription"
+      >
         {data.name}
       </ButtonisedNavLink>
       <div className="project-card__content">
         <div>{separateAndCapitaliseAll(data.type)}</div>
         <div>{data.workItemRatio}</div>
       </div>
-      <ButtonisedNavLink to={editUrl}>Edit</ButtonisedNavLink>
+      <p id="projectEditDescription" className="for-screenreader-only">
+        Click to edit "{data.name}" details
+      </p>
+      <ButtonisedNavLink to={editUrl} aria-describedby="projectEditDescription">
+        Edit
+      </ButtonisedNavLink>
     </li>
   );
 });

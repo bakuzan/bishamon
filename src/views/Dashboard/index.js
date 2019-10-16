@@ -50,7 +50,7 @@ function Dashboard() {
             );
 
             return (
-              <Tabs.Container>
+              <Tabs.Container className="dashboard-tabs">
                 <Tabs.View
                   name="OVERVIEW"
                   displayName={`Overview (${ongoingCount} - ${todoCount})`}
@@ -99,7 +99,7 @@ function Dashboard() {
                   displayName={`On Hold (${onholdItems.length})`}
                 >
                   <div className="dashboard__widgets">
-                    <Grid className="dashboard-grid" items={onholdItems}>
+                    <Grid className="dashboard-grid-onhold" items={onholdItems}>
                       {(item) => (
                         <WorkItemCard
                           key={item.id}

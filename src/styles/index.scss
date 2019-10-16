@@ -16,9 +16,7 @@
 }
 
 html {
-  @include respondTo(xs) {
-    width: max-content;
-  }
+  min-width: 100%;
 }
 
 body {
@@ -29,6 +27,13 @@ main {
   min-height: calc(100vh - 5px - #{$header--height});
   padding: 5px {
     top: $header--height;
+  }
+
+  @include respondTo(xs) {
+    padding: {
+      left: 0;
+      right: 0;
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 @import '~styles/_variables';
-@import '~meiko/styles/_mixins.scss';
+@import '~styles/_mixins.scss';
 
 $project-grid: (
   xs: 50,
@@ -25,14 +25,14 @@ $board-grid: (
   @include gridColumnGenerator($board-grid);
 }
 
-$dashboard-grid: (
-  xs: 100,
-  sm: 50,
-  md: 33,
-  lg: 25
-);
-
 .dashboard-grid {
   grid-auto-rows: 1fr;
-  @include gridColumnGenerator($dashboard-grid);
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.dashboard-grid-onhold {
+  grid-gap: 2px 4px;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }

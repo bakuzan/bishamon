@@ -1,7 +1,7 @@
 @import '../../styles/_mixins';
 @import '../../styles/_variables';
 
-$swimlane--header-width: calc(100% - 2px);
+$swimlane--header-width: calc(100% - #{$app--standard-padding});
 $placeholder-border: 1px solid transparent;
 
 $swimlane--height-xs: calc((100vh - 175px) / 5);
@@ -10,10 +10,11 @@ $swimlane--header-width-xs: 90px;
 .swimlane {
   padding: $app--standard-padding 0;
   border-right: $placeholder-border;
+  border-left: $placeholder-border;
 
   @include respondToAll(sm md lg) {
-    &:first-child {
-      border-left: $placeholder-border;
+    &:not(:first-child) {
+      border-left: none;
     }
   }
 

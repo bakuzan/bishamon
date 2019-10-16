@@ -18,6 +18,10 @@
 }
 
 .project-header {
+  &__title {
+    font-size: 1.25rem;
+    margin: 0;
+  }
   &__text {
     padding: $app--standard-padding / 2;
     @include workItemTypeBorder;

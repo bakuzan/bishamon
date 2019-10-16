@@ -82,6 +82,7 @@ class TaskBoard extends React.Component {
                 <Tabs.View
                   name="BOARD"
                   displayName={`Board (${boardItems.length})`}
+                  className="board-tab"
                 >
                   <RouteContext.Provider value={cardUrls}>
                     <Board data={boardItems} mutationProps={mutationProps} />

@@ -24,12 +24,16 @@ const ProjectInformation = React.memo(function ProjectInformation(props) {
     : '';
 
   return (
-    <section className="project-information">
+    <section
+      className="project-information"
+      aria-describedby={`projectInformationHeader`}
+    >
       <header
+        id="projectInformationHeader"
         className="project-information__header project-header"
         style={{ borderLeftColor: project.primaryColour }}
       >
-        <div className="project-header__text">{name}</div>
+        <h2 className="project-header__title project-header__text">{name}</h2>
         <div
           className={classNames('project-header__text', {
             [`project-header__text--type_${typeLower}`]: hasWorkItem

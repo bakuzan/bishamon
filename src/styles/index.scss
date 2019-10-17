@@ -101,7 +101,7 @@ main {
   margin-bottom: 0px;
 }
 
-.tab-control--active {
+.tab-control--active.tab-control--active {
   // "Guarenteed" to sort the tab appearance. TODO - Move to meiko?
   border-bottom-width: 2px;
 }

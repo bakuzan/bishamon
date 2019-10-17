@@ -100,3 +100,8 @@ main {
 .multi-select__input.multi-select__input {
   margin-bottom: 0px;
 }
+
+.tab-control--active {
+  // "Guarenteed" to sort the tab appearance. TODO - Move to meiko?
+  border-bottom-width: 2px;
+}

@@ -9,24 +9,33 @@
   margin: 2px 0;
   @include workItemTypeBorder;
 
+  &__project-name {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
   &__name {
     display: flex;
     padding: $app--standard-padding 0;
   }
+
   &__name,
   &__link {
     white-space: pre-line;
   }
+
   &__description {
     display: flex;
     padding: $app--standard-padding 0;
   }
+
   &__detail {
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: space-between;
   }
+
   &__button-group {
     display: flex;
     justify-content: flex-end;

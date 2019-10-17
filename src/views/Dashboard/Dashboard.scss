@@ -2,9 +2,17 @@
 @import '../../styles/_mixins.scss';
 
 .dashboard {
-  &__actions {
+  &__header {
     display: flex;
-    justify-content: space-between;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    margin: 5px;
+  }
+
+  &__notes {
+    margin: 0 10px;
   }
 
   &__widgets {

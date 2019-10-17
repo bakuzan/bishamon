@@ -65,7 +65,7 @@ function App() {
   return (
     <HelmetProvider>
       <div id="app" className={classNames('app theme', [`theme--${theme}`])}>
-        <Helmet defaultTitle="Bishamon" titleTemplate="Bishamon - %s" />
+        <Helmet defaultTitle="Bishamon" titleTemplate="%s | Bishamon" />
         <ThemeContext.Provider value={themeProps}>
           <HeaderBar />
         </ThemeContext.Provider>

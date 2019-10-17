@@ -83,7 +83,7 @@ function NoteWidget() {
               <Button
                 id={toggleBtnId}
                 className="note-widget-toggle"
-                aria-label="Toggle notes"
+                aria-label="Toggle notes widget"
                 icon={`\uD83D\uDDCA\uFE0E`}
                 onClick={() => setShowNotes((p) => !p)}
               >
@@ -95,7 +95,7 @@ function NoteWidget() {
               <Button
                 id="closeNotesButton"
                 className="note-widget__close"
-                aria-label="Close notes"
+                aria-label="Close notes widget"
                 icon={Icons.cross}
                 onClick={() => setShowNotes(false)}
               />

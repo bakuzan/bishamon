@@ -1,5 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
+import { Helmet } from 'react-helmet-async';
 
 import { Tabs } from 'mko';
 import Grid from 'components/Grid';
@@ -19,11 +20,16 @@ const STATUSES = [ItemStatus.InProgress, ItemStatus.Todo];
 
 function Dashboard() {
   return (
-    <div className="dashboard">
-      <div className="dashboard__actions">
-        <div id="notes-toggle"></div>
+    <section className="dashboard">
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
+      <header className="dashboard__header">
+        <h2 className="dashboard__title">Dashboard</h2>
+        <div id="notes-toggle" className="dashboard__notes"></div>
+        <div className="flex-spacer"></div>
         <ButtonisedNavLink to={projectListUrl}>To Projects</ButtonisedNavLink>
-      </div>
+      </header>
       <div className="dashboard__content">
         <NoteWidget />
 
@@ -106,6 +112,7 @@ function Dashboard() {
                           className="dashboard__item"
                           data={item}
                           updater={dashboardWorkItemUpdater}
+                          includeProjectName
                         />
                       )}
                     </Grid>
@@ -116,7 +123,7 @@ function Dashboard() {
           }}
         </Query>
       </div>
-    </div>
+    </section>
   );
 }
 

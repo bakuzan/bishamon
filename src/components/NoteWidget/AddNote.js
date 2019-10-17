@@ -42,6 +42,7 @@ function AddNote() {
                 id="addNoteText"
                 name="addNoteText"
                 label="New Note Text"
+                placeholder="Enter something that is on your mind"
                 value={noteText}
                 onChange={(e) => setNoteText(e.target.value)}
               />
@@ -50,8 +51,9 @@ function AddNote() {
                 type="submit"
                 className="note-widget__submit"
                 btnStyle="primary"
+                aria-label="Add new note"
               >
-                Add
+                <span aria-hidden="true">Add</span>
               </Button>
             </div>
           </form>

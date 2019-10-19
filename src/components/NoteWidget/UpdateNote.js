@@ -67,13 +67,26 @@ function UpdateNote({ id, text }) {
                     name="noteText"
                     label="New Note Text"
                     value={noteText}
+                    clearButtonProps={{
+                      className: 'update-note__clear-button'
+                    }}
                     onChange={(e) => setNoteText(e.target.value)}
                   />
                   <Button
                     type="submit"
-                    className="update-note__submit"
+                    className="update-note__button update-note__submit"
                     aria-label="Save note"
                     icon={Icons.save}
+                  />
+                  <Button
+                    type="submit"
+                    className="update-note__button"
+                    aria-label="Cancel edit note"
+                    icon={Icons.cross}
+                    onClick={() => {
+                      setEditMode(false);
+                      setNoteText(text);
+                    }}
                   />
                 </div>
               )}

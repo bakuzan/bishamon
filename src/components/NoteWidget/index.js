@@ -16,6 +16,8 @@ import './NoteWidget.scss';
 
 const exceptionClasses = [
   'update-note__text',
+  'update-note__button',
+  'update-note__clear-button',
   'note__remove',
   'note-widget-toggle'
 ];

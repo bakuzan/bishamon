@@ -69,11 +69,15 @@
 .update-note {
   &__text {
     justify-content: flex-start;
+    text-align: left;
+    white-space: normal;
   }
+
   &__edit {
     display: flex;
   }
-  &__submit {
+
+  &__button {
     flex: unset;
     margin: 8px 4px;
 

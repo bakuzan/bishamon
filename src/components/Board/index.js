@@ -52,7 +52,7 @@ class Board extends React.Component {
     const dataStatusMap = createStatusMapForBoard(data);
 
     return (
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={HTML5Backend} context={window}>
         <Mutation {...mutationProps}>
           {(callAPI, _) => {
             const dropActions = {

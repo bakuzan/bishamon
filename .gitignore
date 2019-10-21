@@ -8,6 +8,7 @@
 
 # production
 /build
+/build__old
 *.css
 *.sqlite*
 

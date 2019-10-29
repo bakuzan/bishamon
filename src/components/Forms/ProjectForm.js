@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { ClearableInput, ChipListInput, SelectBox } from 'mko';
+import ChipListInput from 'meiko/ChipListInput';
+import ClearableInput from 'meiko/ClearableInput';
+import SelectBox from 'meiko/SelectBox';
 import Form from './Form';
 import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ClearableInput, SelectBox } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
+import SelectBox from 'meiko/SelectBox';
 import Form from './Form';
 import Status from 'constants/status';
 import WorkTypes, { WorkType } from 'constants/workTypes';

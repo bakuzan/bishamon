@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
-import { SelectBox, DropdownMenu } from 'mko';
+import DropdownMenu from 'meiko/DropdownMenu';
+import SelectBox from 'meiko/SelectBox';
 import Strings from 'constants/strings';
 import { ThemeContext } from 'context';
 

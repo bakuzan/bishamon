@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 
-import { Button, ClearableInput } from 'mko';
+import { Button } from 'meiko/Button';
+import ClearableInput from 'meiko/ClearableInput';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { mapOptimisticResponse } from 'utils/mappers';
+
 import './NoteWidget.scss';
 
 function update(cache, { data: { noteCreate } }) {

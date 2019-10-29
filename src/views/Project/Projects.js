@@ -3,7 +3,9 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet-async';
 
-import { ClearableInput, TagCloudSelector, MultiSelect } from 'mko';
+import ClearableInput from 'meiko/ClearableInput';
+import MultiSelect from 'meiko/MultiSelect';
+import TagCloudSelector from 'meiko/TagCloudSelector';
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
 import ProjectCard from 'components/ProjectCard/ProjectCard';

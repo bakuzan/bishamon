@@ -2,7 +2,8 @@ import classNames from 'classnames';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { withButtonisation, Button as MButton, nano } from 'mko';
+import { withButtonisation, Button as MButton } from 'meiko/Button';
+import { nano } from 'meiko/styles/nano';
 
 const STANDARD_CLASS = 'bishamon-button';
 

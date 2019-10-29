@@ -5,7 +5,7 @@ import { Query } from 'react-apollo';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import Loadable from 'react-loadable';
 
-import { useGlobalStyles } from 'mko';
+import { useGlobalStyles } from 'meiko/hooks/useGlobalStyles';
 import WorkItemHub from 'views/WorkItem';
 import TaskHub from 'views/Task';
 

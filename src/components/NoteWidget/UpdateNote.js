@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 
-import { Button, ClearableInput, Icons } from 'mko';
+import { Button } from 'meiko/Button';
+import ClearableInput from 'meiko/ClearableInput';
+import Icons from 'meiko/constants/icons';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 

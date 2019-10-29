@@ -3,10 +3,13 @@ import React, { useState, useRef } from 'react';
 import { Query, Mutation } from 'react-apollo';
 
 import generateUniqueId from 'ayaka/generateUniqueId';
-import { Button, Icons, Portal, useOutsideClick } from 'mko';
+import { Button } from 'meiko/Button';
+import Portal from 'meiko/Portal';
+import TabTrap from 'meiko/TabTrap';
+import Icons from 'meiko/constants/icons';
+import { useOutsideClick } from 'meiko/hooks/useOutsideClick';
 
 import Grid from 'components/Grid';
-import TabTrap from 'components/TabTrap';
 import AddNote from './AddNote';
 import UpdateNote from './UpdateNote';
 import keyCodes from 'constants/keyCodes';

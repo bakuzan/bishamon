@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
+import fromCamelCase from 'ayaka/fromCamelCase';
+import objectsAreEqual from 'ayaka/objectsAreEqual';
 import { withDragSource } from 'components/DragAndDrop';
 import { ButtonisedNavLink } from 'components/Buttons';
 import { RouteContext } from 'context';
 import { buildUrlWithIds } from 'constants/routes';
 import Strings from 'constants/strings';
-import { objectsAreEqual, fromCamelCase } from 'utils/common';
 
 import './SwimlaneCard.scss';
 

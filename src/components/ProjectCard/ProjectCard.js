@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
+import { separateAndCapitaliseAll } from 'ayaka/capitalise';
+import generateUniqueId from 'ayaka/generateUniqueId';
 import { ButtonisedNavLink } from 'components/Buttons';
 import {
   buildUrlWithIds,
   workItemBoardUrl,
   projectEditUrl
 } from 'constants/routes';
-
-import { separateAndCapitaliseAll, generateUniqueId } from 'utils/common';
 
 import './ProjectCard.scss';
 

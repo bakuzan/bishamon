@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
-import { separateAndCapitaliseAll } from 'utils/common';
+import { separateAndCapitaliseAll } from 'ayaka/capitalise';
 import './ProjectInformation.scss';
 
 const ProjectInformation = React.memo(function ProjectInformation(props) {

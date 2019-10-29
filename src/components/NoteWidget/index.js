@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useState, useRef } from 'react';
 import { Query, Mutation } from 'react-apollo';
 
+import generateUniqueId from 'ayaka/generateUniqueId';
 import { Button, Icons, Portal, useOutsideClick } from 'mko';
 
 import Grid from 'components/Grid';
@@ -11,7 +12,7 @@ import UpdateNote from './UpdateNote';
 import keyCodes from 'constants/keyCodes';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
-import { generateUniqueId } from 'utils/common';
+
 import './NoteWidget.scss';
 
 const exceptionClasses = [

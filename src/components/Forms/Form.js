@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Mutation } from 'react-apollo';
 
-import { Form as MForm } from 'mko';
-import { getEventValue } from 'utils/common';
+import getEventValue from 'ayaka/getEventValue';
+import { default as MForm } from 'meiko/Form';
 
 class Form extends React.Component {
   constructor(props) {

@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
+import { separateAndCapitaliseAll } from 'ayaka/capitalise';
 import { withDropTarget } from 'components/DragAndDrop';
 import SwimlaneCard from 'components/SwimlaneCard/SwimlaneCard';
-
-import { separateAndCapitaliseAll } from 'utils/common';
 
 import './Swimlane.scss';
 

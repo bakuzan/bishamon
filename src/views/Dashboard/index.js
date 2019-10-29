@@ -2,7 +2,8 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet-async';
 
-import { Tabs } from 'mko';
+import { separateAndCapitaliseAll } from 'ayaka/capitalise';
+import Tabs from 'meiko/Tabs';
 import Grid from 'components/Grid';
 import { ButtonisedNavLink } from 'components/Buttons';
 import { WorkItemCard } from 'components/ItemCard';
@@ -12,7 +13,6 @@ import { dashboardWorkItemUpdater } from 'components/ItemCard/ItemCardUpdaters';
 import Fetch from 'queries/fetch';
 import { ItemStatus } from 'constants/status';
 import { projectListUrl } from 'constants/routes';
-import { separateAndCapitaliseAll } from 'utils/common';
 
 import './Dashboard.scss';
 

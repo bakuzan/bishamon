@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { SimpleLoading } from 'mko';
-import { debounce } from 'utils/common';
+import debounce from 'ayaka/debounce';
+import { SimpleLoading } from 'meiko/Loadable';
 
 class DelayedLoader extends React.PureComponent {
   constructor(props) {

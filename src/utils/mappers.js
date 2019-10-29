@@ -1,4 +1,5 @@
-import { generateUniqueId, separateAndCapitaliseAll } from 'utils/common';
+import generateUniqueId from 'ayaka/generateUniqueId';
+import { separateAndCapitaliseAll } from 'ayaka/capitalise';
 import Strings from 'constants/strings';
 
 export const enumArrayToObject = (arr) =>

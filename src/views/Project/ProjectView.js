@@ -1,6 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
+import orderBy from 'ayaka/orderBy';
 import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
 import Fetch from 'queries/fetch';
@@ -29,14 +30,19 @@ class ProjectView extends React.Component {
     const index = projects.findIndex((x) => x.id === id);
     const oldProject = projects[index];
 
+    const updatedAndSortedProjects = orderBy(
+      [
+        ...projects.slice(0, index),
+        { ...oldProject, ...projectUpdate },
+        ...projects.slice(index + 1)
+      ],
+      ['name']
+    );
+
     cache.writeQuery({
       query: Fetch.projectsAll,
       data: {
-        projects: [
-          ...projects.slice(0, index),
-          { ...oldProject, ...projectUpdate },
-          ...projects.slice(index + 1)
-        ]
+        projects: updatedAndSortedProjects
       }
     });
   }
@@ -69,7 +75,7 @@ class ProjectView extends React.Component {
             name: 'project-edit',
             defaults: data.project,
             mutationProps,
-            onCancel: goToList
+            onCancel: history.goBack
           };
 
           return <Forms.ProjectForm formProps={formProps} />;

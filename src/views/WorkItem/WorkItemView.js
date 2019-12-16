@@ -47,16 +47,14 @@ class WorkItemView extends React.Component {
             name: 'work-item-edit',
             defaults: data.workItem,
             mutationProps,
-            onCancel: goToBoard
+            onCancel: history.goBack
           };
 
           return (
             <React.Fragment>
               <Helmet>
                 {projectData && (
-                  <title>{`${projectData.name} / Edit Work Item, ${
-                    data.workItem.name
-                  }`}</title>
+                  <title>{`${projectData.name} / Edit Work Item, ${data.workItem.name}`}</title>
                 )}
               </Helmet>
               <Forms.WorkItemForm formProps={formProps} />

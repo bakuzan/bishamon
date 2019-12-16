@@ -3,6 +3,12 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { separateAndCapitaliseAll } from 'ayaka/capitalise';
+import { ButtonisedNavLink } from 'components/Buttons';
+import {
+  buildUrlWithIds,
+  projectEditUrl,
+  workItemEditUrl
+} from 'constants/routes';
 import './ProjectInformation.scss';
 
 const ProjectInformation = React.memo(function ProjectInformation(props) {
@@ -23,6 +29,15 @@ const ProjectInformation = React.memo(function ProjectInformation(props) {
     ? ` - ${separateAndCapitaliseAll(workItem.status)}`
     : '';
 
+  const editUrl = hasWorkItem
+    ? buildUrlWithIds(workItemEditUrl, {
+        projectId: project.id,
+        workItemId: workItem.id
+      })
+    : buildUrlWithIds(projectEditUrl, {
+        projectId: project.id
+      });
+
   return (
     <section
       className="project-information"
@@ -42,6 +57,7 @@ const ProjectInformation = React.memo(function ProjectInformation(props) {
           {type}
           {status}
         </div>
+        <ButtonisedNavLink to={editUrl}>Edit</ButtonisedNavLink>
       </header>
       <div className="page-actions button-group right-aligned">
         {props.headerActions}

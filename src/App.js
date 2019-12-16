@@ -47,7 +47,7 @@ const ProjectView = Loadable({
   ...loadableSettings
 });
 
-function App() {
+function App({ history }) {
   useGlobalStyles();
   const [theme, setTheme] = useState(
     appSettingsStore.getKey('theme') || Strings.defaultTheme
@@ -67,7 +67,7 @@ function App() {
       <div id="app" className={classNames('app theme', [`theme--${theme}`])}>
         <Helmet defaultTitle="Bishamon" titleTemplate="%s | Bishamon" />
         <ThemeContext.Provider value={themeProps}>
-          <HeaderBar />
+          <HeaderBar history={history} />
         </ThemeContext.Provider>
         <main>
           <Query query={Fetch.technologiesAll}>

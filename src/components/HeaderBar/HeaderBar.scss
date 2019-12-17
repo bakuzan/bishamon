@@ -3,7 +3,9 @@
 }
 
 .header-bar {
-  &__nav-button {
+  $selector: &;
+
+  &__nav-button#{$selector}__nav-button {
     flex: unset;
     padding: 6px;
     margin: 2px;

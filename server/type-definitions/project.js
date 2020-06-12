@@ -9,6 +9,17 @@ module.exports = `
     workItem(workItemId: Int!): WorkItem
     workItemRatio: String
     technologies: [Technology]
+    createdAt: String
     updatedAt: String
+  }
+
+  enum ProjectSort {
+    Name
+    CreatedAt
+  }
+
+  input ProjectSorting {
+    field: ProjectSort!
+    direction: SortDirection!
   }
 `;

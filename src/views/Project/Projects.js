@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 
 import ClearableInput from 'meiko/ClearableInput';
 import MultiSelect from 'meiko/MultiSelect';
+import RadioButton from 'meiko/RadioButton';
 import TagCloudSelector from 'meiko/TagCloudSelector';
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
@@ -18,8 +19,34 @@ import { projectCreateUrl } from 'constants/routes';
 import { enumsToSelectBoxOptions, dataToTagCloudOptions } from 'utils/mappers';
 import { filterProjects } from 'utils/filters';
 
+import './Projects.scss';
+
 const DefaultProjectTypeFilters = new Set(ProjectTypes.slice(0));
 const PROJECT_TYPE_OPTIONS = enumsToSelectBoxOptions(ProjectTypes);
+
+const ProjectSortOrder = {
+  Name: 'Name',
+  Created: 'CreatedAt'
+};
+
+const sortOptions = [
+  {
+    key: 1,
+    id: 'sort-by-name',
+    value: ProjectSortOrder.Name,
+    label: 'Name',
+    direction: 'ASC',
+    directionLabel: 'ascending'
+  },
+  {
+    key: 2,
+    id: 'sort-by-created',
+    value: ProjectSortOrder.Created,
+    label: 'Created',
+    direction: 'DESC',
+    directionLabel: 'descending'
+  }
+];
 
 class Projects extends React.Component {
   static contextType = TechnologyContext;
@@ -29,7 +56,8 @@ class Projects extends React.Component {
     this.state = {
       search: '',
       types: DefaultProjectTypeFilters,
-      technologies: new Set([])
+      technologies: new Set([]),
+      sortOrder: ProjectSortOrder.Name
     };
 
     this.handleSearch = this.handleSearch.bind(this);
@@ -56,8 +84,11 @@ class Projects extends React.Component {
     let technologies = this.context;
     const filters = this.state;
 
+    const option = sortOptions.find((x) => x.value === filters.sortOrder);
+    const sorting = { field: option.value, direction: option.direction };
+
     return (
-      <Query query={Fetch.projectsAll}>
+      <Query query={Fetch.projectsAll} variables={{ sorting }}>
         {({ loading, error, data = {} }) => {
           const filteredProjects = filterProjects(filters, data.projects);
           const TECHNOLOGY_TAGS = dataToTagCloudOptions(
@@ -108,12 +139,36 @@ class Projects extends React.Component {
                   sizeRelativeToCount
                 />
               </div>
-              <div className="project-count">
-                {!!data.projects &&
-                  `Showing ${filteredProjects.length} of ${data.projects.length}`}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div className="project-count">
+                  {!!data.projects &&
+                    `Showing ${filteredProjects.length} of ${data.projects.length}`}
+                </div>
+                <div>
+                  {sortOptions.map(({ direction, directionLabel, ...op }) => (
+                    <RadioButton
+                      {...op}
+                      containerClassName="project-sort"
+                      name="sortOrder"
+                      aria-label={`Sort by ${op.label} ${directionLabel}`}
+                      checked={op.value === filters.sortOrder}
+                      onChange={(e) =>
+                        this.setState({ sortOrder: e.target.value })
+                      }
+                    />
+                  ))}
+                </div>
               </div>
               <Grid className="bishamon-project-grid" items={filteredProjects}>
-                {(item) => <ProjectCard key={item.id} data={item} />}
+                {(item) => (
+                  <ProjectCard
+                    key={item.id}
+                    data={item}
+                    showCreatedAt={
+                      ProjectSortOrder.Created === filters.sortOrder
+                    }
+                  />
+                )}
               </Grid>
             </div>
           );

@@ -1,6 +1,6 @@
 const Query = `
   type Query {
-    projects: [Project]
+    projects(sorting: ProjectSorting): [Project]
     project(id: Int): Project
     workItems(projectId: Int, status: Status, statusIn: [Status]): [WorkItem]
     workItemsOnHoldCount(projectId: Int): Int

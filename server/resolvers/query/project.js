@@ -1,9 +1,12 @@
 const { Project, Technology } = require('../../connectors');
 
 module.exports = {
-  projects(_, args) {
+  projects(_, { sorting = {} }) {
+    const field = sorting.field || 'name';
+    const direction = sorting.direction || 'ASC';
+
     return Project.findAll(
-      { where: args, order: [['name', 'ASC']] },
+      { order: [[field, direction]] },
       { include: [{ model: Technology }] }
     );
   },

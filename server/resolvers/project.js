@@ -53,6 +53,9 @@ module.exports = {
   technologies(project) {
     return project.getTechnologies();
   },
+  createdAt(project) {
+    return Utils.formatDateISO(project.createdAt);
+  },
   updatedAt(project) {
     return Utils.formatDateISO(project.updatedAt);
   }

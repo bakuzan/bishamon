@@ -9,6 +9,10 @@
     cursor: pointer;
   }
 
+  &__date {
+    font-size: 0.75rem;
+  }
+
   &__content {
     display: flex;
     justify-content: space-between;

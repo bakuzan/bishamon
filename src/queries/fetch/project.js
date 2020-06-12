@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const projectsAll = gql`
-  query projectsAll {
-    projects {
+  query projectsAll($sorting: ProjectSorting) {
+    projects(sorting: $sorting) {
       id
       name
       type
@@ -12,6 +12,7 @@ export const projectsAll = gql`
         id
         name
       }
+      createdAt
     }
   }
 `;

@@ -42,5 +42,11 @@ module.exports = [
   WorkTypeGQL,
   StatusGQL,
   TechnologySortTypeGQL,
-  AuditTypeGQL
+  AuditTypeGQL,
+  `
+  enum SortDirection {
+    ASC
+    DESC
+  }
+  `
 ];

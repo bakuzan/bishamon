@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 
 import { separateAndCapitaliseAll } from 'ayaka/capitalise';
 import generateUniqueId from 'ayaka/generateUniqueId';
+import formatDateForDisplay from 'ayaka/formatDateForDisplay';
+
 import { ButtonisedNavLink } from 'components/Buttons';
 import {
   buildUrlWithIds,
@@ -13,7 +15,7 @@ import {
 
 import './ProjectCard.scss';
 
-const ProjectCard = React.memo(function ProjectCard({ data }) {
+const ProjectCard = React.memo(function ProjectCard({ data, showCreatedAt }) {
   const [uniqueId] = useState(generateUniqueId());
   const { id: projectId } = data;
 
@@ -31,6 +33,11 @@ const ProjectCard = React.memo(function ProjectCard({ data }) {
       <p id={projectBoardDescriptionId} className="for-screenreader-only">
         Click to go to {data.name} project board
       </p>
+      {showCreatedAt && (
+        <div className="project-card__date">
+          Created {formatDateForDisplay(data.createdAt)}
+        </div>
+      )}
       <ButtonisedNavLink
         className="project-card__link"
         to={workItemsUrl}
@@ -55,8 +62,13 @@ const ProjectCard = React.memo(function ProjectCard({ data }) {
   );
 });
 
+ProjectCard.defaultProps = {
+  showCreatedAt: false
+};
+
 ProjectCard.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  showCreatedAt: PropTypes.bool
 };
 
 export default ProjectCard;

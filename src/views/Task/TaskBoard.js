@@ -3,6 +3,7 @@ import { Query } from 'react-apollo';
 import { Helmet } from 'react-helmet-async';
 
 import Tabs from 'meiko/Tabs';
+import LoadableContent from 'meiko/LoadableContent';
 import Board from 'components/Board';
 import Grid from 'components/Grid';
 import { TaskCard } from 'components/ItemCard';
@@ -73,68 +74,80 @@ class TaskBoard extends React.Component {
         </Helmet>
 
         <Query query={Fetch.workItemTasks} variables={{ workItemId }}>
-          {({ loading, error, data = {} }) => {
+          {({ loading, data = {} }) => {
             const { tasksHistoricCount = 0, tasksOnHoldCount = 0 } = data;
             const boardItems = Filters.filterListForBoardItems(data.tasks);
 
             return (
-              <Tabs.Container>
-                <Tabs.View
-                  name="BOARD"
-                  displayName={`Board (${boardItems.length})`}
-                  className="board-tab"
-                >
-                  <RouteContext.Provider value={cardUrls}>
-                    <Board data={boardItems} mutationProps={mutationProps} />
-                  </RouteContext.Provider>
-                </Tabs.View>
-                <Tabs.View
-                  name="ON_HOLD"
-                  displayName={`On Hold (${tasksOnHoldCount})`}
-                >
-                  {(onHoldActive) =>
-                    onHoldActive && (
-                      <Query
-                        query={Fetch.workItemTasksOnHold}
-                        variables={{ workItemId }}
-                      >
-                        {({ loading, error, data = {} }) => (
-                          <Grid
-                            className="bishamon-item-grid"
-                            items={data.tasksOnHold}
-                          >
-                            {(item) => <TaskCard key={item.id} data={item} />}
-                          </Grid>
-                        )}
-                      </Query>
-                    )
-                  }
-                </Tabs.View>
-                <Tabs.View
-                  name="HISTORIC"
-                  displayName={`Historic (${tasksHistoricCount})`}
-                >
-                  {(historicActive) =>
-                    historicActive && (
-                      <Query
-                        query={Fetch.workItemTasksHistoric}
-                        variables={{ workItemId }}
-                      >
-                        {({ loading, error, data = {} }) => (
-                          <Grid
-                            className="bishamon-item-grid"
-                            items={data.tasksHistoric}
-                          >
-                            {(item) => (
-                              <TaskCard key={item.id} data={item} readOnly />
-                            )}
-                          </Grid>
-                        )}
-                      </Query>
-                    )
-                  }
-                </Tabs.View>
-              </Tabs.Container>
+              <LoadableContent isFetching={loading}>
+                <Tabs.Container>
+                  <Tabs.View
+                    name="BOARD"
+                    displayName={`Board (${boardItems.length})`}
+                    className="board-tab"
+                  >
+                    <RouteContext.Provider value={cardUrls}>
+                      <Board data={boardItems} mutationProps={mutationProps} />
+                    </RouteContext.Provider>
+                  </Tabs.View>
+                  <Tabs.View
+                    name="ON_HOLD"
+                    displayName={`On Hold (${tasksOnHoldCount})`}
+                  >
+                    {(onHoldActive) =>
+                      onHoldActive && (
+                        <Query
+                          query={Fetch.workItemTasksOnHold}
+                          variables={{ workItemId }}
+                        >
+                          {({ loading: loadingOnHold, data = {} }) => (
+                            <LoadableContent isFetching={loadingOnHold}>
+                              <Grid
+                                className="bishamon-item-grid"
+                                items={data.tasksOnHold}
+                              >
+                                {(item) => (
+                                  <TaskCard key={item.id} data={item} />
+                                )}
+                              </Grid>
+                            </LoadableContent>
+                          )}
+                        </Query>
+                      )
+                    }
+                  </Tabs.View>
+                  <Tabs.View
+                    name="HISTORIC"
+                    displayName={`Historic (${tasksHistoricCount})`}
+                  >
+                    {(historicActive) =>
+                      historicActive && (
+                        <Query
+                          query={Fetch.workItemTasksHistoric}
+                          variables={{ workItemId }}
+                        >
+                          {({ loading: loadingHistoric, data = {} }) => (
+                            <LoadableContent isFetching={loadingHistoric}>
+                              <Grid
+                                className="bishamon-item-grid"
+                                items={data.tasksHistoric}
+                              >
+                                {(item) => (
+                                  <TaskCard
+                                    key={item.id}
+                                    data={item}
+                                    readOnly
+                                  />
+                                )}
+                              </Grid>
+                            </LoadableContent>
+                          )}
+                        </Query>
+                      )
+                    }
+                  </Tabs.View>
+                </Tabs.Container>
+              </LoadableContent>
             );
           }}
         </Query>

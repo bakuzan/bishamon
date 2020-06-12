@@ -7,6 +7,8 @@ import ClearableInput from 'meiko/ClearableInput';
 import MultiSelect from 'meiko/MultiSelect';
 import RadioButton from 'meiko/RadioButton';
 import TagCloudSelector from 'meiko/TagCloudSelector';
+import LoadableContent from 'meiko/LoadableContent';
+
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
 import ProjectCard from 'components/ProjectCard/ProjectCard';
@@ -137,39 +139,45 @@ class Projects extends React.Component {
                   tagOptions={TECHNOLOGY_TAGS}
                   onSelect={this.handleMultiSelect}
                   sizeRelativeToCount
+                  sizes={{ min: 0.5, max: 1.8 }}
                 />
               </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <div className="project-count">
-                  {!!data.projects &&
-                    `Showing ${filteredProjects.length} of ${data.projects.length}`}
+              <LoadableContent isFetching={loading}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="project-count">
+                    {!!data.projects &&
+                      `Showing ${filteredProjects.length} of ${data.projects.length}`}
+                  </div>
+                  <div>
+                    {sortOptions.map(({ direction, directionLabel, ...op }) => (
+                      <RadioButton
+                        {...op}
+                        containerClassName="project-sort"
+                        name="sortOrder"
+                        aria-label={`Sort by ${op.label} ${directionLabel}`}
+                        checked={op.value === filters.sortOrder}
+                        onChange={(e) =>
+                          this.setState({ sortOrder: e.target.value })
+                        }
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div>
-                  {sortOptions.map(({ direction, directionLabel, ...op }) => (
-                    <RadioButton
-                      {...op}
-                      containerClassName="project-sort"
-                      name="sortOrder"
-                      aria-label={`Sort by ${op.label} ${directionLabel}`}
-                      checked={op.value === filters.sortOrder}
-                      onChange={(e) =>
-                        this.setState({ sortOrder: e.target.value })
+                <Grid
+                  className="bishamon-project-grid"
+                  items={filteredProjects}
+                >
+                  {(item) => (
+                    <ProjectCard
+                      key={item.id}
+                      data={item}
+                      showCreatedAt={
+                        ProjectSortOrder.Created === filters.sortOrder
                       }
                     />
-                  ))}
-                </div>
-              </div>
-              <Grid className="bishamon-project-grid" items={filteredProjects}>
-                {(item) => (
-                  <ProjectCard
-                    key={item.id}
-                    data={item}
-                    showCreatedAt={
-                      ProjectSortOrder.Created === filters.sortOrder
-                    }
-                  />
-                )}
-              </Grid>
+                  )}
+                </Grid>
+              </LoadableContent>
             </div>
           );
         }}

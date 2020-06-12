@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet-async';
 
 import { separateAndCapitaliseAll } from 'ayaka/capitalise';
 import Tabs from 'meiko/Tabs';
+import LoadableContent from 'meiko/LoadableContent';
+
 import Grid from 'components/Grid';
 import { ButtonisedNavLink } from 'components/Buttons';
 import { WorkItemCard } from 'components/ItemCard';
@@ -34,7 +36,7 @@ function Dashboard() {
         <NoteWidget />
 
         <Query query={Fetch.getDashboard}>
-          {({ data = {} }) => {
+          {({ loading, data = {} }) => {
             const { dashboardCurrentWork = [] } = data.dashboard || {};
             const onholdItems = dashboardCurrentWork.filter(
               (x) => x.status === ItemStatus.OnHold
@@ -56,69 +58,74 @@ function Dashboard() {
             );
 
             return (
-              <Tabs.Container className="dashboard-tabs">
-                <Tabs.View
-                  name="OVERVIEW"
-                  displayName={`Overview (${ongoingCount} - ${todoCount})`}
-                >
-                  <div className="dashboard__widgets">
-                    {widgets.map((obj) => (
-                      <section
-                        key={obj.title}
-                        className="dashboard__section dashboard-widget"
+              <LoadableContent isFetching={loading}>
+                <Tabs.Container className="dashboard-tabs">
+                  <Tabs.View
+                    name="OVERVIEW"
+                    displayName={`Overview (${ongoingCount} - ${todoCount})`}
+                  >
+                    <div className="dashboard__widgets">
+                      {widgets.map((obj) => (
+                        <section
+                          key={obj.title}
+                          className="dashboard__section dashboard-widget"
+                        >
+                          <header className="dashboard-widget__header">
+                            <h2 className="dashboard-widget__title">
+                              {separateAndCapitaliseAll(obj.title)} (
+                              {obj.items.length})
+                            </h2>
+                          </header>
+                          <div className="dashboard-widget__content">
+                            <Grid className="dashboard-grid" items={obj.items}>
+                              {(item) => (
+                                <WorkItemCard
+                                  key={item.id}
+                                  className="dashboard__item"
+                                  data={item}
+                                  readOnly
+                                  includeLinks
+                                  customDescription={(data) => (
+                                    <React.Fragment>
+                                      <div className="dashboard-grid__item-type">
+                                        {data.type}
+                                      </div>
+                                      <div className="dashboard-grid__item-ratio">
+                                        {data.taskRatio}
+                                      </div>
+                                    </React.Fragment>
+                                  )}
+                                />
+                              )}
+                            </Grid>
+                          </div>
+                        </section>
+                      ))}
+                    </div>
+                  </Tabs.View>
+                  <Tabs.View
+                    name="ONHOLD"
+                    displayName={`On Hold (${onholdItems.length})`}
+                  >
+                    <div className="dashboard__widgets">
+                      <Grid
+                        className="dashboard-grid-onhold"
+                        items={onholdItems}
                       >
-                        <header className="dashboard-widget__header">
-                          <h2 className="dashboard-widget__title">
-                            {separateAndCapitaliseAll(obj.title)} (
-                            {obj.items.length})
-                          </h2>
-                        </header>
-                        <div className="dashboard-widget__content">
-                          <Grid className="dashboard-grid" items={obj.items}>
-                            {(item) => (
-                              <WorkItemCard
-                                key={item.id}
-                                className="dashboard__item"
-                                data={item}
-                                readOnly
-                                includeLinks
-                                customDescription={(data) => (
-                                  <React.Fragment>
-                                    <div className="dashboard-grid__item-type">
-                                      {data.type}
-                                    </div>
-                                    <div className="dashboard-grid__item-ratio">
-                                      {data.taskRatio}
-                                    </div>
-                                  </React.Fragment>
-                                )}
-                              />
-                            )}
-                          </Grid>
-                        </div>
-                      </section>
-                    ))}
-                  </div>
-                </Tabs.View>
-                <Tabs.View
-                  name="ONHOLD"
-                  displayName={`On Hold (${onholdItems.length})`}
-                >
-                  <div className="dashboard__widgets">
-                    <Grid className="dashboard-grid-onhold" items={onholdItems}>
-                      {(item) => (
-                        <WorkItemCard
-                          key={item.id}
-                          className="dashboard__item"
-                          data={item}
-                          updater={dashboardWorkItemUpdater}
-                          includeProjectName
-                        />
-                      )}
-                    </Grid>
-                  </div>
-                </Tabs.View>
-              </Tabs.Container>
+                        {(item) => (
+                          <WorkItemCard
+                            key={item.id}
+                            className="dashboard__item"
+                            data={item}
+                            updater={dashboardWorkItemUpdater}
+                            includeProjectName
+                          />
+                        )}
+                      </Grid>
+                    </div>
+                  </Tabs.View>
+                </Tabs.Container>
+              </LoadableContent>
             );
           }}
         </Query>

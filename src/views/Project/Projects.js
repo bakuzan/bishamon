@@ -8,6 +8,7 @@ import MultiSelect from 'meiko/MultiSelect';
 import RadioButton from 'meiko/RadioButton';
 import TagCloudSelector from 'meiko/TagCloudSelector';
 import LoadableContent from 'meiko/LoadableContent';
+import LoadingBouncer from 'meiko/LoadingBouncer';
 
 import { ButtonisedNavButton } from 'components/Buttons';
 import Grid from 'components/Grid';
@@ -93,6 +94,9 @@ class Projects extends React.Component {
       <Query query={Fetch.projectsAll} variables={{ sorting }}>
         {({ loading, error, data = {} }) => {
           const filteredProjects = filterProjects(filters, data.projects);
+          const filteredCount = filteredProjects ? filteredProjects.length : 0;
+          const totalCount = data.projects ? data.projects.length : 0;
+
           const TECHNOLOGY_TAGS = dataToTagCloudOptions(
             technologies,
             data.projects
@@ -145,8 +149,7 @@ class Projects extends React.Component {
               <LoadableContent isFetching={loading}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div className="project-count">
-                    {!!data.projects &&
-                      `Showing ${filteredProjects.length} of ${data.projects.length}`}
+                    {`Showing ${filteredCount} of ${totalCount}`}
                   </div>
                   <div>
                     {sortOptions.map(({ direction, directionLabel, ...op }) => (
@@ -163,20 +166,24 @@ class Projects extends React.Component {
                     ))}
                   </div>
                 </div>
-                <Grid
-                  className="bishamon-project-grid"
-                  items={filteredProjects}
-                >
-                  {(item) => (
-                    <ProjectCard
-                      key={item.id}
-                      data={item}
-                      showCreatedAt={
-                        ProjectSortOrder.Created === filters.sortOrder
-                      }
-                    />
-                  )}
-                </Grid>
+                {loading ? (
+                  <LoadingBouncer />
+                ) : (
+                  <Grid
+                    className="bishamon-project-grid"
+                    items={filteredProjects}
+                  >
+                    {(item) => (
+                      <ProjectCard
+                        key={item.id}
+                        data={item}
+                        showCreatedAt={
+                          ProjectSortOrder.Created === filters.sortOrder
+                        }
+                      />
+                    )}
+                  </Grid>
+                )}
               </LoadableContent>
             </div>
           );

@@ -18,6 +18,7 @@ import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 
 import ProjectTypes from 'constants/projectTypes';
+import ProjectSortOrder from 'constants/projectSortOrder';
 import { projectCreateUrl } from 'constants/routes';
 import { enumsToSelectBoxOptions, dataToTagCloudOptions } from 'utils/mappers';
 import { filterProjects } from 'utils/filters';
@@ -26,11 +27,6 @@ import './Projects.scss';
 
 const DefaultProjectTypeFilters = new Set(ProjectTypes.slice(0));
 const PROJECT_TYPE_OPTIONS = enumsToSelectBoxOptions(ProjectTypes);
-
-const ProjectSortOrder = {
-  Name: 'Name',
-  Created: 'CreatedAt'
-};
 
 const sortOptions = [
   {

@@ -5,7 +5,7 @@ import ClearableInput from 'meiko/ClearableInput';
 import SelectBox from 'meiko/SelectBox';
 
 import Form from './Form';
-import MoveWorkItemToDifferentProject from './WorkItemMoveProject';
+import MoveWorkItemToDifferentProject from './components/WorkItemMoveProject';
 
 import Status from 'constants/status';
 import WorkTypes, { WorkType } from 'constants/workTypes';
@@ -18,7 +18,7 @@ const WORK_TYPES = enumsToSelectBoxOptions(WorkTypes);
 class WorkItemForm extends React.PureComponent {
   render() {
     const { canChangeProject, formProps, isCreate } = this.props;
-    console.log('RENDER FORM > ', this.props);
+
     return (
       <Form {...formProps}>
         {({ values, actions }) => {
@@ -73,7 +73,7 @@ class WorkItemForm extends React.PureComponent {
 
               {canChangeProject && (
                 <MoveWorkItemToDifferentProject
-                  projectId={0}
+                  projectId={values.projectId}
                   onChange={actions.handleUserInput}
                 />
               )}

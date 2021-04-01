@@ -25,12 +25,24 @@ class WorkItemView extends React.Component {
       mutation: Mutate.workItemUpdate,
       onCompleted: goToBoard,
       update: workItemUpdater,
-      refetchQueries: () => [
-        {
-          query: Fetch.projectRefreshOnWorkItemMutation,
-          variables: { id: projectId }
+      refetchQueries: ({ data }) => {
+        const newProjectId = data.workItemUpdate.projectId;
+        const refetches = [
+          {
+            query: Fetch.projectRefreshOnWorkItemMutation,
+            variables: { id: projectId }
+          }
+        ];
+
+        if (projectId !== newProjectId) {
+          refetches.push({
+            query: Fetch.projectWorkItems,
+            variables: { projectId }
+          });
         }
-      ],
+
+        return refetches;
+      },
       buildOptimisticResponse: mapWorkItemViewToOptimisticResponse
     };
 
@@ -57,7 +69,7 @@ class WorkItemView extends React.Component {
                   <title>{`${projectData.name} / Edit Work Item, ${data.workItem.name}`}</title>
                 )}
               </Helmet>
-              <Forms.WorkItemForm formProps={formProps} />
+              <Forms.WorkItemForm formProps={formProps} canChangeProject />
             </React.Fragment>
           );
         }}

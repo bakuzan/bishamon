@@ -13,11 +13,23 @@ module.exports = {
           .then(() => workItem)
     );
   },
-  workItemUpdate(_, { id, ...args }) {
+  async workItemUpdate(_, { id, ...args }) {
+    const originalItem = await WorkItem.findByPk(id, { raw: true });
     const cause = Utils.resolveWorkItemCause(args);
+    let projectId = originalItem.projectId;
 
-    return WorkItem.update(
-      { ...args, cause },
+    if (args.projectId && projectId !== args.projectId) {
+      const project = await Project.findByPk(args.projectId, { raw: true });
+
+      if (project === null) {
+        throw new Error(`Project(Id: ${args.projectId}) not found.`);
+      }
+
+      projectId = args.projectId;
+    }
+
+    return await WorkItem.update(
+      { ...args, cause, projectId },
       { where: { id }, individualHooks: true }
     ).then((count) => WorkItem.findByPk(id));
   }

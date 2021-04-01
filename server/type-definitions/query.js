@@ -30,7 +30,7 @@ const Mutation = `
     projectUpdate(id: Int!, name: String, type: ProjectType, colours: [String], technologies: [TechnologyInput]): Project
 
     workItemCreate(projectId: Int!, name: String!, description: String, type: WorkType, cause: String): WorkItem
-    workItemUpdate(id: Int!, name: String, description: String, type: WorkType, status: Status, cause: String): WorkItem
+    workItemUpdate(id: Int!, name: String, description: String, type: WorkType, status: Status, cause: String, projectId:Int): WorkItem
 
     taskCreate(workItemId: Int!, name: String!, description: String): Task
     taskUpdate(id: Int!, name: String, description: String, status: Status): Task

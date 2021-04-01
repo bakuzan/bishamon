@@ -26,29 +26,32 @@ export default function workItemUpdater(cache, { data: { workItemUpdate } }) {
   }
 
   // Update active board query
-  const activeBoard = cache.readQuery({
+  const activeBoard = cache.readQuerySafeBIS({
     query: Fetch.projectWorkItems,
     variables: { projectId }
   });
-  const { workItems } = activeBoard;
-  const index = workItems.findIndex((x) => x.id === workItemUpdate.id);
-  const oldWorkItem = workItems[index];
 
-  cache.writeQuery({
-    query: Fetch.projectWorkItems,
-    variables: { projectId },
-    data: {
-      ...activeBoard,
-      workItemsOnHoldCount: isOnHold
-        ? activeBoard.workItemsOnHoldCount + 1
-        : activeBoard.workItemsOnHoldCount,
-      workItems: isActive
-        ? [
-            ...workItems.slice(0, index),
-            { ...oldWorkItem, ...workItemUpdate },
-            ...workItems.slice(index + 1)
-          ]
-        : workItems.filter((x) => x.id !== workItemUpdate.id)
-    }
-  });
+  if (activeBoard !== null) {
+    const { workItems } = activeBoard;
+    const index = workItems.findIndex((x) => x.id === workItemUpdate.id);
+    const oldWorkItem = workItems[index];
+
+    cache.writeQuery({
+      query: Fetch.projectWorkItems,
+      variables: { projectId },
+      data: {
+        ...activeBoard,
+        workItemsOnHoldCount: isOnHold
+          ? activeBoard.workItemsOnHoldCount + 1
+          : activeBoard.workItemsOnHoldCount,
+        workItems: isActive
+          ? [
+              ...workItems.slice(0, index),
+              { ...oldWorkItem, ...workItemUpdate },
+              ...workItems.slice(index + 1)
+            ]
+          : workItems.filter((x) => x.id !== workItemUpdate.id)
+      }
+    });
+  }
 }

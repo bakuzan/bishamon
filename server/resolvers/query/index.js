@@ -1,5 +1,5 @@
 const Op = require('sequelize').Op;
-const { Technology, Project, WorkItem } = require('../../connectors');
+const { db, Technology, Project, WorkItem } = require('../../connectors');
 const { Audit } = require('../../connectors/audit');
 
 const { ItemStatus } = require('../../constants/enums');
@@ -25,7 +25,10 @@ module.exports = {
       where: {
         status: {
           [Op.in]: [ItemStatus.Todo, ItemStatus.InProgress, ItemStatus.OnHold]
-        }
+        },
+        isActive: db.where(db.col('project.isActive'), {
+          [Op.eq]: true
+        })
       },
       order: [['createdAt', 'ASC']],
       include: [Project]

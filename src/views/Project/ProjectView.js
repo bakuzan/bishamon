@@ -1,11 +1,12 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import orderBy from 'ayaka/orderBy';
 import Forms from 'components/Forms';
 import DelayedLoader from 'components/DelayedLoader/DelayedLoader';
+
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
+
 import { projectListUrl } from 'constants/routes';
 import { mapProjectViewToOptimisticResponse } from 'utils/mappers';
 
@@ -16,35 +17,8 @@ class ProjectView extends React.Component {
     this.handleCacheUpdate = this.handleCacheUpdate.bind(this);
   }
 
-  handleCacheUpdate(
-    cache,
-    {
-      data: { projectUpdate }
-    }
-  ) {
-    const id = Number(this.props.match.params.projectId);
-    const { projects = [] } = cache.readQuery({
-      query: Fetch.projectsAll
-    });
-
-    const index = projects.findIndex((x) => x.id === id);
-    const oldProject = projects[index];
-
-    const updatedAndSortedProjects = orderBy(
-      [
-        ...projects.slice(0, index),
-        { ...oldProject, ...projectUpdate },
-        ...projects.slice(index + 1)
-      ],
-      ['name']
-    );
-
-    cache.writeQuery({
-      query: Fetch.projectsAll,
-      data: {
-        projects: updatedAndSortedProjects
-      }
-    });
+  handleCacheUpdate(cache) {
+    cache.deleteQueryBIS('projects');
   }
 
   render() {

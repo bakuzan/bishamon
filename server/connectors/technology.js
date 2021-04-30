@@ -1,7 +1,9 @@
-module.exports = (db, Types) => {
+const { DataTypes } = require('sequelize');
+
+module.exports = (db) => {
   return db.define('technology', {
     name: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       unique: true,
       allowNull: false
     }

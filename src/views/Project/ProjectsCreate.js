@@ -4,9 +4,13 @@ import { Helmet } from 'react-helmet-async';
 import Forms from 'components/Forms';
 import { projectListUrl } from 'constants/routes';
 import ProjectTypes from 'constants/projectTypes';
+import ProjectSortOrder from 'constants/projectSortOrder';
+
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
 import { enumDefault } from 'utils/derivedData';
+
+const sorting = { field: ProjectSortOrder.Name, direction: 'ASC' };
 
 const projectCreateDefaults = Object.freeze({
   name: '',
@@ -24,29 +28,24 @@ class ProjectsCreate extends React.Component {
   }
 
   handleNavigateToList() {
-    this.props.history.push(projectListUrl);
+    window.setTimeout(() => this.props.history.push(projectListUrl), 300);
   }
 
-  handleCacheUpdate(
-    cache,
-    {
-      data: { projectCreate }
-    }
-  ) {
-    const { projects = [] } = cache.readQuery({
-      query: Fetch.projectsAll
-    });
-    cache.writeQuery({
-      query: Fetch.projectsAll,
-      data: { projects: projects.concat([projectCreate]) }
-    });
+  handleCacheUpdate(cache) {
+    cache.deleteQueryBIS('projects');
   }
 
   render() {
     const mutationProps = {
       mutation: Mutate.projectCreate,
       onCompleted: this.handleNavigateToList,
-      update: this.handleCacheUpdate
+      update: this.handleCacheUpdate,
+      refetchQueries: () => [
+        {
+          query: Fetch.projectsAll,
+          variables: { sorting }
+        }
+      ]
     };
 
     const formProps = {

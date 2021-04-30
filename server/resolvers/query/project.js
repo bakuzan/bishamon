@@ -6,7 +6,7 @@ module.exports = {
     const direction = sorting.direction || 'ASC';
 
     return Project.findAll(
-      { order: [[field, direction]] },
+      { where: { isActive: true }, order: [[field, direction]] },
       { include: [{ model: Technology }] }
     );
   },

@@ -1,23 +1,28 @@
-const {ProjectType} = require('../constants/enums');
+const { DataTypes } = require('sequelize');
 
-module.exports = (db, Types) => {
+const { ProjectType } = require('../constants/enums');
+
+module.exports = (db) => {
   return db.define('project', {
-    name: { type: Types.STRING },
+    name: { type: DataTypes.STRING },
     type: {
-      type: Types.ENUM,
+      type: DataTypes.ENUM,
       values: [...ProjectType]
     },
     colours: {
-      type: Types.STRING,
+      type: DataTypes.STRING,
       get() {
         const colours = this.getDataValue('colours');
-        return colours
-          ? colours.split(",")
-          : [];
+        return colours ? colours.split(',') : [];
       },
       set(value) {
-        this.setDataValue('colours', value.join(","));
+        this.setDataValue('colours', value.join(','));
       }
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
     }
   });
-}
+};

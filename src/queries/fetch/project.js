@@ -35,6 +35,7 @@ export const projectById = gql`
       name
       type
       colours
+      isActive
       technologies {
         id
         name

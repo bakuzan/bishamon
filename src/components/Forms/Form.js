@@ -12,11 +12,24 @@ class Form extends React.Component {
       values: { ...props.defaults }
     };
 
+    this.handleSetValue = this.handleSetValue.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleListUpdate = this.handleListUpdate.bind(this);
     this.handleListCreate = this.handleListCreate.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSetValue(name, value, callback) {
+    this.setState(
+      (prev) => ({
+        values: {
+          ...prev.values,
+          [name]: value
+        }
+      }),
+      callback
+    );
   }
 
   handleUserInput(e) {
@@ -90,6 +103,7 @@ class Form extends React.Component {
     } = this.props;
 
     const actions = {
+      handleSetValue: this.handleSetValue,
       handleUserInput: this.handleUserInput,
       handleListCreate: this.handleListCreate,
       handleListUpdate: this.handleListUpdate
@@ -99,8 +113,9 @@ class Form extends React.Component {
       <Mutation {...validMutationProps}>
         {(callAPI) => {
           const cancelProps = { onCancel: this.handleCancel, link: true };
+          const onSubmit = this.handleSubmit(callAPI);
           const submitProps = {
-            onSubmit: this.handleSubmit(callAPI),
+            onSubmit,
             btnStyle: 'primary'
           };
 
@@ -113,7 +128,7 @@ class Form extends React.Component {
             >
               {children({
                 values,
-                actions
+                actions: { ...actions, onSubmit }
               })}
             </MForm>
           );

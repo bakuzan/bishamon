@@ -1,20 +1,22 @@
+const { DataTypes } = require('sequelize');
+
 const { AuditType } = require('../../constants/enums');
 
-module.exports = (db, Types) => {
+module.exports = (db) => {
   return db.define('audit', {
-    itemId: { type: Types.DOUBLE },
+    itemId: { type: DataTypes.DOUBLE },
     type: {
-      type: Types.ENUM,
+      type: DataTypes.ENUM,
       values: [...AuditType]
     },
     fieldName: {
-      type: Types.STRING
+      type: DataTypes.STRING
     },
     oldValue: {
-      type: Types.STRING
+      type: DataTypes.STRING
     },
     newValue: {
-      type: Types.STRING
+      type: DataTypes.STRING
     }
   });
 };

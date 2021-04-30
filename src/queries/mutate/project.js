@@ -32,6 +32,7 @@ export const projectUpdate = gql`
     $type: ProjectType
     $colours: [String]
     $technologies: [TechnologyInput]
+    $isActive: Boolean
   ) {
     projectUpdate(
       id: $id
@@ -39,11 +40,13 @@ export const projectUpdate = gql`
       type: $type
       colours: $colours
       technologies: $technologies
+      isActive: $isActive
     ) {
       id
       name
       type
       primaryColour
+      isActive
       technologies {
         id
         name

@@ -5,7 +5,9 @@ import { Mutation } from 'react-apollo';
 import ChipListInput from 'meiko/ChipListInput';
 import ClearableInput from 'meiko/ClearableInput';
 import SelectBox from 'meiko/SelectBox';
+import { Button } from 'components/Buttons';
 import Form from './Form';
+
 import { TechnologyContext } from 'context';
 import Fetch from 'queries/fetch';
 import Mutate from 'queries/mutate';
@@ -138,6 +140,28 @@ class ProjectForm extends React.PureComponent {
                   );
                 }}
               </Mutation>
+
+              {!this.props.isCreate && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    margin: '25px 0 0'
+                  }}
+                >
+                  <Button
+                    className="archive"
+                    btnStyle="accent"
+                    onClick={() => {
+                      actions.handleSetValue('isActive', false, () =>
+                        actions.onSubmit()
+                      );
+                    }}
+                  >
+                    Archive
+                  </Button>
+                </div>
+              )}
             </React.Fragment>
           );
         }}

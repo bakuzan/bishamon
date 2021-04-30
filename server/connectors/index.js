@@ -4,32 +4,28 @@ const Constants = require('../constants/index');
 const migrate = require('../config');
 const SQL = require('../db-scripts');
 
+const extraSetup = require('./extraSetup');
+
 const db = new Sequelize(Constants.appName, null, null, {
   dialect: 'sqlite',
-  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${process.env.NODE_ENV}.sqlite`,
-  operatorsAliases: false
+  storage: `${process.env.DB_STORAGE_PATH}${Constants.appName}.${process.env.NODE_ENV}.sqlite`
 });
 
-const ProjectModel = db.import('./project');
-const WorkItemModel = db.import('./workItem');
-const TaskModel = db.import('./task');
+const modelDefiners = [
+  require('./project'),
+  require('./workItem'),
+  require('./task'),
+  require('./technology'),
+  require('./note')
+];
 
-const TechModel = db.import('./technology');
-const NoteModel = db.import('./note');
+// We define all models according to their files.
+for (const modelDefiner of modelDefiners) {
+  modelDefiner(db);
+}
 
-// Create relationships
-ProjectModel.hasMany(WorkItemModel);
-WorkItemModel.belongsTo(ProjectModel);
-
-ProjectModel.belongsToMany(TechModel, {
-  through: 'ProjectTechnology'
-});
-TechModel.belongsToMany(ProjectModel, {
-  through: 'ProjectTechnology'
-});
-
-WorkItemModel.hasMany(TaskModel);
-TaskModel.belongsTo(WorkItemModel);
+// Other db setup...
+extraSetup(db);
 
 // Sync to create db if not exist
 // then run migration scripts

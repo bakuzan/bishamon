@@ -4,7 +4,7 @@ const Utils = require('../../utils');
 
 module.exports = {
   projectCreate(_, { technologies, ...args }) {
-    return Project.create({ ...args }).then((project) =>
+    return Project.create({ ...args, isActive: true }).then((project) =>
       project
         .setTechnologies(Utils.mapObjectListToIdList(technologies))
         .then(() => project.reload({ includes: [{ model: Technology }] }))

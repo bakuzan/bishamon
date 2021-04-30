@@ -1,22 +1,24 @@
+const { DataTypes } = require('sequelize');
+
 const { WorkType, Status, AuditWorkItem } = require('../constants/enums');
 const { afterCreate, afterUpdate } = require('../hooks');
 
-module.exports = (db, Types) => {
+module.exports = (db) => {
   return db.define(
     'workItem',
     {
-      name: { type: Types.STRING },
-      description: { type: Types.STRING },
+      name: { type: DataTypes.STRING },
+      description: { type: DataTypes.STRING },
       type: {
-        type: Types.ENUM,
+        type: DataTypes.ENUM,
         values: [...WorkType]
       },
       status: {
-        type: Types.ENUM,
+        type: DataTypes.ENUM,
         values: [...Status]
       },
       cause: {
-        type: Types.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: ''
       }

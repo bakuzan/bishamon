@@ -5,6 +5,7 @@ module.exports = `
     type: ProjectType
     colours(limit: Int): [String]
     primaryColour: String
+    isActive: Boolean
     workItems: [WorkItem]
     workItem(workItemId: Int!): WorkItem
     workItemRatio: String

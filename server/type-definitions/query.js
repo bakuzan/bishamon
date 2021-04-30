@@ -27,7 +27,7 @@ const Query = `
 const Mutation = `
   type Mutation {
     projectCreate(name: String!, type: ProjectType, colours: [String], technologies: [TechnologyInput]): Project
-    projectUpdate(id: Int!, name: String, type: ProjectType, colours: [String], technologies: [TechnologyInput]): Project
+    projectUpdate(id: Int!, name: String, type: ProjectType, colours: [String], technologies: [TechnologyInput], isActive: Boolean): Project
 
     workItemCreate(projectId: Int!, name: String!, description: String, type: WorkType, cause: String): WorkItem
     workItemUpdate(id: Int!, name: String, description: String, type: WorkType, status: Status, cause: String, projectId:Int): WorkItem

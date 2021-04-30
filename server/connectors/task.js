@@ -1,17 +1,19 @@
+const { DataTypes } = require('sequelize');
+
 const { Status, AuditTask } = require('../constants/enums');
 const { afterCreate, afterUpdate } = require('../hooks');
 
 const afterCreateAudit = afterCreate(AuditTask);
 const afterUpdateAudit = afterUpdate(AuditTask);
 
-module.exports = (db, Types) => {
+module.exports = (db) => {
   return db.define(
     'task',
     {
-      name: { type: Types.STRING },
-      description: { type: Types.STRING },
+      name: { type: DataTypes.STRING },
+      description: { type: DataTypes.STRING },
       status: {
-        type: Types.ENUM,
+        type: DataTypes.ENUM,
         values: [...Status]
       }
     },

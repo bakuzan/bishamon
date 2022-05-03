@@ -35,7 +35,7 @@
     "react-scripts": "4.0.3",
     "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.0.3",
     "umzug": "^2.3.0"
   },
   "lint-staged": {
